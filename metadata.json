@@ -2,5 +2,5 @@
   "name": "SIPANDA",
   "description": "Sistem Informasi Pengajuan dan Pendataan UMKM Kecamatan Cicalengka",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": []
 }
