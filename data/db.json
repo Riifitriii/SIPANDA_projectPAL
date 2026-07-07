@@ -1,0 +1,81 @@
+{
+  "submissions": [
+    {
+      "id": "sub-1",
+      "nomor_pengajuan": "SPD-20240524-001",
+      "nama_pemilik": "Ahmad Sudrajat",
+      "nomor_telepon": "081234567890",
+      "nama_usaha": "Warung Kopi Sejahtera",
+      "jenis_usaha": "Kuliner",
+      "deskripsi_usaha": "Warung kopi tradisional yang menyajikan kopi khas Cicalengka dengan makanan ringan berkualitas untuk masyarakat sekitar.",
+      "desa": "Cicalengka Kulon",
+      "alamat_lengkap": "Jl. Raya Cicalengka No. 45, RT 02 / RW 04",
+      "foto_usaha": "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=500&auto=format&fit=crop&q=60",
+      "status": "Menunggu Verifikasi",
+      "catatan_admin": "",
+      "tanggal_pengajuan": "24 Mei 2024"
+    },
+    {
+      "id": "sub-2",
+      "nomor_pengajuan": "SPD-20240523-002",
+      "nama_pemilik": "Ibu Siti Aminah",
+      "nomor_telepon": "082198765432",
+      "nama_usaha": "Batik Cicalengka Indah",
+      "jenis_usaha": "Kerajinan",
+      "deskripsi_usaha": "Produksi batik tulis dengan motif khas sunda dan pewarna alami ramah lingkungan.",
+      "desa": "Panenjoan",
+      "alamat_lengkap": "Kp. Babakan RT 01 / RW 05, Desa Panenjoan",
+      "foto_usaha": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=500&auto=format&fit=crop&q=60",
+      "status": "Disetujui",
+      "catatan_admin": "Dokumen lengkap dan usaha memenuhi syarat administrasi kecamatan.",
+      "tanggal_pengajuan": "23 Mei 2024"
+    },
+    {
+      "id": "sub-3",
+      "nomor_pengajuan": "SPD-20231025-0042",
+      "nama_pemilik": "Bambang Heru",
+      "nomor_telepon": "085211223344",
+      "nama_usaha": "Bengkel Motor Jaya",
+      "jenis_usaha": "Jasa",
+      "deskripsi_usaha": "Jasa perbaikan sepeda motor, servis rutin, ganti oli, dan penyediaan suku cadang asli.",
+      "desa": "Cicalengka Wetan",
+      "alamat_lengkap": "Jl. Stasiun Cicalengka No. 12",
+      "foto_usaha": "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=500&auto=format&fit=crop&q=60",
+      "status": "Perlu Perbaikan",
+      "catatan_admin": "Mohon lampirkan foto produk/bengkel tampak depan yang lebih jelas dan cantumkan RT/RW alamat desa.",
+      "tanggal_pengajuan": "25 Oktober 2023"
+    },
+    {
+      "id": "sub-4",
+      "nomor_pengajuan": "SPD-20240522-004",
+      "nama_pemilik": "Ibu Lilis",
+      "nomor_telepon": "087822334455",
+      "nama_usaha": "Keripik Tempe Renyah",
+      "jenis_usaha": "Kuliner",
+      "deskripsi_usaha": "Produsen camilan keripik tempe tipis renyah rasa orisinal dan pedas jeruk purut tanpa pengawet.",
+      "desa": "Tenjolaya",
+      "alamat_lengkap": "Kp. Tenjolaya Indah Blok C No. 4, RT 03 / RW 09",
+      "foto_usaha": "https://images.unsplash.com/photo-1566843972142-a7fcb70de55a?w=500&auto=format&fit=crop&q=60",
+      "status": "Menunggu Verifikasi",
+      "catatan_admin": "",
+      "tanggal_pengajuan": "22 Mei 2024"
+    }
+  ],
+  "registered_umkms": [
+    {
+      "id": "sub-2",
+      "nomor_pengajuan": "SPD-20240523-002",
+      "nama_pemilik": "Ibu Siti Aminah",
+      "nomor_telepon": "082198765432",
+      "nama_usaha": "Batik Cicalengka Indah",
+      "jenis_usaha": "Kerajinan",
+      "deskripsi_usaha": "Produksi batik tulis dengan motif khas sunda dan pewarna alami ramah lingkungan.",
+      "desa": "Panenjoan",
+      "alamat_lengkap": "Kp. Babakan RT 01 / RW 05, Desa Panenjoan",
+      "foto_usaha": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=500&auto=format&fit=crop&q=60",
+      "status": "Disetujui",
+      "catatan_admin": "Dokumen lengkap dan usaha memenuhi syarat administrasi kecamatan.",
+      "tanggal_pengajuan": "23 Mei 2024"
+    }
+  ]
+}
