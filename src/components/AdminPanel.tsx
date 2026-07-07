@@ -25,14 +25,17 @@ import {
 } from 'lucide-react';
 import { ActiveTab, Submission, BusinessStatus } from '../types';
 import { laravelAssets } from '../laravelAssets';
+import ThemeToggle from './ThemeToggle';
 
 interface AdminPanelProps {
   onLogout: () => void;
+  theme: string;
+  onThemeChange: (theme: string) => void;
 }
 
 type AdminSubTab = 'dashboard' | 'pengajuan' | 'umkm' | 'laporan' | 'laravel';
 
-export default function AdminPanel({ onLogout }: AdminPanelProps) {
+export default function AdminPanel({ onLogout, theme, onThemeChange }: AdminPanelProps) {
   const [subTab, setSubTab] = useState<AdminSubTab>('dashboard');
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [registeredUmkm, setRegisteredUmkm] = useState<Submission[]>([]);
@@ -155,7 +158,7 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
   });
 
   return (
-    <div className="flex min-h-screen bg-slate-50 text-slate-800 text-left">
+    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 text-left transition-colors duration-300">
       {/* SIDEBAR - hidden on print */}
       <aside className="w-[280px] bg-[#0F172A] text-slate-300 flex flex-col py-6 px-4 shrink-0 border-r border-slate-800 print:hidden">
         {/* Header/Logo */}
@@ -267,16 +270,19 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
       </aside>
 
       {/* MAIN CONTAINER */}
-      <div className="flex-grow flex flex-col min-h-screen overflow-x-hidden">
+      <div className="flex-grow flex flex-col min-h-screen overflow-x-hidden bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
         {/* HEADER - hidden on print */}
-        <header className="h-16 bg-white border-b border-slate-200 px-8 flex justify-between items-center shrink-0 print:hidden">
+        <header className="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-8 flex justify-between items-center shrink-0 print:hidden transition-colors">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Admin Panel</span>
-            <span className="text-slate-300">/</span>
-            <span className="text-xs font-bold text-slate-800 capitalize">{subTab}</span>
+            <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Admin Panel</span>
+            <span className="text-slate-300 dark:text-slate-700">/</span>
+            <span className="text-xs font-bold text-slate-800 dark:text-white capitalize">{subTab}</span>
           </div>
-          <div className="text-xs text-slate-400 font-bold">
-            {new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+          <div className="flex items-center gap-6">
+            <div className="text-xs text-slate-400 dark:text-slate-500 font-bold hidden sm:block">
+              {new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+            </div>
+            <ThemeToggle theme={theme} onThemeChange={onThemeChange} />
           </div>
         </header>
 
@@ -286,46 +292,46 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
           {subTab === 'dashboard' && (
             <div className="space-y-8 animate-fade-in print:hidden">
               <div className="space-y-1">
-                <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Selamat Datang, Admin!</h2>
-                <p className="text-slate-500 text-sm">Berikut adalah ringkasan data pengajuan dan pendataan UMKM Kecamatan Cicalengka.</p>
+                <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Selamat Datang, Admin!</h2>
+                <p className="text-slate-500 dark:text-slate-400 text-sm">Berikut adalah ringkasan data pengajuan dan pendataan UMKM Kecamatan Cicalengka.</p>
               </div>
 
               {/* Stats Counters Grid */}
               <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
-                <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm text-left">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Masuk</span>
-                  <span className="text-2xl font-extrabold text-[#0F172A] block mt-1">{totalSubmissions}</span>
+                <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm text-left transition-colors">
+                  <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">Total Masuk</span>
+                  <span className="text-2xl font-extrabold text-[#0F172A] dark:text-white block mt-1">{totalSubmissions}</span>
                 </div>
-                <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm text-left border-l-4 border-l-amber-500">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Menunggu</span>
-                  <span className="text-2xl font-extrabold text-amber-600 block mt-1">{pendingCount}</span>
+                <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm text-left border-l-4 border-l-amber-500 transition-colors">
+                  <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">Menunggu</span>
+                  <span className="text-2xl font-extrabold text-amber-600 dark:text-amber-450 block mt-1">{pendingCount}</span>
                 </div>
-                <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm text-left border-l-4 border-l-orange-500">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Perlu Perbaikan</span>
-                  <span className="text-2xl font-extrabold text-orange-600 block mt-1">{needRevisionCount}</span>
+                <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm text-left border-l-4 border-l-orange-500 transition-colors">
+                  <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">Perlu Perbaikan</span>
+                  <span className="text-2xl font-extrabold text-orange-600 dark:text-orange-450 block mt-1">{needRevisionCount}</span>
                 </div>
-                <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm text-left border-l-4 border-l-emerald-500">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Disetujui</span>
-                  <span className="text-2xl font-extrabold text-emerald-600 block mt-1">{approvedCount}</span>
+                <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm text-left border-l-4 border-l-emerald-500 transition-colors">
+                  <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">Disetujui</span>
+                  <span className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-450 block mt-1">{approvedCount}</span>
                 </div>
-                <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm text-left border-l-4 border-l-red-500">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Ditolak</span>
-                  <span className="text-2xl font-extrabold text-red-600 block mt-1">{rejectedCount}</span>
+                <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm text-left border-l-4 border-l-red-500 transition-colors">
+                  <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">Ditolak</span>
+                  <span className="text-2xl font-extrabold text-red-600 dark:text-red-450 block mt-1">{rejectedCount}</span>
                 </div>
-                <div className="bg-slate-900 text-white p-5 rounded-2xl shadow-sm text-left">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Terdaftar</span>
+                <div className="bg-slate-900 dark:bg-emerald-950/20 text-white p-5 rounded-2xl border border-transparent dark:border-emerald-900/30 shadow-sm text-left transition-colors">
+                  <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">Total Terdaftar</span>
                   <span className="text-2xl font-extrabold text-emerald-400 block mt-1">{totalRegistered}</span>
                 </div>
               </div>
 
               {/* Submissions Section */}
               <div className="grid grid-cols-1 gap-6">
-                <div className="bg-white border border-slate-200 rounded-3xl shadow-sm p-6 space-y-4">
-                  <div className="flex justify-between items-center border-b border-slate-100 pb-4">
-                    <h3 className="font-extrabold text-slate-900 text-base">Daftar Pengajuan Terbaru</h3>
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-sm p-6 space-y-4 transition-colors">
+                  <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-4">
+                    <h3 className="font-extrabold text-slate-900 dark:text-white text-base">Daftar Pengajuan Terbaru</h3>
                     <button
                       onClick={() => setSubTab('pengajuan')}
-                      className="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 cursor-pointer"
+                      className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center gap-1 cursor-pointer"
                     >
                       <span>Lihat Semua</span>
                       <ChevronRight className="w-4 h-4" />
@@ -335,7 +341,7 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm text-left">
                       <thead>
-                        <tr className="border-b border-slate-200 text-slate-400 font-bold text-xs uppercase tracking-wider">
+                        <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-500 font-bold text-xs uppercase tracking-wider">
                           <th className="py-3 px-4">No Pengajuan</th>
                           <th className="py-3 px-4">Nama Usaha</th>
                           <th className="py-3 px-4">Pemilik</th>
@@ -344,19 +350,19 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
                           <th className="py-3 px-4 text-right">Aksi</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-100">
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                         {submissions.slice(0, 5).map((sub) => (
-                          <tr key={sub.id} className="hover:bg-slate-50/50">
-                            <td className="py-3 px-4 font-mono font-bold text-[#0F172A]">{sub.nomor_pengajuan}</td>
-                            <td className="py-3 px-4 font-semibold text-slate-800">{sub.nama_usaha}</td>
-                            <td className="py-3 px-4 text-slate-600">{sub.nama_pemilik}</td>
-                            <td className="py-3 px-4 text-slate-500 text-xs">{sub.tanggal_pengajuan}</td>
+                          <tr key={sub.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-850/20">
+                            <td className="py-3 px-4 font-mono font-bold text-[#0F172A] dark:text-white">{sub.nomor_pengajuan}</td>
+                            <td className="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200">{sub.nama_usaha}</td>
+                            <td className="py-3 px-4 text-slate-600 dark:text-slate-400">{sub.nama_pemilik}</td>
+                            <td className="py-3 px-4 text-slate-500 dark:text-slate-500 text-xs">{sub.tanggal_pengajuan}</td>
                             <td className="py-3 px-4">
                               <span className={`px-2.5 py-0.5 rounded-full border text-[10px] font-bold ${
-                                sub.status === 'Disetujui' ? 'bg-emerald-50 text-emerald-800 border-emerald-100' :
-                                sub.status === 'Perlu Perbaikan' ? 'bg-orange-50 text-orange-800 border-orange-100' :
-                                sub.status === 'Ditolak' ? 'bg-red-50 text-red-800 border-red-100' :
-                                'bg-amber-50 text-amber-800 border-amber-100'
+                                sub.status === 'Disetujui' ? 'bg-emerald-50 dark:bg-emerald-950/20 text-emerald-800 dark:text-emerald-450 border-emerald-100 dark:border-emerald-900/30' :
+                                sub.status === 'Perlu Perbaikan' ? 'bg-orange-50 dark:bg-orange-950/20 text-orange-850 dark:text-orange-400 border-orange-100 dark:border-orange-900/30' :
+                                sub.status === 'Ditolak' ? 'bg-red-50 dark:bg-red-950/20 text-red-800 dark:text-red-450 border-red-100 dark:border-red-900/30' :
+                                'bg-amber-50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-450 border-amber-100 dark:border-amber-900/30'
                               }`}>
                                 {sub.status}
                               </span>
@@ -364,7 +370,7 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
                             <td className="py-3 px-4 text-right">
                               <button
                                 onClick={() => { setSubTab('pengajuan'); handleSelectSubmission(sub); }}
-                                className="text-xs font-bold text-blue-600 hover:text-blue-800 cursor-pointer"
+                                className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 cursor-pointer"
                               >
                                 Detail / Verifikasi
                               </button>
@@ -373,7 +379,7 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
                         ))}
                         {submissions.length === 0 && (
                           <tr>
-                            <td colSpan={6} className="text-center py-8 text-slate-400 text-xs">Belum ada pengajuan masuk.</td>
+                            <td colSpan={6} className="text-center py-8 text-slate-400 dark:text-slate-500 text-xs">Belum ada pengajuan masuk.</td>
                           </tr>
                         )}
                       </tbody>
@@ -388,12 +394,12 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
           {subTab === 'pengajuan' && (
             <div className="space-y-6 animate-fade-in print:hidden">
               {!selectedSub ? (
-                <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-6">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-6 transition-colors">
                   {/* Header controls */}
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-4">
                     <div className="space-y-1">
-                      <h3 className="font-extrabold text-slate-900 text-lg">Kelola Berkas Pengajuan</h3>
-                      <p className="text-slate-400 text-xs">Total {filteredSubmissions.length} pengajuan sesuai kriteria.</p>
+                      <h3 className="font-extrabold text-slate-900 dark:text-white text-lg">Kelola Berkas Pengajuan</h3>
+                      <p className="text-slate-400 dark:text-slate-500 text-xs">Total {filteredSubmissions.length} pengajuan sesuai kriteria.</p>
                     </div>
 
                     <div className="flex flex-wrap gap-3">
@@ -404,18 +410,18 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
                           placeholder="Cari nama, No, desa..."
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
-                          className="pl-9 pr-4 py-2 border border-slate-200 bg-slate-50 rounded-xl text-xs focus:bg-white outline-none focus:ring-2 focus:ring-blue-600/20"
+                          className="pl-9 pr-4 py-2 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 rounded-xl text-xs focus:bg-white dark:focus:bg-slate-900 outline-none focus:ring-2 focus:ring-blue-600/20 dark:focus:ring-blue-600/30 transition-colors"
                         />
-                        <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                        <Search className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                       </div>
 
                       {/* Filter */}
-                      <div className="flex items-center gap-1.5 border border-slate-200 bg-slate-50 rounded-xl px-3 py-1.5 text-xs">
-                        <Filter className="w-3.5 h-3.5 text-slate-400" />
+                      <div className="flex items-center gap-1.5 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl px-3 py-1.5 text-xs text-slate-800 dark:text-slate-200 transition-colors">
+                        <Filter className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
                         <select
                           value={statusFilter}
                           onChange={(e) => setStatusFilter(e.target.value)}
-                          className="bg-transparent border-none outline-none font-semibold text-slate-600 text-xs focus:ring-0 p-0"
+                          className="bg-transparent border-none outline-none font-semibold text-slate-600 dark:text-slate-300 text-xs focus:ring-0 p-0"
                         >
                           <option value="Semua">Semua Status</option>
                           <option value="Menunggu Verifikasi">Menunggu Verifikasi</option>
@@ -431,7 +437,7 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm text-left">
                       <thead>
-                        <tr className="border-b border-slate-200 text-slate-400 font-bold text-xs uppercase tracking-wider">
+                        <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-500 font-bold text-xs uppercase tracking-wider">
                           <th className="py-3 px-4">No Pengajuan</th>
                           <th className="py-3 px-4">Nama Usaha</th>
                           <th className="py-3 px-4">Jenis</th>
@@ -442,21 +448,21 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
                           <th className="py-3 px-4 text-right">Aksi</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-100">
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                         {filteredSubmissions.map((sub) => (
-                          <tr key={sub.id} className="hover:bg-slate-50/50">
-                            <td className="py-3 px-4 font-mono font-bold text-[#0F172A]">{sub.nomor_pengajuan}</td>
-                            <td className="py-3 px-4 font-semibold text-slate-800">{sub.nama_usaha}</td>
-                            <td className="py-3 px-4 text-slate-500 text-xs">{sub.jenis_usaha}</td>
-                            <td className="py-3 px-4 text-slate-600">{sub.nama_pemilik}</td>
-                            <td className="py-3 px-4 text-slate-500 text-xs">{sub.desa}</td>
-                            <td className="py-3 px-4 text-slate-500 text-xs">{sub.tanggal_pengajuan}</td>
+                          <tr key={sub.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-850/20">
+                            <td className="py-3 px-4 font-mono font-bold text-[#0F172A] dark:text-white">{sub.nomor_pengajuan}</td>
+                            <td className="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200">{sub.nama_usaha}</td>
+                            <td className="py-3 px-4 text-slate-500 dark:text-slate-500 text-xs">{sub.jenis_usaha}</td>
+                            <td className="py-3 px-4 text-slate-600 dark:text-slate-400">{sub.nama_pemilik}</td>
+                            <td className="py-3 px-4 text-slate-500 dark:text-slate-500 text-xs">{sub.desa}</td>
+                            <td className="py-3 px-4 text-slate-500 dark:text-slate-500 text-xs">{sub.tanggal_pengajuan}</td>
                             <td className="py-3 px-4">
                               <span className={`px-2.5 py-0.5 rounded-full border text-[10px] font-bold ${
-                                sub.status === 'Disetujui' ? 'bg-emerald-50 text-emerald-800 border-emerald-100' :
-                                sub.status === 'Perlu Perbaikan' ? 'bg-orange-50 text-orange-800 border-orange-100' :
-                                sub.status === 'Ditolak' ? 'bg-red-50 text-red-800 border-red-100' :
-                                'bg-amber-50 text-amber-800 border-amber-100'
+                                sub.status === 'Disetujui' ? 'bg-emerald-50 dark:bg-emerald-950/20 text-emerald-800 dark:text-emerald-450 border-emerald-100 dark:border-emerald-900/30' :
+                                sub.status === 'Perlu Perbaikan' ? 'bg-orange-50 dark:bg-orange-950/20 text-orange-850 dark:text-orange-450 border-orange-100 dark:border-orange-900/30' :
+                                sub.status === 'Ditolak' ? 'bg-red-50 dark:bg-red-950/20 text-red-800 dark:text-red-450 border-red-100 dark:border-red-900/30' :
+                                'bg-amber-50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-450 border-amber-100 dark:border-amber-900/30'
                               }`}>
                                 {sub.status}
                               </span>
@@ -464,7 +470,7 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
                             <td className="py-3 px-4 text-right">
                               <button
                                 onClick={() => handleSelectSubmission(sub)}
-                                className="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 hover:text-blue-700 rounded-lg text-xs font-bold cursor-pointer transition-all"
+                                className="px-3 py-1.5 bg-blue-50 dark:bg-blue-950/20 hover:bg-blue-100 dark:hover:bg-blue-900 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 rounded-lg text-xs font-bold cursor-pointer transition-all"
                               >
                                 Detail & Verifikasi
                               </button>
@@ -473,7 +479,7 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
                         ))}
                         {filteredSubmissions.length === 0 && (
                           <tr>
-                            <td colSpan={8} className="text-center py-12 text-slate-400 text-xs">Tidak ada data pengajuan yang cocok dengan kriteria pencarian.</td>
+                            <td colSpan={8} className="text-center py-12 text-slate-400 dark:text-slate-500 text-xs">Tidak ada data pengajuan yang cocok dengan kriteria pencarian.</td>
                           </tr>
                         )}
                       </tbody>
@@ -488,85 +494,85 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
                   className="grid grid-cols-1 lg:grid-cols-12 gap-6"
                 >
                   {/* Left Column: Details & Photo */}
-                  <div className="lg:col-span-7 bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
-                    <div className="flex justify-between items-center border-b border-slate-100 pb-4">
+                  <div className="lg:col-span-7 bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 transition-colors">
+                    <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-4">
                       <div className="space-y-1">
                         <button
                           onClick={() => setSelectedSub(null)}
-                          className="text-xs font-bold text-slate-400 hover:text-slate-800 flex items-center gap-1 mb-1 cursor-pointer"
+                          className="text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 flex items-center gap-1 mb-1 cursor-pointer"
                         >
                           <ChevronRight className="w-4 h-4 rotate-180" />
                           <span>Kembali ke List</span>
                         </button>
-                        <h3 className="font-extrabold text-slate-900 text-lg">Detail Pengajuan Berkas</h3>
+                        <h3 className="font-extrabold text-slate-900 dark:text-white text-lg">Detail Pengajuan Berkas</h3>
                       </div>
-                      <span className="font-mono text-sm bg-slate-100 border border-slate-200 px-3 py-1 rounded-xl font-bold">
+                      <span className="font-mono text-sm bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-3 py-1 rounded-xl font-bold text-slate-800 dark:text-slate-200">
                         {selectedSub.nomor_pengajuan}
                       </span>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
                       <div className="flex gap-3">
-                        <User className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
+                        <User className="w-5 h-5 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
                         <div>
-                          <span className="block text-[10px] font-bold text-slate-400 uppercase">Nama Lengkap Pemilik</span>
-                          <span className="text-sm font-bold text-slate-800">{selectedSub.nama_pemilik}</span>
+                          <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Nama Lengkap Pemilik</span>
+                          <span className="text-sm font-bold text-slate-800 dark:text-white">{selectedSub.nama_pemilik}</span>
                         </div>
                       </div>
 
                       <div className="flex gap-3">
-                        <Phone className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
+                        <Phone className="w-5 h-5 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
                         <div>
-                          <span className="block text-[10px] font-bold text-slate-400 uppercase">No Telepon (WA)</span>
-                          <span className="text-sm font-bold text-slate-800 select-all">{selectedSub.nomor_telepon}</span>
+                          <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">No Telepon (WA)</span>
+                          <span className="text-sm font-bold text-slate-800 dark:text-white select-all">{selectedSub.nomor_telepon}</span>
                         </div>
                       </div>
 
                       <div className="flex gap-3">
-                        <Store className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
+                        <Store className="w-5 h-5 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
                         <div>
-                          <span className="block text-[10px] font-bold text-slate-400 uppercase">Nama Usaha / Merk Dagang</span>
-                          <span className="text-sm font-bold text-slate-800">{selectedSub.nama_usaha}</span>
+                          <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Nama Usaha / Merk Dagang</span>
+                          <span className="text-sm font-bold text-slate-800 dark:text-white">{selectedSub.nama_usaha}</span>
                         </div>
                       </div>
 
                       <div className="flex gap-3">
-                        <FileText className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
+                        <FileText className="w-5 h-5 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
                         <div>
-                          <span className="block text-[10px] font-bold text-slate-400 uppercase">Kategori Jenis Usaha</span>
-                          <span className="text-sm font-bold text-slate-800">{selectedSub.jenis_usaha}</span>
+                          <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Kategori Jenis Usaha</span>
+                          <span className="text-sm font-bold text-slate-800 dark:text-white">{selectedSub.jenis_usaha}</span>
                         </div>
                       </div>
 
                       <div className="flex gap-3">
-                        <MapPin className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
+                        <MapPin className="w-5 h-5 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
                         <div>
-                          <span className="block text-[10px] font-bold text-slate-400 uppercase">Desa Domisili</span>
-                          <span className="text-sm font-bold text-slate-800">Desa {selectedSub.desa}</span>
+                          <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Desa Domisili</span>
+                          <span className="text-sm font-bold text-slate-800 dark:text-white">Desa {selectedSub.desa}</span>
                         </div>
                       </div>
 
                       <div className="flex gap-3">
-                        <Calendar className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
+                        <Calendar className="w-5 h-5 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
                         <div>
-                          <span className="block text-[10px] font-bold text-slate-400 uppercase">Tanggal Mengajukan</span>
-                          <span className="text-sm font-bold text-slate-800">{selectedSub.tanggal_pengajuan}</span>
+                          <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Tanggal Mengajukan</span>
+                          <span className="text-sm font-bold text-slate-800 dark:text-white">{selectedSub.tanggal_pengajuan}</span>
                         </div>
                       </div>
 
                       <div className="flex gap-3 md:col-span-2">
-                        <MapPin className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
+                        <MapPin className="w-5 h-5 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
                         <div>
-                          <span className="block text-[10px] font-bold text-slate-400 uppercase">Alamat Lengkap Domisili Usaha</span>
-                          <span className="text-sm text-slate-700 leading-relaxed">{selectedSub.alamat_lengkap}</span>
+                          <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Alamat Lengkap Domisili Usaha</span>
+                          <span className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{selectedSub.alamat_lengkap}</span>
                         </div>
                       </div>
 
                       <div className="flex gap-3 md:col-span-2">
-                        <FileText className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
+                        <FileText className="w-5 h-5 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
                         <div>
-                          <span className="block text-[10px] font-bold text-slate-400 uppercase">Deskripsi Usaha</span>
-                          <p className="text-sm text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-200/50 mt-1">
+                          <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Deskripsi Usaha</span>
+                          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-950/40 p-3 rounded-xl border border-slate-200/50 dark:border-slate-800 mt-1">
                             {selectedSub.deskripsi_usaha || 'Tidak ada deskripsi usaha.'}
                           </p>
                         </div>
@@ -575,8 +581,8 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
 
                     {/* Photo */}
                     <div className="space-y-3 pt-2 text-left">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase block">Dokumentasi Foto Usaha / Produk</span>
-                      <div className="max-w-md rounded-2xl overflow-hidden border border-slate-200">
+                      <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase block">Dokumentasi Foto Usaha / Produk</span>
+                      <div className="max-w-md rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800">
                         <img 
                           src={selectedSub.foto_usaha} 
                           alt="Dokumentasi" 
@@ -587,63 +593,63 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
                   </div>
 
                   {/* Right Column: Verification Actions */}
-                  <div className="lg:col-span-5 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-6 self-start text-left">
-                    <h3 className="font-extrabold text-slate-900 text-base border-b border-slate-100 pb-4">Tindakan Verifikator</h3>
+                  <div className="lg:col-span-5 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 self-start text-left transition-colors">
+                    <h3 className="font-extrabold text-slate-900 dark:text-white text-base border-b border-slate-100 dark:border-slate-800 pb-4">Tindakan Verifikator</h3>
 
                     {/* Radio state selectors */}
                     <div className="space-y-3">
-                      <label className="text-xs font-bold text-slate-500 uppercase tracking-wide">Pilih Status Validasi:</label>
+                      <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Pilih Status Validasi:</label>
                       <div className="space-y-2">
                         <button
                           onClick={() => setActionStatus('Disetujui')}
                           className={`w-full flex items-center justify-between p-4 rounded-xl border font-bold text-xs transition-all cursor-pointer ${
                             actionStatus === 'Disetujui'
-                              ? 'bg-emerald-50 border-emerald-500 text-emerald-800 ring-2 ring-emerald-500/20'
-                              : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                              ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-500 dark:border-emerald-700 text-emerald-800 dark:text-emerald-350 ring-2 ring-emerald-500/20'
+                              : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-950 text-slate-700 dark:text-slate-300'
                           }`}
                         >
                           <div className="flex items-center gap-3">
                             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
                             <span>Disetujui (Terbit Registrasi)</span>
                           </div>
-                          {actionStatus === 'Disetujui' && <Check className="w-4 h-4 text-emerald-600" />}
+                          {actionStatus === 'Disetujui' && <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-450" />}
                         </button>
 
                         <button
                           onClick={() => setActionStatus('Perlu Perbaikan')}
                           className={`w-full flex items-center justify-between p-4 rounded-xl border font-bold text-xs transition-all cursor-pointer ${
                             actionStatus === 'Perlu Perbaikan'
-                              ? 'bg-orange-50 border-orange-500 text-orange-800 ring-2 ring-orange-500/20'
-                              : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                              ? 'bg-orange-50 dark:bg-orange-950/20 border-orange-500 dark:border-orange-700 text-orange-800 dark:text-orange-355 ring-2 ring-orange-500/20'
+                              : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-950 text-slate-700 dark:text-slate-300'
                           }`}
                         >
                           <div className="flex items-center gap-3">
                             <span className="w-2.5 h-2.5 rounded-full bg-orange-500"></span>
                             <span>Perlu Perbaikan Berkas</span>
                           </div>
-                          {actionStatus === 'Perlu Perbaikan' && <Check className="w-4 h-4 text-orange-600" />}
+                          {actionStatus === 'Perlu Perbaikan' && <Check className="w-4 h-4 text-orange-600 dark:text-orange-450" />}
                         </button>
 
                         <button
                           onClick={() => setActionStatus('Ditolak')}
                           className={`w-full flex items-center justify-between p-4 rounded-xl border font-bold text-xs transition-all cursor-pointer ${
                             actionStatus === 'Ditolak'
-                              ? 'bg-red-50 border-red-500 text-red-800 ring-2 ring-red-500/20'
-                              : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                              ? 'bg-red-50 dark:bg-red-950/20 border-red-500 dark:border-red-700 text-red-800 dark:text-red-350 ring-2 ring-red-500/20'
+                              : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-950 text-slate-700 dark:text-slate-300'
                           }`}
                         >
                           <div className="flex items-center gap-3">
                             <span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>
                             <span>Tolak Berkas (Gugur)</span>
                           </div>
-                          {actionStatus === 'Ditolak' && <Check className="w-4 h-4 text-red-600" />}
+                          {actionStatus === 'Ditolak' && <Check className="w-4 h-4 text-red-600 dark:text-red-450" />}
                         </button>
                       </div>
                     </div>
 
                     {/* Text notes */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-500 uppercase tracking-wide">
+                      <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
                         Catatan Khusus Admin / Alasan Perbaikan:
                       </label>
                       <textarea
@@ -651,7 +657,7 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
                         value={adminNotes}
                         onChange={(e) => setAdminNotes(e.target.value)}
                         placeholder="Tulis instruksi perbaikan yang jelas, atau alasan penolakan berkas untuk dibaca oleh pelaku UMKM..."
-                        className="w-full bg-slate-50 text-slate-800 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:bg-white outline-none focus:ring-2 focus:ring-blue-600/20 resize-none"
+                        className="w-full bg-slate-50 dark:bg-slate-955 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:bg-white dark:focus:bg-slate-900 outline-none focus:ring-2 focus:ring-blue-600/20 dark:focus:ring-blue-600/30 resize-none"
                       />
                     </div>
 
@@ -660,7 +666,7 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
                       id="btn-admin-simpan-verifikasi"
                       onClick={handleSaveVerification}
                       disabled={isSaving || !actionStatus}
-                      className="w-full py-4 bg-[#0F172A] hover:bg-slate-800 text-white font-bold rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                      className="w-full py-4 bg-[#0F172A] dark:bg-blue-600 hover:bg-slate-800 dark:hover:bg-blue-500 text-white font-bold rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                     >
                       {isSaving ? 'Menyimpan...' : 'Simpan Keputusan Verifikasi'}
                     </button>
@@ -672,11 +678,11 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
 
           {/* 3. UMKM TERDAFTAR VIEW */}
           {subTab === 'umkm' && (
-            <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in print:hidden">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in transition-colors print:hidden">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-4">
                 <div className="space-y-1 text-left">
-                  <h3 className="font-extrabold text-slate-900 text-lg">UMKM Terdaftar Resmi</h3>
-                  <p className="text-slate-400 text-xs">Menyimpan data pengajuan berstatus 'Disetujui' di Cicalengka.</p>
+                  <h3 className="font-extrabold text-slate-900 dark:text-white text-lg">UMKM Terdaftar Resmi</h3>
+                  <p className="text-slate-400 dark:text-slate-500 text-xs">Menyimpan data pengajuan berstatus 'Disetujui' di Cicalengka.</p>
                 </div>
 
                 {/* Search */}
@@ -686,9 +692,9 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
                     placeholder="Cari UMKM, pemilik..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-9 pr-4 py-2 border border-slate-200 bg-slate-50 rounded-xl text-xs focus:bg-white outline-none"
+                    className="pl-9 pr-4 py-2 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 rounded-xl text-xs focus:bg-white dark:focus:bg-slate-900 outline-none transition-colors"
                   />
-                  <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <Search className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 </div>
               </div>
 
@@ -696,7 +702,7 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
               <div className="overflow-x-auto text-left">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-slate-200 text-slate-400 font-bold text-xs uppercase tracking-wider">
+                    <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-500 font-bold text-xs uppercase tracking-wider">
                       <th className="py-3 px-4">No Reg</th>
                       <th className="py-3 px-4">Nama Usaha</th>
                       <th className="py-3 px-4">Kategori</th>
@@ -706,21 +712,21 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
                       <th className="py-3 px-4">Alamat</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                     {filteredRegistered.map((u) => (
-                      <tr key={u.id} className="hover:bg-slate-50/50">
-                        <td className="py-3 px-4 font-mono font-bold text-[#0F172A]">{u.nomor_pengajuan}</td>
-                        <td className="py-3 px-4 font-bold text-slate-800">{u.nama_usaha}</td>
-                        <td className="py-3 px-4 text-xs font-semibold bg-slate-100 rounded border border-slate-200 px-2.5 py-0.5 inline-block my-2.5">{u.jenis_usaha}</td>
-                        <td className="py-3 px-4 text-slate-700">{u.nama_pemilik}</td>
-                        <td className="py-3 px-4 font-mono text-xs text-blue-600 select-all">{u.nomor_telepon}</td>
-                        <td className="py-3 px-4 text-slate-500 font-semibold">{u.desa}</td>
-                        <td className="py-3 px-4 text-slate-400 text-xs max-w-xs truncate">{u.alamat_lengkap}</td>
+                      <tr key={u.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-850/20">
+                        <td className="py-3 px-4 font-mono font-bold text-[#0F172A] dark:text-white">{u.nomor_pengajuan}</td>
+                        <td className="py-3 px-4 font-bold text-slate-800 dark:text-slate-200">{u.nama_usaha}</td>
+                        <td className="py-3 px-4 text-xs font-semibold bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-300 rounded border border-slate-200 dark:border-slate-800 px-2.5 py-0.5 inline-block my-2.5">{u.jenis_usaha}</td>
+                        <td className="py-3 px-4 text-slate-700 dark:text-slate-400">{u.nama_pemilik}</td>
+                        <td className="py-3 px-4 font-mono text-xs text-blue-600 dark:text-blue-400 select-all">{u.nomor_telepon}</td>
+                        <td className="py-3 px-4 text-slate-500 dark:text-slate-450 font-semibold">{u.desa}</td>
+                        <td className="py-3 px-4 text-slate-400 dark:text-slate-500 text-xs max-w-xs truncate">{u.alamat_lengkap}</td>
                       </tr>
                     ))}
                     {filteredRegistered.length === 0 && (
                       <tr>
-                        <td colSpan={7} className="text-center py-12 text-slate-400 text-xs">Belum ada UMKM yang disetujui.</td>
+                        <td colSpan={7} className="text-center py-12 text-slate-400 dark:text-slate-500 text-xs">Belum ada UMKM yang disetujui.</td>
                       </tr>
                     )}
                   </tbody>
@@ -733,15 +739,15 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
           {subTab === 'laporan' && (
             <div className="space-y-6">
               {/* Controls bar (hidden on print) */}
-              <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm flex flex-col md:flex-row justify-between items-center gap-4 print:hidden">
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-3xl shadow-sm flex flex-col md:flex-row justify-between items-center gap-4 transition-colors print:hidden">
                 <div className="space-y-1 text-left">
-                  <h3 className="font-extrabold text-slate-900 text-lg">Format Cetak Laporan Resmi</h3>
-                  <p className="text-slate-400 text-xs">Telah diformat agar rapi dan pas untuk ukuran kertas cetak standard.</p>
+                  <h3 className="font-extrabold text-slate-900 dark:text-white text-lg">Format Cetak Laporan Resmi</h3>
+                  <p className="text-slate-400 dark:text-slate-500 text-xs">Telah diformat agar rapi dan pas untuk ukuran kertas cetak standard.</p>
                 </div>
                 <button
                   id="btn-admin-cetak"
                   onClick={handlePrint}
-                  className="px-6 py-3 bg-[#0F172A] hover:bg-slate-800 text-white font-extrabold rounded-xl text-xs flex items-center gap-2 transition-all shadow-md cursor-pointer"
+                  className="px-6 py-3 bg-[#0F172A] dark:bg-blue-600 hover:bg-slate-800 dark:hover:bg-blue-500 text-white font-extrabold rounded-xl text-xs flex items-center gap-2 transition-all shadow-md cursor-pointer"
                 >
                   <Printer className="w-4 h-4" />
                   <span>Cetak Laporan (PDF)</span>
@@ -749,56 +755,56 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
               </div>
 
               {/* Printable Area - styled for paper standard */}
-              <div id="print-area" className="bg-white p-8 md:p-12 border border-slate-200 rounded-3xl shadow-sm space-y-8 text-left max-w-4xl mx-auto print:border-none print:shadow-none print:p-0">
+              <div id="print-area" className="bg-white dark:bg-slate-900 p-8 md:p-12 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-sm space-y-8 text-left max-w-4xl mx-auto print:bg-white print:text-black print:border-none print:shadow-none print:p-0 transition-colors duration-300">
                 
                 {/* Kop Surat */}
-                <div className="flex items-center gap-6 border-b-4 border-double border-slate-800 pb-4 justify-center text-center">
-                  <div className="w-16 h-16 shrink-0 flex items-center justify-center bg-slate-900 text-white rounded font-extrabold text-2xl print:bg-black">
+                <div className="flex items-center gap-6 border-b-4 border-double border-slate-800 dark:border-slate-700 print:border-slate-800 pb-4 justify-center text-center">
+                  <div className="w-16 h-16 shrink-0 flex items-center justify-center bg-slate-900 dark:bg-slate-950 text-white rounded font-extrabold text-2xl print:bg-black">
                     CP
                   </div>
                   <div className="space-y-1">
-                    <h2 className="text-xl font-extrabold tracking-wider text-slate-900 uppercase">PEMERINTAH KABUPATEN BANDUNG</h2>
-                    <h1 className="text-2xl font-black tracking-widest text-slate-900 uppercase">KECAMATAN CICALENGKA</h1>
-                    <p className="text-xs text-slate-500 font-semibold uppercase">SEKSI PEMBERDAYAAN MASYARAKAT</p>
-                    <p className="text-[10px] text-slate-400 font-medium tracking-wide">Jl. Raya Cicalengka No.1, Cicalengka, Jawa Barat 40395</p>
+                    <h2 className="text-xl font-extrabold tracking-wider text-slate-900 dark:text-white print:text-slate-900 uppercase">PEMERINTAH KABUPATEN BANDUNG</h2>
+                    <h1 className="text-2xl font-black tracking-widest text-slate-900 dark:text-white print:text-slate-900 uppercase">KECAMATAN CICALENGKA</h1>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 print:text-slate-500 font-semibold uppercase">SEKSI PEMBERDAYAAN MASYARAKAT</p>
+                    <p className="text-[10px] text-slate-400 dark:text-slate-550 print:text-slate-400 font-medium tracking-wide">Jl. Raya Cicalengka No.1, Cicalengka, Jawa Barat 40395</p>
                   </div>
                 </div>
 
                 {/* Judul Laporan */}
                 <div className="text-center space-y-1">
-                  <h3 className="text-base font-extrabold text-slate-900 uppercase tracking-wider underline">LAPORAN DATA UMKM KECAMATAN CICALENGKA</h3>
-                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Tahun {new Date().getFullYear()}</p>
+                  <h3 className="text-base font-extrabold text-slate-900 dark:text-white print:text-slate-900 uppercase tracking-wider underline">LAPORAN DATA UMKM KECAMATAN CICALENGKA</h3>
+                  <p className="text-[10px] text-slate-400 dark:text-slate-500 print:text-slate-400 font-bold uppercase tracking-wider">Tahun {new Date().getFullYear()}</p>
                 </div>
 
                 {/* Report Table */}
                 <div className="overflow-x-auto pt-4">
-                  <table className="w-full text-xs text-left border-collapse border border-slate-300">
+                  <table className="w-full text-xs text-left border-collapse border border-slate-300 dark:border-slate-800 print:border-slate-300">
                     <thead>
-                      <tr className="bg-slate-50 border-b border-slate-300 text-slate-800 font-bold uppercase tracking-wider">
-                        <th className="py-2.5 px-3 border border-slate-300 text-center w-10">No</th>
-                        <th className="py-2.5 px-3 border border-slate-300">No Registrasi</th>
-                        <th className="py-2.5 px-3 border border-slate-300">Nama Usaha</th>
-                        <th className="py-2.5 px-3 border border-slate-300">Nama Pemilik</th>
-                        <th className="py-2.5 px-3 border border-slate-300">Desa</th>
-                        <th className="py-2.5 px-3 border border-slate-300">Jenis Usaha</th>
-                        <th className="py-2.5 px-3 border border-slate-300">Kontak</th>
+                      <tr className="bg-slate-50 dark:bg-slate-950 border-b border-slate-300 dark:border-slate-800 text-slate-800 dark:text-white print:bg-slate-50 print:text-slate-800 font-bold uppercase tracking-wider">
+                        <th className="py-2.5 px-3 border border-slate-300 dark:border-slate-800 print:border-slate-300 text-center w-10">No</th>
+                        <th className="py-2.5 px-3 border border-slate-300 dark:border-slate-800 print:border-slate-300">No Registrasi</th>
+                        <th className="py-2.5 px-3 border border-slate-300 dark:border-slate-800 print:border-slate-300">Nama Usaha</th>
+                        <th className="py-2.5 px-3 border border-slate-300 dark:border-slate-800 print:border-slate-300">Nama Pemilik</th>
+                        <th className="py-2.5 px-3 border border-slate-300 dark:border-slate-800 print:border-slate-300">Desa</th>
+                        <th className="py-2.5 px-3 border border-slate-300 dark:border-slate-800 print:border-slate-300">Jenis Usaha</th>
+                        <th className="py-2.5 px-3 border border-slate-300 dark:border-slate-800 print:border-slate-300 font-mono">Kontak</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-300">
+                    <tbody className="divide-y divide-slate-300 dark:divide-slate-800 print:divide-slate-300">
                       {registeredUmkm.map((u, idx) => (
-                        <tr key={u.id} className="hover:bg-slate-50/20">
-                          <td className="py-2 px-3 border border-slate-300 text-center font-bold">{idx + 1}</td>
-                          <td className="py-2 px-3 border border-slate-300 font-mono font-bold">{u.nomor_pengajuan}</td>
-                          <td className="py-2 px-3 border border-slate-300 font-bold text-slate-900">{u.nama_usaha}</td>
-                          <td className="py-2 px-3 border border-slate-300">{u.nama_pemilik}</td>
-                          <td className="py-2 px-3 border border-slate-300">{u.desa}</td>
-                          <td className="py-2 px-3 border border-slate-300">{u.jenis_usaha}</td>
-                          <td className="py-2 px-3 border border-slate-300 font-mono">{u.nomor_telepon}</td>
+                        <tr key={u.id} className="hover:bg-slate-50/20 dark:hover:bg-slate-850/10">
+                          <td className="py-2 px-3 border border-slate-300 dark:border-slate-800 print:border-slate-300 text-center font-bold">{idx + 1}</td>
+                          <td className="py-2 px-3 border border-slate-300 dark:border-slate-800 print:border-slate-300 font-mono font-bold">{u.nomor_pengajuan}</td>
+                          <td className="py-2 px-3 border border-slate-300 dark:border-slate-800 print:border-slate-300 font-bold text-slate-900 dark:text-white print:text-slate-900">{u.nama_usaha}</td>
+                          <td className="py-2 px-3 border border-slate-300 dark:border-slate-800 print:border-slate-300 text-slate-800 dark:text-slate-300 print:text-slate-800">{u.nama_pemilik}</td>
+                          <td className="py-2 px-3 border border-slate-300 dark:border-slate-800 print:border-slate-300 text-slate-700 dark:text-slate-400 print:text-slate-700">{u.desa}</td>
+                          <td className="py-2 px-3 border border-slate-300 dark:border-slate-800 print:border-slate-300 text-slate-700 dark:text-slate-400 print:text-slate-700">{u.jenis_usaha}</td>
+                          <td className="py-2 px-3 border border-slate-300 dark:border-slate-800 print:border-slate-300 font-mono text-slate-800 dark:text-slate-300 print:text-slate-800">{u.nomor_telepon}</td>
                         </tr>
                       ))}
                       {registeredUmkm.length === 0 && (
                         <tr>
-                          <td colSpan={7} className="text-center py-6 text-slate-400 font-medium">Belum ada UMKM yang terdaftar di basis data resmi.</td>
+                          <td colSpan={7} className="text-center py-6 text-slate-400 dark:text-slate-500 font-medium">Belum ada UMKM yang terdaftar di basis data resmi.</td>
                         </tr>
                       )}
                     </tbody>
@@ -809,12 +815,12 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
                 <div className="flex justify-end pt-12">
                   <div className="text-center space-y-16 w-64">
                     <div>
-                      <p className="text-xs">Cicalengka, {new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                      <p className="text-xs font-bold uppercase mt-1">Kepala Seksi Pemberdayaan Masyarakat</p>
+                      <p className="text-xs text-slate-850 dark:text-slate-300 print:text-slate-855">Cicalengka, {new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                      <p className="text-xs font-bold uppercase mt-1 text-slate-900 dark:text-white print:text-slate-900">Kepala Seksi Pemberdayaan Masyarakat</p>
                     </div>
                     <div>
-                      <p className="text-xs font-bold tracking-wide uppercase underline">......................................................</p>
-                      <p className="text-[10px] text-slate-400 font-semibold uppercase mt-0.5">NIP. .........................................</p>
+                      <p className="text-xs font-bold tracking-wide uppercase underline text-slate-900 dark:text-white print:text-slate-900">......................................................</p>
+                      <p className="text-[10px] text-slate-400 dark:text-slate-500 print:text-slate-400 font-semibold uppercase mt-0.5">NIP. .........................................</p>
                     </div>
                   </div>
                 </div>
@@ -835,215 +841,218 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
                 {/* Block 1: Migration */}
                 <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4">
                   <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+                {/* Block 1: Migration */}
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-4 transition-colors">
+                  <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3">
                     <div>
-                      <span className="text-[10px] text-emerald-600 font-extrabold uppercase tracking-widest block">DATABASE CONFIG</span>
-                      <h3 className="font-extrabold text-slate-900 text-base">1. Migration (`create_submissions_and_registered_umkms_tables.php`)</h3>
+                      <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-extrabold uppercase tracking-widest block">DATABASE CONFIG</span>
+                      <h3 className="font-extrabold text-slate-900 dark:text-white text-base">1. Migration (`create_submissions_and_umkm_terdaftar_tables.php`)</h3>
                     </div>
                     <button
                       onClick={() => handleCopy(laravelAssets.migration, 'migration')}
                       className={`px-3.5 py-1.5 rounded-lg border text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                         copiedKey === 'migration'
-                          ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
-                          : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-600'
+                          ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-900/30 text-emerald-700 dark:text-emerald-450'
+                          : 'bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300'
                       }`}
                     >
                       <Clipboard className="w-3.5 h-3.5" />
                       <span>{copiedKey === 'migration' ? 'Tersalin!' : 'Salin Kode'}</span>
                     </button>
                   </div>
-                  <pre className="bg-slate-900 text-emerald-400 p-4 rounded-xl text-xs overflow-x-auto max-h-[300px] font-mono leading-relaxed">
+                  <pre className="bg-slate-900 dark:bg-slate-950 text-emerald-400 dark:text-emerald-300 p-4 rounded-xl text-xs overflow-x-auto max-h-[300px] font-mono leading-relaxed">
                     {laravelAssets.migration}
                   </pre>
                 </div>
 
                 {/* Block 2: Submission Model */}
-                <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4">
-                  <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-4 transition-colors">
+                  <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3">
                     <div>
-                      <span className="text-[10px] text-emerald-600 font-extrabold uppercase tracking-widest block">ELOQUENT MODEL</span>
-                      <h3 className="font-extrabold text-slate-900 text-base">2. Model Pengajuan (`App\Models\Submission.php`)</h3>
+                      <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-extrabold uppercase tracking-widest block">ELOQUENT MODEL</span>
+                      <h3 className="font-extrabold text-slate-900 dark:text-white text-base">2. Model Pengajuan (`App\Models\Pengajuan.php`)</h3>
                     </div>
                     <button
                       onClick={() => handleCopy(laravelAssets.submissionModel, 'subModel')}
                       className={`px-3.5 py-1.5 rounded-lg border text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                         copiedKey === 'subModel'
-                          ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
-                          : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-600'
+                          ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-900/30 text-emerald-700 dark:text-emerald-450'
+                          : 'bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300'
                       }`}
                     >
                       <Clipboard className="w-3.5 h-3.5" />
                       <span>{copiedKey === 'subModel' ? 'Tersalin!' : 'Salin Kode'}</span>
                     </button>
                   </div>
-                  <pre className="bg-slate-900 text-emerald-400 p-4 rounded-xl text-xs overflow-x-auto max-h-[250px] font-mono leading-relaxed">
+                  <pre className="bg-slate-900 dark:bg-slate-950 text-emerald-400 dark:text-emerald-300 p-4 rounded-xl text-xs overflow-x-auto max-h-[250px] font-mono leading-relaxed">
                     {laravelAssets.submissionModel}
                   </pre>
                 </div>
 
                 {/* Block 3: Registered UMKM Model */}
-                <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4">
-                  <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-4 transition-colors">
+                  <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3">
                     <div>
-                      <span className="text-[10px] text-emerald-600 font-extrabold uppercase tracking-widest block">ELOQUENT MODEL</span>
-                      <h3 className="font-extrabold text-slate-900 text-base">3. Model Terdaftar (`App\Models\RegisteredUmkm.php`)</h3>
+                      <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-extrabold uppercase tracking-widest block">ELOQUENT MODEL</span>
+                      <h3 className="font-extrabold text-slate-900 dark:text-white text-base">3. Model Terdaftar (`App\Models\UmkmTerdaftar.php`)</h3>
                     </div>
                     <button
                       onClick={() => handleCopy(laravelAssets.registeredModel, 'regModel')}
                       className={`px-3.5 py-1.5 rounded-lg border text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                         copiedKey === 'regModel'
-                          ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
-                          : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-600'
+                          ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-900/30 text-emerald-700 dark:text-emerald-450'
+                          : 'bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300'
                       }`}
                     >
                       <Clipboard className="w-3.5 h-3.5" />
                       <span>{copiedKey === 'regModel' ? 'Tersalin!' : 'Salin Kode'}</span>
                     </button>
                   </div>
-                  <pre className="bg-slate-900 text-emerald-400 p-4 rounded-xl text-xs overflow-x-auto max-h-[250px] font-mono leading-relaxed">
+                  <pre className="bg-slate-900 dark:bg-slate-950 text-emerald-400 dark:text-emerald-300 p-4 rounded-xl text-xs overflow-x-auto max-h-[250px] font-mono leading-relaxed">
                     {laravelAssets.registeredModel}
                   </pre>
                 </div>
 
                 {/* Block 4: Web Routes */}
-                <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4">
-                  <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-4 transition-colors">
+                  <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3">
                     <div>
-                      <span className="text-[10px] text-emerald-600 font-extrabold uppercase tracking-widest block">SYSTEM ROUTING</span>
-                      <h3 className="font-extrabold text-slate-900 text-base">4. Routing (`routes/web.php`)</h3>
+                      <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-extrabold uppercase tracking-widest block">SYSTEM ROUTING</span>
+                      <h3 className="font-extrabold text-slate-900 dark:text-white text-base">4. Routing (`routes/web.php`)</h3>
                     </div>
                     <button
                       onClick={() => handleCopy(laravelAssets.routes, 'routes')}
                       className={`px-3.5 py-1.5 rounded-lg border text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                         copiedKey === 'routes'
-                          ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
-                          : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-600'
+                          ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-900/30 text-emerald-700 dark:text-emerald-450'
+                          : 'bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300'
                       }`}
                     >
                       <Clipboard className="w-3.5 h-3.5" />
                       <span>{copiedKey === 'routes' ? 'Tersalin!' : 'Salin Kode'}</span>
                     </button>
                   </div>
-                  <pre className="bg-slate-900 text-emerald-400 p-4 rounded-xl text-xs overflow-x-auto max-h-[300px] font-mono leading-relaxed">
+                  <pre className="bg-slate-900 dark:bg-slate-950 text-emerald-400 dark:text-emerald-300 p-4 rounded-xl text-xs overflow-x-auto max-h-[300px] font-mono leading-relaxed">
                     {laravelAssets.routes}
                   </pre>
                 </div>
 
                 {/* Block 5: Controller */}
-                <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4">
-                  <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-4 transition-colors">
+                  <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3">
                     <div>
-                      <span className="text-[10px] text-emerald-600 font-extrabold uppercase tracking-widest block">BUSINESS LOGIC</span>
-                      <h3 className="font-extrabold text-slate-900 text-base">5. Controller Utama (`App\Http\Controllers\UmkmController.php`)</h3>
+                      <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-extrabold uppercase tracking-widest block">BUSINESS LOGIC</span>
+                      <h3 className="font-extrabold text-slate-900 dark:text-white text-base">5. Controller Utama (`App\Http\Controllers\UmkmController.php`)</h3>
                     </div>
                     <button
                       onClick={() => handleCopy(laravelAssets.controller, 'controller')}
                       className={`px-3.5 py-1.5 rounded-lg border text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                         copiedKey === 'controller'
-                          ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
-                          : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-600'
+                          ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-900/30 text-emerald-700 dark:text-emerald-450'
+                          : 'bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300'
                       }`}
                     >
                       <Clipboard className="w-3.5 h-3.5" />
                       <span>{copiedKey === 'controller' ? 'Tersalin!' : 'Salin Kode'}</span>
                     </button>
                   </div>
-                  <pre className="bg-slate-900 text-emerald-400 p-4 rounded-xl text-xs overflow-x-auto max-h-[400px] font-mono leading-relaxed">
+                  <pre className="bg-slate-900 dark:bg-slate-950 text-emerald-400 dark:text-emerald-300 p-4 rounded-xl text-xs overflow-x-auto max-h-[400px] font-mono leading-relaxed">
                     {laravelAssets.controller}
                   </pre>
                 </div>
 
                 {/* Block 6: Blade Landing */}
-                <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4">
-                  <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-4 transition-colors">
+                  <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3">
                     <div>
-                      <span className="text-[10px] text-emerald-600 font-extrabold uppercase tracking-widest block">TEMPLATING & FRONTEND</span>
-                      <h3 className="font-extrabold text-slate-900 text-base">6. Blade: Landing Page (`resources/views/landing.blade.php`)</h3>
+                      <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-extrabold uppercase tracking-widest block">TEMPLATING & FRONTEND</span>
+                      <h3 className="font-extrabold text-slate-900 dark:text-white text-base">6. Blade: Landing Page (`resources/views/landing.blade.php`)</h3>
                     </div>
                     <button
                       onClick={() => handleCopy(laravelAssets.bladeLanding, 'bladeLanding')}
                       className={`px-3.5 py-1.5 rounded-lg border text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                         copiedKey === 'bladeLanding'
-                          ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
-                          : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-600'
+                          ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-900/30 text-emerald-700 dark:text-emerald-450'
+                          : 'bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300'
                       }`}
                     >
                       <Clipboard className="w-3.5 h-3.5" />
                       <span>{copiedKey === 'bladeLanding' ? 'Tersalin!' : 'Salin Kode'}</span>
                     </button>
                   </div>
-                  <pre className="bg-slate-900 text-emerald-400 p-4 rounded-xl text-xs overflow-x-auto max-h-[300px] font-mono leading-relaxed">
+                  <pre className="bg-slate-900 dark:bg-slate-950 text-emerald-400 dark:text-emerald-300 p-4 rounded-xl text-xs overflow-x-auto max-h-[300px] font-mono leading-relaxed">
                     {laravelAssets.bladeLanding}
                   </pre>
                 </div>
 
                 {/* Block 7: Blade Form */}
-                <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4">
-                  <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-4 transition-colors">
+                  <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3">
                     <div>
-                      <span className="text-[10px] text-emerald-600 font-extrabold uppercase tracking-widest block">TEMPLATING & FRONTEND</span>
-                      <h3 className="font-extrabold text-slate-900 text-base">7. Blade: Form Pengajuan (`resources/views/form_pengajuan.blade.php`)</h3>
+                      <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-extrabold uppercase tracking-widest block">TEMPLATING & FRONTEND</span>
+                      <h3 className="font-extrabold text-slate-900 dark:text-white text-base">7. Blade: Form Pengajuan (`resources/views/form_pengajuan.blade.php`)</h3>
                     </div>
                     <button
                       onClick={() => handleCopy(laravelAssets.bladeForm, 'bladeForm')}
                       className={`px-3.5 py-1.5 rounded-lg border text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                         copiedKey === 'bladeForm'
-                          ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
-                          : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-600'
+                          ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-900/30 text-emerald-700 dark:text-emerald-450'
+                          : 'bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300'
                       }`}
                     >
                       <Clipboard className="w-3.5 h-3.5" />
                       <span>{copiedKey === 'bladeForm' ? 'Tersalin!' : 'Salin Kode'}</span>
                     </button>
                   </div>
-                  <pre className="bg-slate-900 text-emerald-400 p-4 rounded-xl text-xs overflow-x-auto max-h-[300px] font-mono leading-relaxed">
+                  <pre className="bg-slate-900 dark:bg-slate-950 text-emerald-400 dark:text-emerald-300 p-4 rounded-xl text-xs overflow-x-auto max-h-[300px] font-mono leading-relaxed">
                     {laravelAssets.bladeForm}
                   </pre>
                 </div>
 
                 {/* Block 8: Blade Cek Status */}
-                <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4">
-                  <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-4 transition-colors">
+                  <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3">
                     <div>
-                      <span className="text-[10px] text-emerald-600 font-extrabold uppercase tracking-widest block">TEMPLATING & FRONTEND</span>
-                      <h3 className="font-extrabold text-slate-900 text-base">8. Blade: Cek Status (`resources/views/cek_status.blade.php`)</h3>
+                      <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-extrabold uppercase tracking-widest block">TEMPLATING & FRONTEND</span>
+                      <h3 className="font-extrabold text-slate-900 dark:text-white text-base">8. Blade: Cek Status (`resources/views/cek_status.blade.php`)</h3>
                     </div>
                     <button
                       onClick={() => handleCopy(laravelAssets.bladeStatus, 'bladeStatus')}
                       className={`px-3.5 py-1.5 rounded-lg border text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                         copiedKey === 'bladeStatus'
-                          ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
-                          : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-600'
+                          ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-900/30 text-emerald-700 dark:text-emerald-450'
+                          : 'bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300'
                       }`}
                     >
                       <Clipboard className="w-3.5 h-3.5" />
                       <span>{copiedKey === 'bladeStatus' ? 'Tersalin!' : 'Salin Kode'}</span>
                     </button>
                   </div>
-                  <pre className="bg-slate-900 text-emerald-400 p-4 rounded-xl text-xs overflow-x-auto max-h-[300px] font-mono leading-relaxed">
+                  <pre className="bg-slate-900 dark:bg-slate-950 text-emerald-400 dark:text-emerald-300 p-4 rounded-xl text-xs overflow-x-auto max-h-[300px] font-mono leading-relaxed">
                     {laravelAssets.bladeStatus}
                   </pre>
                 </div>
 
                 {/* Block 9: Blade Dashboard */}
-                <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4">
-                  <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-4 transition-colors">
+                  <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3">
                     <div>
-                      <span className="text-[10px] text-emerald-600 font-extrabold uppercase tracking-widest block">TEMPLATING & FRONTEND</span>
-                      <h3 className="font-extrabold text-slate-900 text-base">9. Blade: Admin Dashboard (`resources/views/admin/dashboard.blade.php`)</h3>
+                      <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-extrabold uppercase tracking-widest block">TEMPLATING & FRONTEND</span>
+                      <h3 className="font-extrabold text-slate-900 dark:text-white text-base">9. Blade: Admin Dashboard (`resources/views/admin/dashboard.blade.php`)</h3>
                     </div>
                     <button
                       onClick={() => handleCopy(laravelAssets.bladeDashboard, 'bladeDashboard')}
                       className={`px-3.5 py-1.5 rounded-lg border text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                         copiedKey === 'bladeDashboard'
-                          ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
-                          : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-600'
+                          ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-900/30 text-emerald-700 dark:text-emerald-450'
+                          : 'bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300'
                       }`}
                     >
                       <Clipboard className="w-3.5 h-3.5" />
                       <span>{copiedKey === 'bladeDashboard' ? 'Tersalin!' : 'Salin Kode'}</span>
                     </button>
                   </div>
-                  <pre className="bg-slate-900 text-emerald-400 p-4 rounded-xl text-xs overflow-x-auto max-h-[300px] font-mono leading-relaxed">
+                  <pre className="bg-slate-900 dark:bg-slate-950 text-emerald-400 dark:text-emerald-300 p-4 rounded-xl text-xs overflow-x-auto max-h-[300px] font-mono leading-relaxed">
                     {laravelAssets.bladeDashboard}
                   </pre>
                 </div>

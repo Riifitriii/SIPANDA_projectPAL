@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UmkmTerdaftar extends Model
 {
-    protected $table = 'registered_umkms';
+    protected $table = 'umkm_terdaftar';
 
     protected $fillable = [
-        'submission_id',
+        'pengajuan_id',
         'nomor_pengajuan',
         'nama_pemilik',
         'nomor_telepon',
@@ -29,6 +29,6 @@ class UmkmTerdaftar extends Model
      */
     public function pengajuan(): BelongsTo
     {
-        return $this->belongsTo(Pengajuan::class, 'submission_id');
+        return $this->belongsTo(Pengajuan::class, 'pengajuan_id');
     }
 }

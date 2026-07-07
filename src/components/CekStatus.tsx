@@ -146,7 +146,7 @@ export default function CekStatus({ onNavigate, onEditSubmission }: CekStatusPro
       {loading && (
         <div className="py-12 flex flex-col items-center justify-center space-y-3">
           <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-sm font-semibold text-slate-500">Mencari data pengajuan...</p>
+          <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">Mencari data pengajuan...</p>
         </div>
       )}
 
@@ -155,21 +155,21 @@ export default function CekStatus({ onNavigate, onEditSubmission }: CekStatusPro
         <motion.div 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm text-center max-w-xl mx-auto space-y-4"
+          className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-sm text-center max-w-xl mx-auto space-y-4 transition-colors duration-300"
         >
-          <div className="w-12 h-12 rounded-full bg-red-50 text-red-500 flex items-center justify-center mx-auto">
+          <div className="w-12 h-12 rounded-full bg-red-50 dark:bg-red-950/20 text-red-500 flex items-center justify-center mx-auto">
             <AlertCircle className="w-6 h-6" />
           </div>
           <div className="space-y-1">
-            <h4 className="font-bold text-slate-900 text-lg">Pencarian Tidak Ditemukan</h4>
-            <p className="text-slate-500 text-xs md:text-sm leading-relaxed max-w-sm mx-auto">
+            <h4 className="font-bold text-slate-900 dark:text-white text-lg">Pencarian Tidak Ditemukan</h4>
+            <p className="text-slate-500 dark:text-slate-400 text-xs md:text-sm leading-relaxed max-w-sm mx-auto">
               {error}
             </p>
           </div>
           <div className="pt-2">
             <button
               onClick={() => onNavigate('ajukan')}
-              className="text-xs font-bold text-blue-600 hover:text-blue-800 inline-flex items-center gap-1 cursor-pointer"
+              className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 inline-flex items-center gap-1 cursor-pointer"
             >
               <span>Ingin melakukan pengajuan baru?</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -186,12 +186,12 @@ export default function CekStatus({ onNavigate, onEditSubmission }: CekStatusPro
           className="space-y-6"
         >
           {/* Main Card */}
-          <div className="bg-white border border-slate-200 rounded-3xl shadow-sm p-6 md:p-8 space-y-8">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-sm p-6 md:p-8 space-y-8 transition-colors duration-300">
             {/* Header: No & Status */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-6">
               <div className="space-y-1">
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">ID PELACAKAN PENGAJUAN</span>
-                <h3 className="text-2xl font-mono font-extrabold text-[#0F172A]">{submission.nomor_pengajuan}</h3>
+                <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">ID PELACAKAN PENGAJUAN</span>
+                <h3 className="text-2xl font-mono font-extrabold text-[#0F172A] dark:text-white">{submission.nomor_pengajuan}</h3>
               </div>
               
               <div className={`px-4 py-2 rounded-full border ${statusConfig.bg} font-bold text-xs flex items-center gap-2 self-start sm:self-center`}>
@@ -201,24 +201,24 @@ export default function CekStatus({ onNavigate, onEditSubmission }: CekStatusPro
             </div>
 
             {/* Explanation box */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/50 flex gap-4 text-left">
+            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-950/40 border border-slate-200/50 dark:border-slate-800/80 flex gap-4 text-left">
               <div className="mt-0.5 shrink-0">
                 {statusConfig.icon}
               </div>
               <div className="space-y-1">
-                <h4 className="font-bold text-slate-900 text-sm">Status: {statusConfig.title}</h4>
-                <p className="text-slate-500 text-xs leading-relaxed">{statusConfig.desc}</p>
+                <h4 className="font-bold text-slate-900 dark:text-white text-sm">Status: {statusConfig.title}</h4>
+                <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">{statusConfig.desc}</p>
               </div>
             </div>
 
             {/* Verification specific alert if Needs repair or rejected */}
             {(submission.status === 'Perlu Perbaikan' || submission.status === 'Ditolak') && (
-              <div className="p-6 bg-amber-50 border border-amber-200 rounded-2xl space-y-3 text-left">
-                <h4 className="font-extrabold text-amber-900 text-sm flex items-center gap-2">
-                  <AlertCircle className="w-5 h-5 text-amber-600" />
+              <div className="p-6 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/30 rounded-2xl space-y-3 text-left">
+                <h4 className="font-extrabold text-amber-900 dark:text-amber-200 text-sm flex items-center gap-2">
+                  <AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-400" />
                   <span>Catatan Khusus Verifikator Kecamatan:</span>
                 </h4>
-                <p className="text-slate-700 text-xs md:text-sm leading-relaxed whitespace-pre-line bg-white/60 p-4 rounded-xl border border-amber-200/30">
+                <p className="text-slate-700 dark:text-slate-300 text-xs md:text-sm leading-relaxed whitespace-pre-line bg-white/60 dark:bg-slate-950/60 p-4 rounded-xl border border-amber-200/30 dark:border-amber-900/20">
                   {submission.catatan_admin || 'Tidak ada catatan khusus yang dilampirkan.'}
                 </p>
 
@@ -239,46 +239,46 @@ export default function CekStatus({ onNavigate, onEditSubmission }: CekStatusPro
 
             {/* Business info fields */}
             <div className="space-y-6">
-              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2">Rincian Data yang Diinput</h4>
+              <h4 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest border-b border-slate-100 dark:border-slate-800 pb-2">Rincian Data yang Diinput</h4>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
                 <div className="flex gap-3">
-                  <Store className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
+                  <Store className="w-5 h-5 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
                   <div>
-                    <span className="block text-[10px] font-bold text-slate-400 uppercase">Nama Usaha</span>
-                    <span className="text-sm font-bold text-slate-800">{submission.nama_usaha}</span>
+                    <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Nama Usaha</span>
+                    <span className="text-sm font-bold text-slate-800 dark:text-white">{submission.nama_usaha}</span>
                   </div>
                 </div>
 
                 <div className="flex gap-3">
-                  <FileText className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
+                  <FileText className="w-5 h-5 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
                   <div>
-                    <span className="block text-[10px] font-bold text-slate-400 uppercase">Jenis Usaha</span>
-                    <span className="text-sm font-bold text-slate-800">{submission.jenis_usaha}</span>
+                    <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Jenis Usaha</span>
+                    <span className="text-sm font-bold text-slate-800 dark:text-white">{submission.jenis_usaha}</span>
                   </div>
                 </div>
 
                 <div className="flex gap-3">
-                  <MapPin className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
+                  <MapPin className="w-5 h-5 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
                   <div>
-                    <span className="block text-[10px] font-bold text-slate-400 uppercase">Domisili Desa / Kelurahan</span>
-                    <span className="text-sm font-bold text-slate-800">Desa {submission.desa}</span>
+                    <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Domisili Desa / Kelurahan</span>
+                    <span className="text-sm font-bold text-slate-800 dark:text-white">Desa {submission.desa}</span>
                   </div>
                 </div>
 
                 <div className="flex gap-3">
-                  <Clock className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
+                  <Clock className="w-5 h-5 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
                   <div>
-                    <span className="block text-[10px] font-bold text-slate-400 uppercase">Tanggal Pengajuan</span>
-                    <span className="text-sm font-bold text-slate-800">{submission.tanggal_pengajuan}</span>
+                    <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Tanggal Pengajuan</span>
+                    <span className="text-sm font-bold text-slate-800 dark:text-white">{submission.tanggal_pengajuan}</span>
                   </div>
                 </div>
 
                 <div className="flex gap-3 md:col-span-2">
-                  <MapPin className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
+                  <MapPin className="w-5 h-5 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
                   <div>
-                    <span className="block text-[10px] font-bold text-slate-400 uppercase">Alamat Lengkap Usaha</span>
-                    <span className="text-sm text-slate-700 leading-relaxed">{submission.alamat_lengkap}</span>
+                    <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Alamat Lengkap Usaha</span>
+                    <span className="text-sm text-slate-700 dark:text-slate-355 leading-relaxed">{submission.alamat_lengkap}</span>
                   </div>
                 </div>
               </div>
@@ -287,8 +287,8 @@ export default function CekStatus({ onNavigate, onEditSubmission }: CekStatusPro
             {/* Attached photo preview */}
             {submission.foto_usaha && (
               <div className="space-y-3 text-left pt-2">
-                <span className="text-[10px] font-bold text-slate-400 uppercase block">Lampiran Dokumentasi Foto Usaha</span>
-                <div className="max-w-md rounded-2xl overflow-hidden border border-slate-200">
+                <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase block">Lampiran Dokumentasi Foto Usaha</span>
+                <div className="max-w-md rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800">
                   <img 
                     src={submission.foto_usaha} 
                     alt="Dokumentasi Usaha" 

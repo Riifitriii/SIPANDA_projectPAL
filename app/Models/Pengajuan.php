@@ -30,7 +30,7 @@ class Pengajuan extends Model
      */
     public function umkmTerdaftar(): HasOne
     {
-        return $this->hasOne(UmkmTerdaftar::class, 'submission_id');
+        return $this->hasOne(UmkmTerdaftar::class, 'pengajuan_id');
     }
 
     /**
@@ -41,7 +41,7 @@ class Pengajuan extends Model
         static::saved(function (Pengajuan $pengajuan) {
             if ($pengajuan->status === 'Disetujui') {
                 $pengajuan->umkmTerdaftar()->updateOrCreate(
-                    ['submission_id' => $pengajuan->id],
+                    ['pengajuan_id' => $pengajuan->id],
                     [
                         'nomor_pengajuan' => $pengajuan->nomor_pengajuan,
                         'nama_pemilik' => $pengajuan->nama_pemilik,

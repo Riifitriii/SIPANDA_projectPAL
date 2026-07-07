@@ -79,7 +79,7 @@ function initDatabase() {
   if (!fs.existsSync(DB_FILE)) {
     const initialData = {
       submissions: defaultSubmissions,
-      registered_umkms: defaultSubmissions.filter(s => s.status === "Disetujui")
+      umkm_terdaftar: defaultSubmissions.filter(s => s.status === "Disetujui")
     };
     fs.writeFileSync(DB_FILE, JSON.stringify(initialData, null, 2), "utf8");
     console.log("Database initialized with seed data.");
@@ -87,13 +87,13 @@ function initDatabase() {
     // Make sure structure is sound
     try {
       const data = JSON.parse(fs.readFileSync(DB_FILE, "utf8"));
-      if (!data.submissions || !data.registered_umkms) {
+      if (!data.submissions || !data.umkm_terdaftar) {
         throw new Error("Invalid structure");
       }
     } catch (e) {
       const initialData = {
         submissions: defaultSubmissions,
-        registered_umkms: defaultSubmissions.filter(s => s.status === "Disetujui")
+        umkm_terdaftar: defaultSubmissions.filter(s => s.status === "Disetujui")
       };
       fs.writeFileSync(DB_FILE, JSON.stringify(initialData, null, 2), "utf8");
       console.log("Database re-initialized due to parse error.");
@@ -256,13 +256,13 @@ async function startServer() {
     db.submissions[subIndex].status = status;
     db.submissions[subIndex].catatan_admin = catatan_admin || "";
 
-    // Sync registered_umkms
+    // Sync umkm_terdaftar
     // Remove if previously registered but now changed status (should not happen normally but good practice)
-    db.registered_umkms = db.registered_umkms.filter((u: any) => u.id !== id);
+    db.umkm_terdaftar = db.umkm_terdaftar.filter((u: any) => u.id !== id);
 
     if (status === "Disetujui") {
       // Add to registered
-      db.registered_umkms.push(db.submissions[subIndex]);
+      db.umkm_terdaftar.push(db.submissions[subIndex]);
     }
 
     saveDatabase(db);
@@ -274,7 +274,7 @@ async function startServer() {
     const db = getDatabase();
     const search = req.query.search as string;
 
-    let list = [...db.registered_umkms];
+    let list = [...db.umkm_terdaftar];
 
     if (search) {
       const query = search.toLowerCase();

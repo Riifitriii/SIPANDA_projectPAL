@@ -5,7 +5,7 @@ use Illuminate\\Database\\Migrations\\Migration;
 use Illuminate\\Database\\Schema\\Blueprint;
 use Illuminate\\Support\\Facades\\Schema;
 
-class CreateSubmissionsAndRegisteredUmkmsTables extends Migration
+class CreateSubmissionsAndUmkmTerdaftarTables extends Migration
 {
     /**
      * Run the migrations.
@@ -37,9 +37,9 @@ class CreateSubmissionsAndRegisteredUmkmsTables extends Migration
         });
 
         // 2. Table Registered UMKM (UMKM Terdaftar)
-        Schema::create('registered_umkms', function (Blueprint $table) {
+        Schema::create('umkm_terdaftar', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('submission_id')->constrained('submissions')->onDelete('cascade');
+            $table->foreignId('pengajuan_id')->constrained('submissions')->onDelete('cascade');
             $table->string('nomor_pengajuan')->unique();
             $table->string('nama_pemilik');
             $table->string('nomor_telepon');
@@ -60,7 +60,7 @@ class CreateSubmissionsAndRegisteredUmkmsTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('registered_umkms');
+        Schema::dropIfExists('umkm_terdaftar');
         Schema::dropIfExists('submissions');
     }
 }`,
@@ -72,9 +72,11 @@ namespace App\\Models;
 use Illuminate\\Database\\Eloquent\\Factories\\HasFactory;
 use Illuminate\\Database\\Eloquent\\Model;
 
-class Submission extends Model
+class Pengajuan extends Model
 {
     use HasFactory;
+
+    protected $table = 'submissions';
 
     protected $fillable = [
         'nomor_pengajuan',
@@ -93,9 +95,9 @@ class Submission extends Model
     /**
      * Get the registered UMKM associated with the submission.
      */
-    public function registeredUmkm()
+    public function umkmTerdaftar()
     {
-        return $this->hasOne(RegisteredUmkm::class);
+        return $this->hasOne(UmkmTerdaftar::class, 'pengajuan_id');
     }
 }`,
 
@@ -106,12 +108,14 @@ namespace App\\Models;
 use Illuminate\\Database\\Eloquent\\Factories\\HasFactory;
 use Illuminate\\Database\\Eloquent\\Model;
 
-class RegisteredUmkm extends Model
+class UmkmTerdaftar extends Model
 {
     use HasFactory;
 
+    protected $table = 'umkm_terdaftar';
+
     protected $fillable = [
-        'submission_id',
+        'pengajuan_id',
         'nomor_pengajuan',
         'nama_pemilik',
         'nomor_telepon',
@@ -126,9 +130,9 @@ class RegisteredUmkm extends Model
     /**
      * Get the submission that owns the registered UMKM.
      */
-    public function submission()
+    public function pengajuan()
     {
-        return $this->belongsTo(Submission::class);
+        return $this->belongsTo(Pengajuan::class, 'pengajuan_id');
     }
 }`,
 
@@ -170,8 +174,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 namespace App\\Http\\Controllers;
 
 use Illuminate\\Http\\Request;
-use App\\Models\\Submission;
-use App\\Models\\RegisteredUmkm;
+use App\\Models\\Pengajuan;
+use App\\Models\\UmkmTerdaftar;
 use Illuminate\\Support\\Facades\\Auth;
 use Illuminate\\Support\\Facades\\DB;
 use Illuminate\\Support\\Facades\\Storage;
@@ -184,7 +188,7 @@ class UmkmController extends Controller
     public function index()
     {
         // Mendapatkan statistik ringkas untuk ditampilkan di landing page
-        $total_terdaftar = RegisteredUmkm::count();
+        $total_terdaftar = UmkmTerdaftar::count();
         return view('landing', compact('total_terdaftar'));
     }
 
@@ -228,21 +232,21 @@ class UmkmController extends Controller
             $datePrefix = 'SPD-' . date('Ymd') . '-';
             
             // Lock table row untuk menghindari race condition counter pengajuan di hari yang sama
-            $lastSubmission = Submission::where('nomor_pengajuan', 'LIKE', $datePrefix . '%')
+            $lastPengajuan = Pengajuan::where('nomor_pengajuan', 'LIKE', $datePrefix . '%')
                 ->orderBy('id', 'desc')
                 ->lockForUpdate()
                 ->first();
 
             $nextSequence = 1;
-            if ($lastSubmission) {
-                $lastParts = explode('-', $lastSubmission->nomor_pengajuan);
+            if ($lastPengajuan) {
+                $lastParts = explode('-', $lastPengajuan->nomor_pengajuan);
                 $lastSeq = intval(end($lastParts));
                 $nextSequence = $lastSeq + 1;
             }
             $nomor_pengajuan = $datePrefix . str_pad($nextSequence, 3, '0', STR_PAD_LEFT);
 
-            // 3. Simpan Submission
-            $submission = Submission::create([
+            // 3. Simpan Pengajuan
+            $pengajuan = Pengajuan::create([
                 'nomor_pengajuan' => $nomor_pengajuan,
                 'nama_pemilik' => $request->nama_pemilik,
                 'nomor_telepon' => $request->nomor_telepon,
@@ -286,13 +290,13 @@ class UmkmController extends Controller
             'nomor_pengajuan' => 'required|string',
         ]);
 
-        $submission = Submission::where('nomor_pengajuan', trim($request->nomor_pengajuan))->first();
+        $pengajuan = Pengajuan::where('nomor_pengajuan', trim($request->nomor_pengajuan))->first();
 
-        if (!$submission) {
+        if (!$pengajuan) {
             return back()->withErrors(['nomor_pengajuan' => 'Nomor pengajuan tidak terdaftar.']);
         }
 
-        return view('cek_status', compact('submission'));
+        return view('cek_status', compact('pengajuan'));
     }
 
     /**
@@ -341,14 +345,14 @@ class UmkmController extends Controller
      */
     public function dashboard()
     {
-        $total_pengajuan = Submission::count();
-        $total_menunggu = Submission::where('status', 'Menunggu Verifikasi')->count();
-        $total_perbaikan = Submission::where('status', 'Perlu Perbaikan')->count();
-        $total_disetujui = Submission::where('status', 'Disetujui')->count();
-        $total_ditolak = Submission::where('status', 'Ditolak')->count();
-        $total_terdaftar = RegisteredUmkm::count();
+        $total_pengajuan = Pengajuan::count();
+        $total_menunggu = Pengajuan::where('status', 'Menunggu Verifikasi')->count();
+        $total_perbaikan = Pengajuan::where('status', 'Perlu Perbaikan')->count();
+        $total_disetujui = Pengajuan::where('status', 'Disetujui')->count();
+        $total_ditolak = Pengajuan::where('status', 'Ditolak')->count();
+        $total_terdaftar = UmkmTerdaftar::count();
 
-        $pengajuan_terbaru = Submission::orderBy('created_at', 'desc')->take(5)->get();
+        $pengajuan_terbaru = Pengajuan::orderBy('created_at', 'desc')->take(5)->get();
 
         return view('admin.dashboard', compact(
             'total_pengajuan', 'total_menunggu', 'total_perbaikan',
@@ -361,7 +365,7 @@ class UmkmController extends Controller
      */
     public function listSubmissions(Request $request)
     {
-        $query = Submission::query();
+        $query = Pengajuan::query();
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -385,8 +389,8 @@ class UmkmController extends Controller
      */
     public function detailSubmission($id)
     {
-        $submission = Submission::findOrFail($id);
-        return view('admin.pengajuan_detail', compact('submission'));
+        $pengajuan = Pengajuan::findOrFail($id);
+        return view('admin.pengajuan_detail', compact('pengajuan'));
     }
 
     /**
@@ -399,37 +403,37 @@ class UmkmController extends Controller
             'catatan_admin' => 'nullable|string'
         ]);
 
-        $submission = Submission::findOrFail($id);
+        $pengajuan = Pengajuan::findOrFail($id);
 
         try {
             DB::beginTransaction();
 
             // Update status dan catatan
-            $submission->update([
+            $pengajuan->update([
                 'status' => $request->status,
                 'catatan_admin' => $request->catatan_admin
             ]);
 
-            // Sync ke registered_umkms menggunakan DB event/observer atau logika controller
+            // Sync ke umkm_terdaftar menggunakan DB event/observer atau logika controller
             if ($request->status === 'Disetujui') {
                 // Pastikan belum terdaftar sebelumnya untuk menghindari duplikasi
-                RegisteredUmkm::firstOrCreate(
-                    ['submission_id' => $submission->id],
+                UmkmTerdaftar::firstOrCreate(
+                    ['pengajuan_id' => $pengajuan->id],
                     [
-                        'nomor_pengajuan' => $submission->nomor_pengajuan,
-                        'nama_pemilik' => $submission->nama_pemilik,
-                        'nomor_telepon' => $submission->nomor_telepon,
-                        'nama_usaha' => $submission->nama_usaha,
-                        'jenis_usaha' => $submission->jenis_usaha,
-                        'deskripsi_usaha' => $submission->deskripsi_usaha,
-                        'desa' => $submission->desa,
-                        'alamat_lengkap' => $submission->alamat_lengkap,
-                        'foto_usaha' => $submission->foto_usaha
+                        'nomor_pengajuan' => $pengajuan->nomor_pengajuan,
+                        'nama_pemilik' => $pengajuan->nama_pemilik,
+                        'nomor_telepon' => $pengajuan->nomor_telepon,
+                        'nama_usaha' => $pengajuan->nama_usaha,
+                        'jenis_usaha' => $pengajuan->jenis_usaha,
+                        'deskripsi_usaha' => $pengajuan->deskripsi_usaha,
+                        'desa' => $pengajuan->desa,
+                        'alamat_lengkap' => $pengajuan->alamat_lengkap,
+                        'foto_usaha' => $pengajuan->foto_usaha
                     ]
                 );
             } else {
                 // Hapus dari data terdaftar jika status diturunkan dari disetujui
-                RegisteredUmkm::where('submission_id', $submission->id)->delete();
+                UmkmTerdaftar::where('pengajuan_id', $pengajuan->id)->delete();
             }
 
             DB::commit();
@@ -446,7 +450,7 @@ class UmkmController extends Controller
      */
     public function listRegistered(Request $request)
     {
-        $query = RegisteredUmkm::query();
+        $query = UmkmTerdaftar::query();
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -464,7 +468,7 @@ class UmkmController extends Controller
      */
     public function printReport(Request $request)
     {
-        $umkms = RegisteredUmkm::orderBy('desa', 'asc')->get();
+        $umkms = UmkmTerdaftar::orderBy('desa', 'asc')->get();
         return view('admin.laporan_print', compact('umkms'));
     }
 }`,
