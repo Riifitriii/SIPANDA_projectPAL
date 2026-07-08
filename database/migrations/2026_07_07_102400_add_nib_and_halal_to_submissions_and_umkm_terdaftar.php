@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -11,15 +9,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('submissions', function (Blueprint $table) {
-            $table->string('nib')->nullable()->after('foto_usaha');
-            $table->string('sertifikasi_halal')->nullable()->after('nib');
-        });
-
-        Schema::table('umkm_terdaftar', function (Blueprint $table) {
-            $table->string('nib')->nullable()->after('foto_usaha');
-            $table->string('sertifikasi_halal')->nullable()->after('nib');
-        });
+        // No action required (columns already created in the original migrations)
     }
 
     /**
@@ -27,12 +17,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('submissions', function (Blueprint $table) {
-            $table->dropColumn(['nib', 'sertifikasi_halal']);
-        });
-
-        Schema::table('umkm_terdaftar', function (Blueprint $table) {
-            $table->dropColumn(['nib', 'sertifikasi_halal']);
-        });
+        // No action required
     }
 };

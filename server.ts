@@ -25,6 +25,8 @@ function initDatabase() {
       desa: "Cicalengka Kulon",
       alamat_lengkap: "Jl. Raya Cicalengka No. 45, RT 02 / RW 04",
       foto_usaha: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=500&auto=format&fit=crop&q=60",
+      nib: "9120001234567",
+      sertifikasi_halal: "ID3211000012345",
       status: "Menunggu Verifikasi",
       catatan_admin: "",
       tanggal_pengajuan: "24 Mei 2024"
@@ -40,6 +42,8 @@ function initDatabase() {
       desa: "Panenjoan",
       alamat_lengkap: "Kp. Babakan RT 01 / RW 05, Desa Panenjoan",
       foto_usaha: "https://images.unsplash.com/photo-1544816155-12df9643f363?w=500&auto=format&fit=crop&q=60",
+      nib: "9120007654321",
+      sertifikasi_halal: "ID3211000098765",
       status: "Disetujui",
       catatan_admin: "Dokumen lengkap dan usaha memenuhi syarat administrasi kecamatan.",
       tanggal_pengajuan: "23 Mei 2024"
@@ -55,6 +59,8 @@ function initDatabase() {
       desa: "Cicalengka Wetan",
       alamat_lengkap: "Jl. Stasiun Cicalengka No. 12",
       foto_usaha: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=500&auto=format&fit=crop&q=60",
+      nib: "",
+      sertifikasi_halal: "",
       status: "Perlu Perbaikan",
       catatan_admin: "Mohon lampirkan foto produk/bengkel tampak depan yang lebih jelas dan cantumkan RT/RW alamat desa.",
       tanggal_pengajuan: "25 Oktober 2023"
@@ -70,6 +76,8 @@ function initDatabase() {
       desa: "Tenjolaya",
       alamat_lengkap: "Kp. Tenjolaya Indah Blok C No. 4, RT 03 / RW 09",
       foto_usaha: "https://images.unsplash.com/photo-1566843972142-a7fcb70de55a?w=500&auto=format&fit=crop&q=60",
+      nib: "9120008888888",
+      sertifikasi_halal: "",
       status: "Menunggu Verifikasi",
       catatan_admin: "",
       tanggal_pengajuan: "22 Mei 2024"
@@ -183,7 +191,9 @@ async function startServer() {
       deskripsi_usaha,
       desa,
       alamat_lengkap,
-      foto_usaha // this will be base64 string or image URL
+      foto_usaha, // this will be base64 string or image URL
+      nib,
+      sertifikasi_halal
     } = req.body;
 
     if (!nama_pemilik || !nomor_telepon || !nama_usaha || !jenis_usaha || !desa || !alamat_lengkap) {
@@ -222,6 +232,8 @@ async function startServer() {
       desa,
       alamat_lengkap,
       foto_usaha: foto_usaha || "https://images.unsplash.com/photo-1542838132-92c53300491e?w=500&auto=format&fit=crop&q=60", // default placeholder if no image
+      nib: nib || "",
+      sertifikasi_halal: sertifikasi_halal || "",
       status: "Menunggu Verifikasi" as const,
       catatan_admin: "",
       tanggal_pengajuan: displayDate

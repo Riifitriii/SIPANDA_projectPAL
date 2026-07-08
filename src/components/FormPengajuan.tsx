@@ -14,6 +14,7 @@ import {
   ArrowLeft
 } from 'lucide-react';
 import { ActiveTab, Submission } from '../types';
+import { dbService } from '../services/dbService';
 
 interface FormPengajuanProps {
   onNavigate: (tab: ActiveTab) => void;
@@ -56,6 +57,8 @@ export default function FormPengajuan({ onNavigate, editSubmission, onClearEdit 
   const [desa, setDesa] = useState('');
   const [alamatLengkap, setAlamatLengkap] = useState('');
   const [fotoUsaha, setFotoUsaha] = useState('');
+  const [nib, setNib] = useState('');
+  const [sertifikasiHalal, setSertifikasiHalal] = useState('');
   
   // UI states
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -78,6 +81,8 @@ export default function FormPengajuan({ onNavigate, editSubmission, onClearEdit 
       setAlamatLengkap(editSubmission.alamat_lengkap);
       setFotoUsaha(editSubmission.foto_usaha);
       setImagePreview(editSubmission.foto_usaha);
+      setNib(editSubmission.nib || '');
+      setSertifikasiHalal(editSubmission.sertifikasi_halal || '');
     }
   }, [editSubmission]);
 
@@ -157,32 +162,27 @@ export default function FormPengajuan({ onNavigate, editSubmission, onClearEdit 
     }
 
     try {
-      const response = await fetch('/api/submissions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          nama_pemilik: namaPemilik,
-          nomor_telepon: nomorTelepon,
-          nama_usaha: namaUsaha,
-          jenis_usaha: jenisUsaha,
-          deskripsi_usaha: deskripsiUsaha,
-          desa,
-          alamat_lengkap: alamatLengkap,
-          foto_usaha: fotoUsaha
-        }),
+      const resData = await dbService.createSubmission({
+        nama_pemilik: namaPemilik,
+        nomor_telepon: nomorTelepon,
+        nama_usaha: namaUsaha,
+        jenis_usaha: jenisUsaha,
+        deskripsi_usaha: deskripsiUsaha,
+        desa,
+        alamat_lengkap: alamatLengkap,
+        foto_usaha: fotoUsaha,
+        nib: nib,
+        sertifikasi_halal: sertifikasiHalal
       });
 
-      const resData = await response.json();
-      if (response.ok) {
+      if (resData.success) {
         setSuccessData(resData.data);
         if (onClearEdit) onClearEdit(); // clear editing context
       } else {
-        setError(resData.message || 'Gagal mengirimkan pengajuan.');
+        setError('Gagal mengirimkan pengajuan.');
       }
-    } catch (err) {
-      setError('Terjadi kesalahan jaringan. Silakan coba lagi.');
+    } catch (err: any) {
+      setError(err.message || 'Terjadi kesalahan jaringan. Silakan coba lagi.');
     } finally {
       setLoading(false);
     }
@@ -263,6 +263,8 @@ export default function FormPengajuan({ onNavigate, editSubmission, onClearEdit 
                 setAlamatLengkap('');
                 setFotoUsaha('');
                 setImagePreview(null);
+                setNib('');
+                setSertifikasiHalal('');
               }}
               className="px-6 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold rounded-xl text-sm transition-all cursor-pointer"
             >
@@ -398,6 +400,34 @@ export default function FormPengajuan({ onNavigate, editSubmission, onClearEdit 
                   <option key={kat} value={kat} className="dark:bg-slate-900 dark:text-slate-100">{kat}</option>
                 ))}
               </select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-1.5 text-left">
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 tracking-wide uppercase">
+                Nomor Induk Berusaha (NIB) <span className="text-slate-400 font-normal">(Opsional)</span>
+              </label>
+              <input
+                type="text"
+                value={nib}
+                onChange={(e) => setNib(e.target.value)}
+                placeholder="Contoh: 9120001234567"
+                className="w-full bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-blue-600/20 dark:focus:ring-blue-600/30 focus:border-blue-600 dark:focus:border-blue-400 transition-all outline-none"
+              />
+            </div>
+
+            <div className="space-y-1.5 text-left">
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 tracking-wide uppercase">
+                Sertifikat Halal <span className="text-slate-400 font-normal">(Opsional)</span>
+              </label>
+              <input
+                type="text"
+                value={sertifikasiHalal}
+                onChange={(e) => setSertifikasiHalal(e.target.value)}
+                placeholder="Contoh: ID3211000012345"
+                className="w-full bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-blue-600/20 dark:focus:ring-blue-600/30 focus:border-blue-600 dark:focus:border-blue-400 transition-all outline-none"
+              />
             </div>
           </div>
 
@@ -556,5 +586,4 @@ export default function FormPengajuan({ onNavigate, editSubmission, onClearEdit 
       </form>
     </div>
   );
-}
 }

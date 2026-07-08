@@ -18,28 +18,52 @@
                 extend: {
                     colors: {
                         primary: {
-                            50: '#f0fdf4',
-                            100: '#dcfce7',
-                            200: '#bbf7d0',
-                            300: '#86efac',
-                            400: '#4ade80',
-                            500: '#22c55e',
-                            600: '#16a34a',
-                            700: '#15803d',
-                            800: '#166534',
-                            900: '#14532d',
+                            50: '#f4f9f4',
+                            100: '#e7f3e8',
+                            200: '#c3e2c6',
+                            300: '#94cb9b',
+                            400: '#5fab6b',
+                            500: '#3e8e4a', // Earthy Forest Green
+                            600: '#2d7237', // Sundanese Parahyangan Green
+                            700: '#245a2c', // Dark Forest Green
+                            800: '#1d4824',
+                            900: '#15331a',
                         },
                         secondary: {
-                            50: '#f8fafc',
-                            100: '#f1f5f9',
-                            200: '#e2e8f0',
-                            300: '#cbd5e1',
-                            400: '#94a3b8',
-                            500: '#64748b',
-                            600: '#475569',
-                            700: '#334155',
-                            800: '#1e293b',
-                            900: '#0f172a',
+                            50: '#fcfdfa',
+                            100: '#f1f5ee',
+                            200: '#e2e8df',
+                            300: '#cbd5c1',
+                            400: '#94a388',
+                            500: '#64745b',
+                            600: '#47553f',
+                            700: '#33412a',
+                            800: '#1e291b',
+                            900: '#0f170d',
+                        },
+                        bambu: {
+                            50: '#fcf8f2',
+                            100: '#f7edd9',
+                            200: '#edd8b3',
+                            300: '#e0bd82',
+                            400: '#d2a15c',
+                            500: '#a76f30',
+                            600: '#8c5924',
+                            700: '#6f4215',
+                            800: '#54300e',
+                            900: '#3c2007',
+                        },
+                        terakota: {
+                            50: '#fdf5f2',
+                            100: '#fbe7df',
+                            200: '#f5ccbe',
+                            300: '#eaab97',
+                            400: '#dc8369',
+                            500: '#c05c3c',
+                            600: '#a4462b',
+                            700: '#80341a',
+                            800: '#602410',
+                            900: '#45170a',
                         }
                     },
                     fontFamily: {
@@ -49,11 +73,150 @@
             }
         }
     </script>
+    <style>
+        .sunda-bilik {
+            background-color: #ffffff !important;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.91), rgba(255, 255, 255, 0.91)), url('{{ asset("bg-sunda.jpg") }}') !important;
+            background-repeat: repeat !important;
+            background-size: 500px auto !important;
+        }
+        .organic-card {
+            border: 1px solid rgba(181, 142, 88, 0.15) !important;
+            box-shadow: 0 10px 30px -10px rgba(167, 111, 48, 0.08), 0 1px 3px rgba(43, 90, 39, 0.02) !important;
+        }
+        .bg-white {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+        }
+        /* Style adjustments for sidebar and elements */
+        aside {
+            background-color: #161a16 !important; /* Deep forest charcoal */
+            border-right: 3px solid #b58e58 !important; /* Bamboo Gold border */
+        }
+        aside .border-secondary-800 {
+            border-color: rgba(181, 142, 88, 0.15) !important;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #a76f30 !important;
+            box-shadow: 0 0 0 2px rgba(181, 142, 88, 0.2) !important;
+        }
+
+        /* Sundanese Decorative Accents */
+        .filigree-container {
+            position: relative;
+            background-color: #ffffff;
+            border: 2px solid rgba(181, 142, 88, 0.2);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            z-index: 10;
+            overflow: hidden;
+        }
+        .filigree-container::before {
+            content: "";
+            position: absolute;
+            top: 8px; left: 8px; right: 8px; bottom: 8px;
+            border: 1px dashed rgba(181, 142, 88, 0.2);
+            border-radius: 1.25rem;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        /* Subtle Edge Corner Brackets */
+        .corner-decor {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #b58e58;
+            pointer-events: none;
+            z-index: 20;
+        }
+        .corner-tl { top: 14px; left: 14px; border-right: none; border-bottom: none; }
+        .corner-tr { top: 14px; right: 14px; border-left: none; border-bottom: none; }
+        .corner-bl { bottom: 14px; left: 14px; border-right: none; border-top: none; }
+        .corner-br { bottom: 14px; right: 14px; border-left: none; border-top: none; }
+
+        /* Embossed text effect for main titles */
+        h1.text-secondary-900, h1.font-black, h1.tracking-tight, .embossed-heading {
+            color: #2b3d26 !important; /* Organic dark olive */
+            text-shadow: 1px 1px 0px #ffffff, -1px -1px 0px rgba(0, 0, 0, 0.15) !important;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Active menu styling - carved bamboo effect in Pasundan Green */
+        aside nav a.bg-primary-600 {
+            background: linear-gradient(to right, #2d7237, #1f4825) !important;
+            border: 2px solid #17361c !important;
+            box-shadow: inset 0 1px 3px rgba(255,255,255,0.25), inset 0 -2px 4px rgba(0,0,0,0.45), 0 4px 6px rgba(45, 114, 55, 0.2) !important;
+            color: #ffffff !important;
+        }
+        aside nav a.bg-primary-600 svg {
+            color: #ffffff !important;
+        }
+
+        /* Form cards design upgrades */
+        .bg-white.p-5.rounded-2xl {
+            border: 2.5px solid rgba(181, 142, 88, 0.2) !important;
+            box-shadow: 0 12px 30px -8px rgba(167, 111, 48, 0.08) !important;
+            background-color: rgba(255, 255, 255, 0.96) !important;
+            position: relative;
+        }
+        .bg-white.p-5.rounded-2xl::before {
+            content: "";
+            position: absolute;
+            top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border: 1px dashed rgba(181, 142, 88, 0.12);
+            border-radius: 0.9rem;
+            pointer-events: none;
+        }
+
+        /* Ornate details for input borders */
+        input[type="text"], select {
+            border: 1.5px solid rgba(181, 142, 88, 0.2) !important;
+            border-radius: 0.75rem !important;
+            background-color: rgba(255, 255, 255, 0.9) !important;
+        }
+
+        /* Terapkan button styling (Pasundan Green gradient) */
+        button[type="submit"], .bg-primary-600.hover\:bg-primary-700 {
+            background: linear-gradient(to right, #2d7237, #1f4825) !important;
+            border: 1.5px solid #17361c !important;
+            border-radius: 0.75rem !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+            box-shadow: 0 4px 12px -2px rgba(45, 114, 55, 0.3) !important;
+            transition: all 0.2s ease-in-out;
+        }
+        button[type="submit"]:hover, .bg-primary-600.hover\:bg-primary-700:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px -1px rgba(45, 114, 55, 0.4) !important;
+        }
+
+        /* Keluar button - terracotta style */
+        form button.text-red-400 {
+            background: linear-gradient(to right, #b95738, #994125) !important;
+            border: 2px solid #a76f30 !important;
+            color: #faf5eb !important;
+            box-shadow: inset 0 1px 3px rgba(255,255,255,0.2), 0 4px 10px rgba(185, 87, 56, 0.15) !important;
+        }
+        form button.text-red-400 svg {
+            color: #faf5eb !important;
+        }
+
+        /* Table styling changes to fit organic style */
+        table {
+            border: 1.5px solid rgba(181, 142, 88, 0.2) !important;
+        }
+        th {
+            background-color: #f1f5ee !important;
+            color: #33412a !important;
+            border-bottom: 2px solid rgba(181, 142, 88, 0.2) !important;
+        }
+    </style>
 </head>
-<body class="bg-slate-50 text-secondary-800 font-sans min-h-screen flex flex-col md:flex-row antialiased">
+<body class="sunda-bilik text-secondary-800 font-sans min-h-screen flex flex-col md:flex-row antialiased">
 
     <!-- Sidebar -->
-    <aside class="w-full md:w-64 bg-secondary-900 text-slate-300 flex flex-col shrink-0 border-r border-secondary-800">
+    <aside class="w-full md:w-64 bg-secondary-900 text-slate-300 flex flex-col shrink-0 border-r border-secondary-800 relative overflow-hidden">
         <!-- Logo & Branding -->
         <div class="h-20 flex items-center px-6 border-b border-secondary-800 justify-between">
             <div class="flex items-center space-x-3">
@@ -73,7 +236,7 @@
         </div>
 
         <!-- Menu Navigation -->
-        <nav id="sidebar-menu" class="hidden md:flex flex-col flex-grow p-4 space-y-1.5">
+        <nav id="sidebar-menu" class="hidden md:flex flex-col flex-grow p-4 space-y-1.5 z-10 relative">
             <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 {{ Route::is('admin.dashboard') ? 'bg-primary-600 text-white shadow-md shadow-primary-900/30' : 'hover:bg-secondary-800 hover:text-white' }}">
                 <!-- Dashboard Icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -128,13 +291,19 @@
                     <span>Keluar</span>
                 </button>
             </form>
+            <!-- Kujang Watermark -->
+            <div class="absolute bottom-4 left-4 w-28 h-48 opacity-[0.03] pointer-events-none text-white select-none z-0">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200" class="w-full h-full fill-current">
+                    <path d="M50,10 C40,30 25,60 25,100 C25,130 40,150 48,155 L45,185 C45,190 55,190 55,185 L52,155 C60,150 75,130 75,100 C75,60 60,30 50,10 Z M46,60 A3,3 0 1,1 52,60 A3,3 0 1,1 46,60 Z M45,85 A3,3 0 1,1 51,85 A3,3 0 1,1 45,85 Z M47,110 A3,3 0 1,1 53,110 A3,3 0 1,1 47,110 Z"/>
+                </svg>
+            </div>
         </nav>
     </aside>
 
     <!-- Main Content Area -->
     <div class="flex-grow flex flex-col min-h-screen overflow-x-hidden">
         <!-- Top Bar -->
-        <header class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-6 shrink-0">
+        <header class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-6 shrink-0 z-10">
             <div class="flex items-center space-x-3">
                 <span class="text-sm text-slate-500 font-semibold md:block hidden">Seksi Pemberdayaan Masyarakat Kecamatan Cicalengka</span>
             </div>
@@ -150,8 +319,32 @@
         </header>
 
         <!-- Dynamic Content -->
-        <main class="flex-grow p-6 md:p-8">
-            @yield('admin_content')
+        <main class="flex-grow p-6 md:p-8 relative">
+            <div class="filigree-container min-h-full">
+                <!-- Ornate corner decors -->
+                <div class="corner-decor corner-tl"></div>
+                <div class="corner-decor corner-tr"></div>
+                <div class="corner-decor corner-bl"></div>
+                <div class="corner-decor corner-br"></div>
+
+                <!-- Minimalist Mega Mendung Edge Ornaments -->
+                <!-- Top-Right Mega Mendung -->
+                <div class="absolute -top-4 -right-12 w-64 h-64 opacity-[0.035] pointer-events-none select-none text-[#b58e58] z-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" fill="none" stroke="currentColor" stroke-width="2.5" class="w-full h-full">
+                        <path d="M 120 70 C 145 45, 195 45, 220 70 M 100 100 C 120 80, 160 80, 180 100 M 150 50 C 180 20, 240 20, 270 50 C 300 30, 350 40, 360 70 C 380 90, 390 120, 370 140 C 350 160, 310 160, 290 145 M 130 90 C 150 70, 190 70, 210 90 M 100 120 C 120 100, 160 100, 180 120" />
+                    </svg>
+                </div>
+                <!-- Bottom-Left Mega Mendung -->
+                <div class="absolute -bottom-12 -left-12 w-64 h-64 opacity-[0.035] pointer-events-none select-none text-[#b58e58] z-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" fill="none" stroke="currentColor" stroke-width="2.5" class="w-full h-full">
+                        <path d="M 180 130 C 155 155, 105 155, 80 130 M 200 100 C 180 120, 140 120, 120 100 M 150 150 C 120 180, 60 180, 30 150 C 0 130, -50 140, -60 110 C -80 90, -90 60, -70 40 C -50 20, -10 20, 10 35 M 170 110 C 150 130, 110 130, 90 110 M 200 80 C 180 100, 140 100, 120 80" />
+                    </svg>
+                </div>
+
+                <div class="relative z-10">
+                    @yield('admin_content')
+                </div>
+            </div>
         </main>
     </div>
 

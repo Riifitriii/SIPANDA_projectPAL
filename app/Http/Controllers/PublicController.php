@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pengajuan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -55,45 +56,50 @@ class PublicController extends Controller
             'foto_usaha.max' => 'Ukuran gambar maksimal adalah 2MB.',
         ]);
 
-        // Generate unique sequential nomor_pengajuan: SIPANDA-YYYYMMDD-XXXX
-        $datePrefix = 'SPD-' . date('Ymd') . '-';
-        $latest = Pengajuan::where('nomor_pengajuan', 'like', $datePrefix . '%')
-            ->orderBy('nomor_pengajuan', 'desc')
-            ->first();
+        $submission = DB::transaction(function () use ($request, $validated) {
+            // Generate unique sequential nomor_pengajuan: SPD-YYYYMMDD-XXXX
+            $datePrefix = 'SPD-' . date('Ymd') . '-';
+            
+            // Use pessimistic lock (lockForUpdate) to prevent duplicate generation during race condition
+            $latest = Pengajuan::where('nomor_pengajuan', 'like', $datePrefix . '%')
+                ->orderBy('nomor_pengajuan', 'desc')
+                ->lockForUpdate()
+                ->first();
 
-        if ($latest) {
-            $lastSequence = (int) substr($latest->nomor_pengajuan, -4);
-            $sequence = $lastSequence + 1;
-        } else {
-            $sequence = 1;
-        }
-        $nomorPengajuan = $datePrefix . str_pad($sequence, 4, '0', STR_PAD_LEFT);
+            if ($latest) {
+                $lastSequence = (int) substr($latest->nomor_pengajuan, -4);
+                $sequence = $lastSequence + 1;
+            } else {
+                $sequence = 1;
+            }
+            $nomorPengajuan = $datePrefix . str_pad($sequence, 4, '0', STR_PAD_LEFT);
 
-        // Store the file in public/uploads/submissions
-        if ($request->hasFile('foto_usaha')) {
-            $file = $request->file('foto_usaha');
-            $fileName = $nomorPengajuan . '_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/submissions'), $fileName);
-            $fotoPath = 'uploads/submissions/' . $fileName;
-        } else {
-            $fotoPath = '';
-        }
+            // Store the file using Storage facade (public disk)
+            if ($request->hasFile('foto_usaha')) {
+                $file = $request->file('foto_usaha');
+                $fileName = $nomorPengajuan . '_' . time() . '.' . $file->extension();
+                $path = $file->storeAs('submissions', $fileName, 'public');
+                $fotoPath = 'storage/' . $path;
+            } else {
+                $fotoPath = '';
+            }
 
-        // Create submission
-        $submission = Pengajuan::create([
-            'nomor_pengajuan' => $nomorPengajuan,
-            'nama_pemilik' => $validated['nama_pemilik'],
-            'nomor_telepon' => $validated['nomor_telepon'],
-            'nama_usaha' => $validated['nama_usaha'],
-            'jenis_usaha' => $validated['jenis_usaha'],
-            'deskripsi_usaha' => $validated['deskripsi_usaha'],
-            'desa' => $validated['desa'],
-            'alamat_lengkap' => $validated['alamat_lengkap'],
-            'foto_usaha' => $fotoPath,
-            'nib' => $validated['nib'] ?? null,
-            'sertifikasi_halal' => $validated['sertifikasi_halal'] ?? null,
-            'status' => 'Menunggu Verifikasi',
-        ]);
+            // Create submission
+            return Pengajuan::create([
+                'nomor_pengajuan' => $nomorPengajuan,
+                'nama_pemilik' => $validated['nama_pemilik'],
+                'nomor_telepon' => $validated['nomor_telepon'],
+                'nama_usaha' => $validated['nama_usaha'],
+                'jenis_usaha' => $validated['jenis_usaha'],
+                'deskripsi_usaha' => $validated['deskripsi_usaha'],
+                'desa' => $validated['desa'],
+                'alamat_lengkap' => $validated['alamat_lengkap'],
+                'foto_usaha' => $fotoPath,
+                'nib' => $validated['nib'] ?? null,
+                'sertifikasi_halal' => $validated['sertifikasi_halal'] ?? null,
+                'status' => 'Menunggu Verifikasi',
+            ]);
+        });
 
         return redirect()->route('ajukan')->with('success_submission', [
             'nomor_pengajuan' => $submission->nomor_pengajuan,
@@ -111,17 +117,15 @@ class PublicController extends Controller
         $error = null;
 
         if ($request->has('nomor_pengajuan')) {
-            $request->validate([
-                'nomor_pengajuan' => 'required|string',
-            ], [
-                'nomor_pengajuan.required' => 'Nomor pengajuan wajib diisi.',
-            ]);
-
             $nomorPengajuan = trim($request->query('nomor_pengajuan'));
-            $submission = Pengajuan::where('nomor_pengajuan', $nomorPengajuan)->first();
 
-            if (!$submission) {
-                $error = 'Nomor pengajuan tidak ditemukan. Silakan periksa kembali format penulisan Anda.';
+            if (empty($nomorPengajuan)) {
+                $error = 'Nomor pengajuan wajib diisi.';
+            } else {
+                $submission = Pengajuan::where('nomor_pengajuan', $nomorPengajuan)->first();
+                if (!$submission) {
+                    $error = 'Nomor pengajuan tidak ditemukan. Silakan periksa kembali format penulisan Anda.';
+                }
             }
         }
 

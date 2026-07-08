@@ -14,17 +14,6 @@ return new class extends Migration
         Schema::create('umkm_terdaftar', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pengajuan_id')->constrained('submissions')->onDelete('cascade');
-            $table->string('nomor_pengajuan')->unique();
-            $table->string('nama_pemilik');
-            $table->string('nomor_telepon');
-            $table->string('nama_usaha');
-            $table->string('jenis_usaha');
-            $table->text('deskripsi_usaha');
-            $table->string('desa');
-            $table->text('alamat_lengkap');
-            $table->string('foto_usaha');
-            $table->string('nib')->nullable();
-            $table->string('sertifikasi_halal')->nullable();
             $table->timestamps();
         });
     }

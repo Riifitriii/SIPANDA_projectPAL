@@ -1,0 +1,151 @@
+diff --git a/src/components/AdminPanel.tsx b/src/components/AdminPanel.tsx
+index 6723baf..443397c 100644
+--- a/src/components/AdminPanel.tsx
++++ b/src/components/AdminPanel.tsx
+@@ -26,6 +26,7 @@ import {
+ import { ActiveTab, Submission, BusinessStatus } from '../types';
+ import { laravelAssets } from '../laravelAssets';
+ import ThemeToggle from './ThemeToggle';
++import { dbService } from '../services/dbService';
+ 
+ interface AdminPanelProps {
+   onLogout: () => void;
+@@ -57,18 +58,12 @@ export default function AdminPanel({ onLogout, theme, onThemeChange }: AdminPane
+   const fetchData = async () => {
+     try {
+       // Submissions
+-      const subRes = await fetch('/api/submissions');
+-      if (subRes.ok) {
+-        const subData = await subRes.json();
+-        setSubmissions(subData);
+-      }
++      const subData = await dbService.getSubmissions();
++      setSubmissions(subData);
+ 
+       // Registered UMKM
+-      const regRes = await fetch('/api/umkm');
+-      if (regRes.ok) {
+-        const regData = await regRes.json();
+-        setRegisteredUmkm(regData);
+-      }
++      const regData = await dbService.getUmkm();
++      setRegisteredUmkm(regData);
+     } catch (e) {
+       console.error("Error fetching admin data:", e);
+     }
+@@ -95,27 +90,17 @@ export default function AdminPanel({ onLogout, theme, onThemeChange }: AdminPane
+ 
+     setIsSaving(true);
+     try {
+-      const response = await fetch(`/api/submissions/${selectedSub.id}/verifikasi`, {
+-        method: 'POST',
+-        headers: {
+-          'Content-Type': 'application/json',
+-        },
+-        body: JSON.stringify({
+-          status: actionStatus,
+-          catatan_admin: adminNotes
+-        }),
+-      });
+-
+-      if (response.ok) {
++      const result = await dbService.verifySubmission(selectedSub.id, actionStatus, adminNotes);
++      if (result.success) {
+         // Success
+         await fetchData();
+         setSelectedSub(null);
+       } else {
+         alert("Gagal memperbarui status pengajuan");
+       }
+-    } catch (err) {
++    } catch (err: any) {
+       console.error(err);
+-      alert("Terjadi kesalahan koneksi");
++      alert(err.message || "Terjadi kesalahan koneksi");
+     } finally {
+       setIsSaving(false);
+     }
+@@ -738,6 +723,27 @@ export default function AdminPanel({ onLogout, theme, onThemeChange }: AdminPane
+           {/* 4. LAPORAN (PRINT READY) VIEW */}
+           {subTab === 'laporan' && (
+             <div className="space-y-6">
++              <style>{`
++                @media print {
++                  @page {
++                    margin: 0;
++                  }
++                  body {
++                    margin: 0 !important;
++                  }
++                  #print-area {
++                    padding: 12mm 10mm 12mm 10mm !important;
++                    margin: 0 !important;
++                    border: none !important;
++                    box-shadow: none !important;
++                    width: 100% !important;
++                    max-width: 100% !important;
++                    min-height: auto !important;
++                    height: auto !important;
++                    display: block !important;
++                  }
++                }
++              `}</style>
+               {/* Controls bar (hidden on print) */}
+               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-3xl shadow-sm flex flex-col md:flex-row justify-between items-center gap-4 transition-colors print:hidden">
+                 <div className="space-y-1 text-left">
+@@ -755,18 +761,26 @@ export default function AdminPanel({ onLogout, theme, onThemeChange }: AdminPane
+               </div>
+ 
+               {/* Printable Area - styled for paper standard */}
+-              <div id="print-area" className="bg-white dark:bg-slate-900 p-8 md:p-12 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-sm space-y-8 text-left max-w-4xl mx-auto print:bg-white print:text-black print:border-none print:shadow-none print:p-0 transition-colors duration-300">
++              <div 
++                id="print-area" 
++                style={{ fontFamily: "'Times New Roman', 'Palatino Linotype', 'Georgia', serif", fontSize: "12px" }}
++                className="bg-white dark:bg-slate-900 p-8 md:p-12 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-sm space-y-8 text-left max-w-4xl mx-auto print:bg-white print:text-black print:border-none print:shadow-none print:p-0 transition-colors duration-300"
++              >
+                 
+                 {/* Kop Surat */}
+-                <div className="flex items-center gap-6 border-b-4 border-double border-slate-800 dark:border-slate-700 print:border-slate-800 pb-4 justify-center text-center">
+-                  <div className="w-16 h-16 shrink-0 flex items-center justify-center bg-slate-900 dark:bg-slate-950 text-white rounded font-extrabold text-2xl print:bg-black">
+-                    CP
+-                  </div>
+-                  <div className="space-y-1">
+-                    <h2 className="text-xl font-extrabold tracking-wider text-slate-900 dark:text-white print:text-slate-900 uppercase">PEMERINTAH KABUPATEN BANDUNG</h2>
+-                    <h1 className="text-2xl font-black tracking-widest text-slate-900 dark:text-white print:text-slate-900 uppercase">KECAMATAN CICALENGKA</h1>
+-                    <p className="text-xs text-slate-500 dark:text-slate-400 print:text-slate-500 font-semibold uppercase">SEKSI PEMBERDAYAAN MASYARAKAT</p>
+-                    <p className="text-[10px] text-slate-400 dark:text-slate-550 print:text-slate-400 font-medium tracking-wide">Jl. Raya Cicalengka No.1, Cicalengka, Jawa Barat 40395</p>
++                <div className="flex items-center justify-center border-b-4 border-double border-slate-800 dark:border-slate-700 print:border-slate-800 pb-4">
++                  <div className="flex items-center">
++                    <img 
++                      src="/logo-bandung.png" 
++                      alt="Logo Kabupaten Bandung" 
++                      className="w-24 h-24 object-contain shrink-0 mr-6"
++                    />
++                    <div className="text-center">
++                      <h2 style={{ fontSize: '18px', lineHeight: 1.2 }} className="font-extrabold tracking-wider text-slate-900 dark:text-white print:text-slate-900 uppercase">PEMERINTAH KABUPATEN BANDUNG</h2>
++                      <h1 style={{ fontSize: '18px', lineHeight: 1.2 }} className="font-black tracking-widest text-slate-900 dark:text-white print:text-slate-900 uppercase mt-1">KECAMATAN CICALENGKA</h1>
++                      <p style={{ fontSize: '22px', lineHeight: 1.2 }} className="font-bold uppercase mt-1 text-slate-800 dark:text-slate-200 print:text-slate-800">SEKSI PEMBERDAYAAN MASYARAKAT</p>
++                      <p style={{ fontSize: '8px', lineHeight: 1.3 }} className="text-slate-500 dark:text-slate-400 print:text-slate-500 font-medium tracking-wide mt-1.5 italic">Jl. Raya Cicalengka No. 320, Cicalengka, Kabupaten Bandung, Jawa Barat 40395 - Telp: (022) 7949015</p>
++                    </div>
+                   </div>
+                 </div>
+ 
+@@ -812,7 +826,7 @@ export default function AdminPanel({ onLogout, theme, onThemeChange }: AdminPane
+                 </div>
+ 
+                 {/* Tanda Tangan (Signature) Block */}
+-                <div className="flex justify-end pt-12">
++                <div className="flex justify-end pt-12 break-inside-avoid print:break-inside-avoid">
+                   <div className="text-center space-y-16 w-64">
+                     <div>
+                       <p className="text-xs text-slate-850 dark:text-slate-300 print:text-slate-855">Cicalengka, {new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+@@ -839,9 +853,6 @@ export default function AdminPanel({ onLogout, theme, onThemeChange }: AdminPane
+               {/* Asset blocks loop */}
+               <div className="space-y-6">
+                 {/* Block 1: Migration */}
+-                <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4">
+-                  <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+-                {/* Block 1: Migration */}
+                 <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-4 transition-colors">
+                   <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3">
+                     <div>

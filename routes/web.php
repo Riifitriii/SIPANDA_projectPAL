@@ -44,3 +44,5 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     // Printing / Reporting
     Route::get('/laporan', [AdminController::class, 'printLaporan'])->name('laporan');
 });
+
+

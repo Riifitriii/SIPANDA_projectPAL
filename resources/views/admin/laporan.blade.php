@@ -18,16 +18,16 @@
                 extend: {
                     colors: {
                         primary: {
-                            50: '#f0fdf4',
-                            100: '#dcfce7',
-                            200: '#bbf7d0',
-                            300: '#86efac',
-                            400: '#4ade80',
-                            500: '#22c55e',
-                            600: '#16a34a',
-                            700: '#15803d',
-                            800: '#166534',
-                            900: '#14532d',
+                            50: '#f4f9f4',
+                            100: '#e7f3e8',
+                            200: '#c3e2c6',
+                            300: '#94cb9b',
+                            400: '#5fab6b',
+                            500: '#3c9049',
+                            600: '#2d7237', // Pasundan Green matching admin layout
+                            700: '#265b2d',
+                            800: '#1f4825',
+                            900: '#17361c',
                         }
                     },
                     fontFamily: {
@@ -42,14 +42,36 @@
             body {
                 background-color: white;
                 color: black;
-                font-size: 11px;
+                font-size: 12px !important;
+                margin: 0 !important;
+                padding: 0 !important; /* Reset body padding on print */
             }
             .no-print {
                 display: none !important;
             }
-            .print-padding {
-                padding: 0 !important;
+            @page {
+                size: auto;
+                margin: 0;
             }
+            .printable-sheet {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 8mm 20mm 15mm 20mm !important; /* 8mm top padding to fit closely at the top */
+                margin: 0 !important;
+                border: none !important;
+                box-shadow: none !important;
+                min-height: auto !important;
+                height: auto !important;
+                display: block !important;
+            }
+            .signature-block {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+        }
+        .report-font {
+            font-family: 'Times New Roman', 'Palatino Linotype', 'Georgia', serif;
+            font-size: 12px !important;
         }
     </style>
 </head>
@@ -71,23 +93,39 @@
     </div>
 
     <!-- Printable Paper Sheet -->
-    <div class="max-w-6xl mx-auto bg-white p-8 sm:p-12 border border-slate-200 shadow-lg print:border-none print:shadow-none min-h-screen flex flex-col justify-between">
+    <div class="max-w-6xl mx-auto bg-white p-8 sm:p-12 border border-slate-200 shadow-lg print:border-none print:shadow-none min-h-screen flex flex-col justify-between report-font printable-sheet">
         
-        <div class="space-y-8">
-            <!-- Kop Surat (Government Header) -->
-            <div class="flex items-center justify-center border-b-4 border-double border-slate-900 pb-4 relative">
-                <div class="text-center">
-                    <h3 class="text-base font-bold uppercase tracking-wider text-slate-900">Pemerintah Kabupaten Bandung</h3>
-                    <h2 class="text-lg font-extrabold uppercase tracking-wide text-slate-900 mt-0.5">Kecamatan Cicalengka</h2>
-                    <h1 class="text-xl font-black uppercase tracking-widest text-slate-900 mt-0.5">Seksi Pemberdayaan Masyarakat</h1>
-                    <p class="text-[10px] text-slate-500 mt-1 italic">Jl. Raya Cicalengka No. 320, Cicalengka, Kabupaten Bandung, Jawa Barat 40395 - Telp: (022) 7949015</p>
+        <div class="space-y-6">
+            <!-- Header Group (Kop Surat + Line) -->
+            <div class="space-y-3">
+                <!-- Kop Surat (Government Header) -->
+                <div class="flex items-center justify-center relative">
+                    <div class="flex items-center">
+                        <img src="{{ asset('logo-bandung.png') }}" alt="Logo Kabupaten Bandung" class="w-20 h-20 object-contain mr-5 shrink-0">
+                        <div class="text-center">
+                            <h3 class="font-bold uppercase tracking-wider text-slate-900" style="font-size: 15px !important; line-height: 1.2;">Pemerintah Kabupaten Bandung</h3>
+                            <h2 class="font-extrabold uppercase tracking-wide text-slate-900 mt-0.5" style="font-size: 15px !important; line-height: 1.2;">Kecamatan Cicalengka</h2>
+                            <h1 class="font-black uppercase tracking-widest text-slate-900 mt-0.5" style="font-size: 19px !important; line-height: 1.2;">Seksi Pemberdayaan Masyarakat</h1>
+                            <p class="text-slate-500 mt-1.5 italic" style="font-size: 8.5px !important; line-height: 1.3;">Jl. Raya Cicalengka No. 320, Cicalengka, Kabupaten Bandung, Jawa Barat 40395 - Telp: (022) 7949015</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Traditional Indonesian Letterhead Line (Thick Bold and Thin Line) -->
+                <div class="space-y-[2px]">
+                    <div class="border-b-[3px] border-slate-900"></div>
+                    <div class="border-b-[1px] border-slate-900"></div>
                 </div>
             </div>
 
             <!-- Document Title -->
-            <div class="text-center space-y-1">
-                <h4 class="text-sm font-bold uppercase tracking-wide text-slate-800 decoration-1 underline underline-offset-4">Laporan Data UMKM Terdaftar Resmi</h4>
-                <p class="text-xs text-slate-600">Wilayah Desa: <strong>{{ $selectedDesa }}</strong> | Per Tanggal: <strong>{{ now()->locale('id')->translatedFormat('d F Y') }}</strong></p>
+            <div class="flex items-center justify-center">
+                <!-- Invisible placeholder (spacer) to align the title text with the offset Kop Surat header text -->
+                <div class="w-20 mr-5 shrink-0 opacity-0"></div>
+                <div class="text-center space-y-1 flex-grow">
+                    <h4 class="text-sm font-bold uppercase tracking-wide text-slate-800 decoration-1 underline underline-offset-4">Laporan Data UMKM Terdaftar Resmi</h4>
+                    <p class="text-xs text-slate-600">Wilayah Desa: <strong>{{ $selectedDesa }}</strong> | Per Tanggal: <strong>{{ now()->locale('id')->translatedFormat('d F Y') }}</strong></p>
+                </div>
             </div>
 
             <!-- Data Table -->
@@ -134,7 +172,7 @@
         </div>
 
         <!-- Signature/Approval Block -->
-        <div class="mt-16 grid grid-cols-2 gap-8 text-xs font-semibold">
+        <div class="mt-16 grid grid-cols-2 gap-8 text-xs font-semibold signature-block">
             <!-- Left Side: Empty or PM officer -->
             <div class="space-y-16">
                 <div class="space-y-1 text-center">

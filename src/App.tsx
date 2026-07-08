@@ -19,7 +19,7 @@ import FormPengajuan from './components/FormPengajuan';
 import CekStatus from './components/CekStatus';
 import AdminLogin from './components/AdminLogin';
 import AdminPanel from './components/AdminPanel';
-import ThemeToggle, { Theme } from './components/ThemeToggle';
+import { dbService } from './services/dbService';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('home');
@@ -27,42 +27,19 @@ export default function App() {
   const [repairSubmission, setRepairSubmission] = useState<Submission | null>(null);
   const [registeredCount, setRegisteredCount] = useState<number>(1);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [theme, setTheme] = useState<Theme>(() => {
-    return (localStorage.getItem('theme') as Theme) || 'system';
-  });
 
   useEffect(() => {
-    const root = document.documentElement;
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    const applyTheme = () => {
-      if (theme === 'dark' || (theme === 'system' && mediaQuery.matches)) {
-        root.classList.add('dark');
-      } else {
-        root.classList.remove('dark');
-      }
-    };
-
-    applyTheme();
-    localStorage.setItem('theme', theme);
-
-    if (theme === 'system') {
-      const handleChange = () => applyTheme();
-      mediaQuery.addEventListener('change', handleChange);
-      return () => mediaQuery.removeEventListener('change', handleChange);
-    }
-  }, [theme]);
+    document.documentElement.classList.remove('dark');
+    localStorage.removeItem('theme');
+  }, []);
 
   // Fetch registered count for landing page hero
   const fetchRegisteredCount = async () => {
     try {
-      const res = await fetch('/api/umkm');
-      if (res.ok) {
-        const data = await res.json();
-        setRegisteredCount(data.length);
-      }
+      const data = await dbService.getUmkm();
+      setRegisteredCount(list => data.length);
     } catch (e) {
-      console.error(e);
+      console.error("Error fetching registered count:", e);
     }
   };
 
@@ -180,7 +157,6 @@ export default function App() {
 
             {/* Action Buttons & Theme Switcher */}
             <div className="hidden md:flex items-center gap-4">
-              <ThemeToggle theme={theme} onThemeChange={setTheme} />
               
               {adminUser ? (
                 <button
@@ -208,7 +184,6 @@ export default function App() {
 
             {/* Mobile Menu Icon & Theme Toggle */}
             <div className="flex md:hidden items-center gap-3">
-              <ThemeToggle theme={theme} onThemeChange={setTheme} align="right" />
               <button 
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-500 dark:text-slate-400 cursor-pointer"
@@ -293,7 +268,7 @@ export default function App() {
           <AdminLogin onNavigate={setActiveTab} onLoginSuccess={handleLoginSuccess} />
         )}
         {activeTab === 'admin-dashboard' && adminUser && (
-          <AdminPanel onLogout={handleLogout} theme={theme} onThemeChange={setTheme} />
+          <AdminPanel onLogout={handleLogout} />
         )}
       </div>
 

@@ -9,6 +9,7 @@ import {
   KeyRound
 } from 'lucide-react';
 import { ActiveTab } from '../types';
+import { dbService } from '../services/dbService';
 
 interface AdminLoginProps {
   onNavigate: (tab: ActiveTab) => void;
@@ -27,23 +28,13 @@ export default function AdminLogin({ onNavigate, onLoginSuccess }: AdminLoginPro
     setError(null);
 
     try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      const data = await response.json();
-      if (response.ok && data.success) {
+      const data = await dbService.login(username, password);
+      if (data.success) {
         onLoginSuccess(data.user);
         onNavigate('admin-dashboard');
-      } else {
-        setError(data.message || 'Kredensial tidak valid. Silakan coba lagi.');
       }
-    } catch (err) {
-      setError('Terjadi kesalahan koneksi ke server.');
+    } catch (err: any) {
+      setError(err.message || 'Kredensial tidak valid. Silakan coba lagi.');
     } finally {
       setLoading(false);
     }

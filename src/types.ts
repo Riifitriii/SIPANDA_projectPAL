@@ -11,6 +11,8 @@ export interface Submission {
   desa: string;
   alamat_lengkap: string;
   foto_usaha: string;
+  nib?: string;
+  sertifikasi_halal?: string;
   status: BusinessStatus;
   catatan_admin: string;
   tanggal_pengajuan: string;

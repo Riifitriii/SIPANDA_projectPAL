@@ -23,28 +23,52 @@
                 extend: {
                     colors: {
                         primary: {
-                            50: '#f0fdf4',
-                            100: '#dcfce7',
-                            200: '#bbf7d0',
-                            300: '#86efac',
-                            400: '#4ade80',
-                            500: '#22c55e',
-                            600: '#16a34a',
-                            700: '#15803d',
-                            800: '#166534',
-                            900: '#14532d',
+                            50: '#f4f9f4',
+                            100: '#e7f3e8',
+                            200: '#c3e2c6',
+                            300: '#94cb9b',
+                            400: '#5fab6b',
+                            500: '#3e8e4a', // Earthy Forest Green
+                            600: '#2d7237', // Sundanese Parahyangan Green
+                            700: '#245a2c', // Dark Forest Green
+                            800: '#1d4824',
+                            900: '#15331a',
                         },
                         secondary: {
-                            50: '#f8fafc',
-                            100: '#f1f5f9',
-                            200: '#e2e8f0',
-                            300: '#cbd5e1',
-                            400: '#94a3b8',
-                            500: '#64748b',
-                            600: '#475569',
-                            700: '#334155',
-                            800: '#1e293b',
-                            900: '#0f172a',
+                            50: '#fcfdfa',
+                            100: '#f1f5ee',
+                            200: '#e2e8df',
+                            300: '#cbd5c1',
+                            400: '#94a388',
+                            500: '#64745b',
+                            600: '#47553f',
+                            700: '#33412a',
+                            805: '#1e291b',
+                            900: '#0f170d',
+                        },
+                        bambu: {
+                            50: '#fcf8f2',
+                            100: '#f7edd9',
+                            200: '#edd8b3',
+                            300: '#e0bd82',
+                            400: '#d2a15c',
+                            500: '#a76f30',
+                            600: '#8c5924',
+                            700: '#6f4215',
+                            800: '#54300e',
+                            900: '#3c2007',
+                        },
+                        terakota: {
+                            50: '#fdf5f2',
+                            100: '#fbe7df',
+                            200: '#f5ccbe',
+                            300: '#eaab97',
+                            400: '#dc8369',
+                            500: '#c05c3c',
+                            600: '#a4462b',
+                            700: '#80341a',
+                            800: '#602410',
+                            900: '#45170a',
                         }
                     },
                     fontFamily: {
@@ -57,13 +81,22 @@
     </script>
     <style>
         .glass-nav {
-            background-color: rgba(255, 255, 255, 0.85);
+            background-color: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+            border-bottom: 3px solid #a76f30; /* Bamboo golden bottom accent line */
+        }
+        .sunda-bilik {
+            background-color: #fafaf7;
+            background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDgwIDgwIj4KICA8cGF0aCBkPSJNMCAyMCBMMjAgMCBNMjAgNDAgTDQwIDIwIE00MCA2MCBMNjAgNDAgTTYwIDgwIEw4MCA2MCBNMTAgMzAgTDMwIDEwIE0zMCA1MCBMNTAgMzAgTTUwIDcwIEw3MCA1MCBNMCA2MCBMMjAgNDAgTTIwIDgwIEw4MCAyMCIgc3Ryb2tlPSJyZ2JhKDE2NywxMTEsNDgsMC4wMzkpIiBzdHJva2Utd2lkdGg9IjEuNSIvPgogIDxwYXRoIGQ9Ik0wIDQwIEw0MCAwIE0yMCA2MCBMNjAgMjAgTTQwIDgwIEw4MCA0MCBNMTAgNTAgTDUwIDEwIE0zMCA3MCBMNzAgMzAgTTAgMjAgTDIwIDAgTTUwIDgwIEw4MCA1MCIgc3Ryb2tlPSJyZ2JhKDQzLDkwLDM5LDAuMDM1KSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+");
+        }
+        .organic-card {
+            border: 1px solid rgba(167, 111, 48, 0.12) !important;
+            box-shadow: 0 10px 30px -10px rgba(167, 111, 48, 0.08), 0 1px 3px rgba(43, 90, 39, 0.02) !important;
+            background-color: rgba(255, 255, 255, 0.95);
         }
     </style>
 </head>
-<body class="bg-slate-50 text-secondary-800 font-sans min-h-screen flex flex-col justify-between antialiased">
+<body class="sunda-bilik text-secondary-800 font-sans min-h-screen flex flex-col justify-between antialiased">
 
     <!-- Header / Sticky Navbar -->
     <header class="sticky top-0 z-50 glass-nav transition-all duration-300">

@@ -74,18 +74,12 @@ class AdminController extends Controller
 
         $validated = $request->validate([
             'status' => 'required|in:Menunggu Verifikasi,Perlu Perbaikan,Disetujui,Ditolak',
-            'catatan_admin' => 'nullable|string',
+            'catatan_admin' => 'required_if:status,Perlu Perbaikan,Ditolak|nullable|string',
         ], [
             'status.required' => 'Status verifikasi wajib dipilih.',
             'status.in' => 'Status verifikasi tidak valid.',
+            'catatan_admin.required_if' => 'Catatan admin wajib diisi apabila status "Perlu Perbaikan" atau "Ditolak" agar dipahami pemohon.',
         ]);
-
-        // If status requires action but notes are blank, we warn the user
-        if (in_array($validated['status'], ['Perlu Perbaikan', 'Ditolak']) && empty($validated['catatan_admin'])) {
-            return back()->withErrors([
-                'catatan_admin' => 'Catatan admin wajib diisi apabila status "Perlu Perbaikan" atau "Ditolak" agar dipahami pemohon.'
-            ])->withInput();
-        }
 
         $submission->update([
             'status' => $validated['status'],
@@ -101,11 +95,11 @@ class AdminController extends Controller
      */
     public function listUmkm(Request $request)
     {
-        $query = UmkmTerdaftar::query();
+        $query = UmkmTerdaftar::with('pengajuan');
 
         if ($request->filled('search')) {
             $search = $request->input('search');
-            $query->where(function ($q) use ($search) {
+            $query->whereHas('pengajuan', function ($q) use ($search) {
                 $q->where('nomor_pengajuan', 'like', "%{$search}%")
                   ->orWhere('nama_pemilik', 'like', "%{$search}%")
                   ->orWhere('nama_usaha', 'like', "%{$search}%")
@@ -115,10 +109,17 @@ class AdminController extends Controller
         }
 
         if ($request->filled('desa')) {
-            $query->where('desa', $request->input('desa'));
+            $query->whereHas('pengajuan', function ($q) use ($request) {
+                $q->where('desa', $request->input('desa'));
+            });
         }
 
-        $umkms = $query->orderBy('nama_usaha', 'asc')->paginate(10)->withQueryString();
+        // Join with submissions table for ordering by nama_usaha
+        $umkms = $query->join('submissions', 'umkm_terdaftar.pengajuan_id', '=', 'submissions.id')
+            ->select('umkm_terdaftar.*')
+            ->orderBy('submissions.nama_usaha', 'asc')
+            ->paginate(10)
+            ->withQueryString();
 
         return view('admin.umkm', compact('umkms'));
     }
@@ -128,13 +129,20 @@ class AdminController extends Controller
      */
     public function printLaporan(Request $request)
     {
-        $query = UmkmTerdaftar::query();
+        $query = UmkmTerdaftar::with('pengajuan');
 
         if ($request->filled('desa')) {
-            $query->where('desa', $request->input('desa'));
+            $query->whereHas('pengajuan', function ($q) use ($request) {
+                $q->where('desa', $request->input('desa'));
+            });
         }
 
-        $umkms = $query->orderBy('nama_usaha', 'asc')->get();
+        // Join with submissions table for ordering by nama_usaha
+        $umkms = $query->join('submissions', 'umkm_terdaftar.pengajuan_id', '=', 'submissions.id')
+            ->select('umkm_terdaftar.*')
+            ->orderBy('submissions.nama_usaha', 'asc')
+            ->get();
+
         $selectedDesa = $request->input('desa', 'Semua Desa');
 
         return view('admin.laporan', compact('umkms', 'selectedDesa'));

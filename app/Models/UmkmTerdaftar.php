@@ -11,17 +11,6 @@ class UmkmTerdaftar extends Model
 
     protected $fillable = [
         'pengajuan_id',
-        'nomor_pengajuan',
-        'nama_pemilik',
-        'nomor_telepon',
-        'nama_usaha',
-        'jenis_usaha',
-        'deskripsi_usaha',
-        'desa',
-        'alamat_lengkap',
-        'foto_usaha',
-        'nib',
-        'sertifikasi_halal',
     ];
 
     /**
@@ -30,5 +19,32 @@ class UmkmTerdaftar extends Model
     public function pengajuan(): BelongsTo
     {
         return $this->belongsTo(Pengajuan::class, 'pengajuan_id');
+    }
+
+    /**
+     * Dynamic proxy to Pengajuan model properties to avoid duplicating data.
+     */
+    public function __get($key)
+    {
+        if (array_key_exists($key, $this->attributes) || $this->hasGetMutator($key) || method_exists($this, $key)) {
+            return parent::__get($key);
+        }
+
+        if ($this->relationLoaded('pengajuan') || $this->pengajuan) {
+            return $this->pengajuan->$key;
+        }
+
+        return parent::__get($key);
+    }
+
+    /**
+     * Dynamic isset check proxy.
+     */
+    public function __isset($key)
+    {
+        if (parent::__isset($key)) {
+            return true;
+        }
+        return isset($this->pengajuan) && isset($this->pengajuan->$key);
     }
 }

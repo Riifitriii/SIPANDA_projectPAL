@@ -14,6 +14,7 @@ import {
   HelpCircle
 } from 'lucide-react';
 import { ActiveTab, Submission } from '../types';
+import { dbService } from '../services/dbService';
 
 interface CekStatusProps {
   onNavigate: (tab: ActiveTab) => void;
@@ -37,16 +38,10 @@ export default function CekStatus({ onNavigate, onEditSubmission }: CekStatusPro
     setSubmission(null);
 
     try {
-      const response = await fetch(`/api/submissions/${searchNo.trim()}`);
-      if (response.ok) {
-        const data = await response.json();
-        setSubmission(data);
-      } else {
-        const errData = await response.json();
-        setError(errData.message || 'Nomor pengajuan tidak ditemukan. Pastikan format nomor yang Anda ketik benar (Contoh: SPD-20240524-001).');
-      }
-    } catch (err) {
-      setError('Terjadi kesalahan jaringan. Silakan coba beberapa saat lagi.');
+      const data = await dbService.getSubmissionByIdOrNo(searchNo);
+      setSubmission(data);
+    } catch (err: any) {
+      setError(err.message || 'Nomor pengajuan tidak ditemukan. Pastikan format nomor yang Anda ketik benar (Contoh: SPD-20240524-001).');
     } finally {
       setLoading(false);
     }
@@ -255,6 +250,22 @@ export default function CekStatus({ onNavigate, onEditSubmission }: CekStatusPro
                   <div>
                     <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Jenis Usaha</span>
                     <span className="text-sm font-bold text-slate-800 dark:text-white">{submission.jenis_usaha}</span>
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <FileText className="w-5 h-5 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Nomor Induk Berusaha (NIB)</span>
+                    <span className="text-sm font-bold text-slate-800 dark:text-white">{submission.nib || '-'}</span>
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <FileText className="w-5 h-5 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Sertifikat Halal</span>
+                    <span className="text-sm font-bold text-slate-800 dark:text-white">{submission.sertifikasi_halal || '-'}</span>
                   </div>
                 </div>
 
