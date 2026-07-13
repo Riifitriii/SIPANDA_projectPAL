@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'admin@cicalengka.go.id'],
             [
-                'name' => 'Administrator Cicalengka',
-                'password' => Hash::make('cicalengkajuara'),
+                'name' => 'Admin Cicalengka',
+                'password' => Hash::make(env('ADMIN_DEFAULT_PASSWORD') ?? \Illuminate\Support\Str::random(16)),
             ]
         );
     }

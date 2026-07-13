@@ -76,7 +76,7 @@
     <style>
         .sunda-bilik {
             background-color: #ffffff !important;
-            background-image: linear-gradient(rgba(255, 255, 255, 0.91), rgba(255, 255, 255, 0.91)), url('{{ asset("bg-sunda.jpg") }}') !important;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.80), rgba(255, 255, 255, 0.80)), url('{{ asset("bg-sunda.jpg") }}') !important;
             background-repeat: repeat !important;
             background-size: 500px auto !important;
         }

@@ -1,64 +1,91 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# SIPANDA
 
-# Run and deploy your AI Studio app
+**Sistem Informasi Pengajuan dan Pendataan UMKM Kecamatan Cicalengka**
 
-This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/59f61d74-eaea-4a10-b727-b151a647f3ba
-
-# SIPANDA (Sistem Informasi Pengajuan dan Pendataan UMKM Cicalengka)
-
-Aplikasi pendaftaran, pencatatan, dan verifikasi data UMKM Kecamatan Cicalengka. Sekarang mendukung integrasi Firebase Firestore secara serverless.
-
-## Cara Menjalankan Secara Lokal
-
-**Prasyarat:** Node.js (v18+)
-
-1. **Install Dependensi:**
-   ```bash
-   npm install
-   ```
-
-2. **Jalankan Aplikasi:**
-   ```bash
-   npm run dev
-   ```
-   Aplikasi akan berjalan di `http://localhost:3000`. Secara default (tanpa kunci Firebase), aplikasi menggunakan database local JSON (`data/db.json`) sebagai database internalnya.
+SIPANDA adalah sebuah platform berbasis web yang digunakan untuk mengelola proses pengajuan izin usaha dan pendataan pelaku Usaha Mikro, Kecil, dan Menengah (UMKM) secara digital di wilayah Kecamatan Cicalengka. Aplikasi ini dirancang untuk mempermudah masyarakat dalam melakukan pendaftaran dan membantu admin kecamatan dalam mengelola data UMKM secara terstruktur.
 
 ---
 
-## Konfigurasi ke Firebase (Opsional / Wajib untuk Hosting)
+## 🛠️ Tech Stack
 
-Untuk migrasi ke database awan Firebase Firestore sehingga aplikasi bisa di-host gratis secara serverless (misal di Vercel atau Firebase Hosting):
+Aplikasi ini dibangun menggunakan teknologi modern berikut:
+*   **Backend & Frontend Engine:** [Laravel 12](https://laravel.com/)
+*   **Tampilan (UI):** [Tailwind CSS](https://tailwindcss.com/) & [Blade Templating Engine](https://laravel.com/docs/12.x/blade)
+*   **Database:** MariaDB / MySQL (atau SQLite untuk pengembangan lokal cepat)
 
-### 1. Setup Firebase Console
-1. Buka [Firebase Console](https://console.firebase.google.com/).
-2. Buat proyek baru (misal: "sipanda-cicalengka").
-3. Di dalam proyek tersebut, buat **Cloud Firestore Database**:
-   - Pilih mode memulai (misal **Test Mode** untuk mempermudah development, atau setup Security Rules yang sesuai).
-   - Pilih lokasi server terdekat (misal `asia-southeast2` untuk Jakarta/Singapura).
-4. Daftarkan aplikasi Web di dalam proyek Firebase Anda untuk mendapatkan kode konfigurasi Firebase.
+---
 
-### 2. Isi Konfigurasi di File `.env`
-Buka file `.env` di komputer Anda, lalu salin kunci dari Firebase Web App configuration Anda ke variabel berikut:
-```env
-VITE_FIREBASE_API_KEY=your-api-key
-VITE_FIREBASE_AUTH_DOMAIN=your-auth-domain
-VITE_FIREBASE_PROJECT_ID=your-project-id
-VITE_FIREBASE_STORAGE_BUCKET=your-storage-bucket
-VITE_FIREBASE_MESSAGING_SENDER_ID=your-sender-id
-VITE_FIREBASE_APP_ID=your-app-id
-```
+## 🚀 Panduan Instalasi (Lokal)
 
-Setelah file `.env` disimpan dengan benar, **muat ulang / restart server local Anda** (`npm run dev`). Aplikasi secara otomatis mendeteksi konfigurasi tersebut dan beralih menggunakan Cloud Firestore!
+Ikuti langkah-langkah di bawah ini untuk menjalankan project SIPANDA di mesin lokal Anda:
 
-### 3. Deploy / Hosting Serverless
-Karena aplikasi sudah didesain berjalan serverless dengan Firebase Client SDK:
-- Anda dapat mem-build frontend-nya saja dengan:
-  ```bash
-  npm run build
-  ```
-- Folder `dist/` yang dihasilkan adalah static files yang siap diunggah ke layanan hosting gratis seperti **Firebase Hosting**, **Vercel**, **Netlify**, atau **GitHub Pages**.
-- Anda tidak memerlukan server Node.js backend yang menyala 24/7 di VPS/Render!
+### Prasyarat
+Sebelum memulai, pastikan perangkat Anda sudah terpasang:
+*   PHP >= 8.2
+*   [Composer](https://getcomposer.org/)
+*   [Node.js & npm](https://nodejs.org/)
+*   Server Database (MySQL/MariaDB, XAMPP, atau Laragon)
+
+### Langkah-Langkah
+
+1.  **Clone / Download Repository**
+    Unduh source code proyek ini ke perangkat Anda.
+
+2.  **Instalasi Dependensi PHP**
+    Jalankan perintah berikut di terminal untuk memasang semua dependensi Composer:
+    ```bash
+    composer install
+    ```
+
+3.  **Salin File Environment**
+    Salin file `.env.example` menjadi `.env`:
+    ```bash
+    cp .env.example .env
+    ```
+    *(Di Windows CMD: `copy .env.example .env`)*
+
+4.  **Generate Application Key**
+    Buat key enkripsi untuk aplikasi Laravel Anda:
+    ```bash
+    php artisan key:generate
+    ```
+
+5.  **Konfigurasi Database**
+    Buka file `.env` yang baru dibuat dan sesuaikan konfigurasi database Anda:
+    ```env
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=sipanda
+    DB_USERNAME=root
+    DB_PASSWORD=
+    ```
+    *Pastikan Anda sudah membuat database kosong bernama `sipanda` di server MySQL/MariaDB Anda.*
+
+6.  **Jalankan Migrasi & Seeding**
+    Buat tabel-tabel database beserta data awal (seeding) dengan perintah:
+    ```bash
+    php artisan migrate --seed
+    ```
+
+7.  **Instalasi & Build Aset Frontend**
+    Instal dependensi Node.js lalu compile aset menggunakan Vite:
+    ```bash
+    npm install
+    npm run build
+    ```
+
+8.  **Jalankan Server Lokal**
+    Jalankan server pengembangan Laravel:
+    ```bash
+    php artisan serve
+    ```
+    Aplikasi sekarang dapat diakses di browser melalui alamat: [http://127.0.0.1:8000](http://127.0.0.1:8000).
+
+---
+
+## 📂 Struktur Proyek Utama
+*   `app/` - Logika utama aplikasi (Controllers, Models, Middleware).
+*   `database/` - Migrasi database, factory, dan seeder data awal.
+*   `resources/views/` - File tampilan antarmuka (Blade Views).
+*   `routes/web.php` - Definisi rute/URL aplikasi web.

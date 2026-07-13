@@ -45,4 +45,3 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/laporan', [AdminController::class, 'printLaporan'])->name('laporan');
 });
 
-

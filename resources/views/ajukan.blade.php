@@ -197,32 +197,44 @@
                 <div>
                     <label class="block text-xs font-bold text-secondary-700 uppercase tracking-wider mb-2">Unggah Foto Fisik Usaha atau Produk <span class="text-red-500">*</span></label>
                     
-                    <div class="mt-2 flex justify-center rounded-2xl border-2 border-dashed border-slate-200 px-6 pt-5 pb-6 hover:border-primary-400 transition-colors">
-                        <div class="space-y-1 text-center">
-                            <!-- Upload Icon -->
-                            <svg class="mx-auto h-12 w-12 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                            <div class="flex text-sm text-secondary-600">
-                                <label for="foto_usaha" class="relative cursor-pointer rounded-md bg-white font-semibold text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-primary-500 focus-within:ring-offset-2">
-                                    <span>Pilih Gambar Usaha</span>
-                                    <input id="foto_usaha" name="foto_usaha" type="file" class="sr-only" onchange="previewImage(this)">
-                                </label>
-                                <p class="pl-1">atau seret file ke sini</p>
+                    <div id="upload-box" class="mt-2 relative rounded-2xl border-2 border-dashed border-slate-200 hover:border-primary-400 transition-all overflow-hidden bg-slate-50/50">
+                        <label for="foto_usaha" class="cursor-pointer block w-full h-full min-h-[220px] flex items-center justify-center p-6 text-center">
+                            <input id="foto_usaha" name="foto_usaha" type="file" class="sr-only" onchange="previewImage(this)">
+                            
+                            <!-- Initial State UI -->
+                            <div id="upload-initial" class="space-y-2">
+                                <!-- Upload Icon -->
+                                <svg class="mx-auto h-12 w-12 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="flex text-sm justify-center text-secondary-600 font-medium">
+                                    <span class="text-primary-600 hover:text-primary-500 font-semibold">Pilih Gambar Usaha</span>
+                                    <p class="pl-1">atau seret file ke sini</p>
+                                </div>
+                                <p class="text-xs text-secondary-400">PNG, JPG, JPEG, WEBP maksimal 2MB</p>
                             </div>
-                            <p class="text-xs text-secondary-400">PNG, JPG, JPEG, WEBP maksimal 2MB</p>
-                        </div>
-                    </div>
 
-                    <!-- Image Preview Area -->
-                    <div id="preview-wrapper" class="mt-4 hidden">
-                        <span class="text-xs font-bold text-secondary-500 block mb-1">Pratinjau Foto:</span>
-                        <div class="relative w-48 h-32 rounded-xl overflow-hidden border border-slate-200">
-                            <img id="image-preview" src="#" alt="Pratinjau foto usaha" class="w-full h-full object-cover">
-                            <button type="button" onclick="removePreview()" class="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-red-600 text-white flex items-center justify-center shadow-md hover:bg-red-700">
-                                <span class="text-xs font-bold">&times;</span>
-                            </button>
-                        </div>
+                            <!-- Preview State UI -->
+                            <div id="upload-preview" class="absolute inset-0 hidden w-full h-full group">
+                                <img id="image-preview" src="#" alt="Pratinjau foto usaha" class="w-full h-full object-cover">
+                                
+                                <!-- Hover Overlay -->
+                                <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                                    <span class="text-xs font-bold text-white bg-slate-900/80 px-4 py-2 rounded-xl backdrop-blur-sm border border-white/10 shadow-lg">
+                                        Klik gambar untuk mengganti foto
+                                    </span>
+                                </div>
+                            </div>
+                        </label>
+
+                        <!-- Delete Button -->
+                        <button type="button" id="btn-remove" onclick="removePreview(event)" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-red-650/90 hover:bg-red-700 text-white flex items-center justify-center shadow-lg transition-colors hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                        
+
                     </div>
 
                     @error('foto_usaha')
@@ -247,27 +259,42 @@
 <!-- Script for Image Preview & Clipboard -->
 <script>
     function previewImage(input) {
-        const previewWrapper = document.getElementById('preview-wrapper');
+        const uploadInitial = document.getElementById('upload-initial');
+        const uploadPreview = document.getElementById('upload-preview');
         const previewImg = document.getElementById('image-preview');
+        const btnRemove = document.getElementById('btn-remove');
         
         if (input.files && input.files[0]) {
             const reader = new FileReader();
             
             reader.onload = function(e) {
                 previewImg.src = e.target.result;
-                previewWrapper.classList.remove('hidden');
+                uploadInitial.classList.add('hidden');
+                uploadPreview.classList.remove('hidden');
+                btnRemove.classList.remove('hidden');
             }
             
             reader.readAsDataURL(input.files[0]);
         }
     }
 
-    function removePreview() {
+    function removePreview(event) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        
         const fileInput = document.getElementById('foto_usaha');
-        const previewWrapper = document.getElementById('preview-wrapper');
+        const uploadInitial = document.getElementById('upload-initial');
+        const uploadPreview = document.getElementById('upload-preview');
+        const previewImg = document.getElementById('image-preview');
+        const btnRemove = document.getElementById('btn-remove');
         
         fileInput.value = '';
-        previewWrapper.classList.add('hidden');
+        previewImg.src = '#';
+        uploadInitial.classList.remove('hidden');
+        uploadPreview.classList.add('hidden');
+        btnRemove.classList.add('hidden');
     }
 
     function copyToClipboard() {

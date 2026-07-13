@@ -49,8 +49,16 @@
             }
         }
     </script>
+    <style>
+        .login-bg {
+            background-image: url('{{ asset("bg-login-real.jpg") }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    </style>
 </head>
-<body class="bg-secondary-900 min-h-screen flex items-center justify-center p-4 relative overflow-hidden antialiased">
+<body class="login-bg min-h-screen flex items-center justify-center p-4 relative overflow-hidden antialiased">
     <!-- Background Deco -->
     <div class="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-primary-600/10 blur-3xl -z-10"></div>
     <div class="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-emerald-500/10 blur-3xl -z-10"></div>
