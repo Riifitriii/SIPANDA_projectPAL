@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: #f4f9f4;
+  --color-primary-100: #e7f3e8;
+  --color-primary-200: #c3e2c6;
+  --color-primary-300: #94cb9b;
+  --color-primary-400: #5fab6b;
+  --color-primary-500: #3e8e4a;
+  --color-primary-600: #2d7237;
+  --color-primary-700: #245a2c;
+  --color-primary-800: #1d4824;
+  --color-primary-900: #15331a;
+
+  --color-secondary-50: #fcfdfa;
+  --color-secondary-100: #f1f5ee;
+  --color-secondary-200: #e2e8df;
+  --color-secondary-300: #cbd5c1;
+  --color-secondary-400: #94a388;
+  --color-secondary-500: #64745b;
+  --color-secondary-600: #47553f;
+  --color-secondary-700: #33412a;
+  --color-secondary-800: #1e291b;
+  --color-secondary-900: #0f170d;
+
+  --color-bambu-50: #fcf8f2;
+  --color-bambu-100: #f7edd9;
+  --color-bambu-200: #edd8b3;
+  --color-bambu-300: #e0bd82;
+  --color-bambu-400: #d2a15c;
+  --color-bambu-500: #a76f30;
+  --color-bambu-600: #8c5924;
+  --color-bambu-700: #6f4215;
+  --color-bambu-800: #54300e;
+  --color-bambu-900: #3c2007;
+
+  --color-terakota-50: #fdf5f2;
+  --color-terakota-100: #fbe7df;
+  --color-terakota-200: #f5ccbe;
+  --color-terakota-300: #eaab97;
+  --color-terakota-400: #dc8369;
+  --color-terakota-500: #c05c3c;
+  --color-terakota-600: #a4462b;
+  --color-terakota-700: #80341a;
+  --color-terakota-800: #602410;
+  --color-terakota-900: #45170a;
+
+  --font-sans: "Outfit", "Inter", "sans-serif";
+}

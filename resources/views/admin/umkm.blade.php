@@ -12,7 +12,7 @@
             <p class="text-xs text-secondary-500 font-semibold mt-1">Daftar pelaku usaha Kecamatan Cicalengka yang telah lolos verifikasi administrasi.</p>
         </div>
         
-        <div>
+        <div class="flex items-center gap-2">
             <a href="{{ route('admin.laporan', ['desa' => request('desa')]) }}" target="_blank" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-secondary-900 hover:bg-secondary-800 transition-colors shadow-md shadow-slate-100">
                 <!-- Print Icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-2">

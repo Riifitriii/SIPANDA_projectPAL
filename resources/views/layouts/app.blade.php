@@ -15,70 +15,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#f4f9f4',
-                            100: '#e7f3e8',
-                            200: '#c3e2c6',
-                            300: '#94cb9b',
-                            400: '#5fab6b',
-                            500: '#3e8e4a', // Earthy Forest Green
-                            600: '#2d7237', // Sundanese Parahyangan Green
-                            700: '#245a2c', // Dark Forest Green
-                            800: '#1d4824',
-                            900: '#15331a',
-                        },
-                        secondary: {
-                            50: '#fcfdfa',
-                            100: '#f1f5ee',
-                            200: '#e2e8df',
-                            300: '#cbd5c1',
-                            400: '#94a388',
-                            500: '#64745b',
-                            600: '#47553f',
-                            700: '#33412a',
-                            805: '#1e291b',
-                            900: '#0f170d',
-                        },
-                        bambu: {
-                            50: '#fcf8f2',
-                            100: '#f7edd9',
-                            200: '#edd8b3',
-                            300: '#e0bd82',
-                            400: '#d2a15c',
-                            500: '#a76f30',
-                            600: '#8c5924',
-                            700: '#6f4215',
-                            800: '#54300e',
-                            900: '#3c2007',
-                        },
-                        terakota: {
-                            50: '#fdf5f2',
-                            100: '#fbe7df',
-                            200: '#f5ccbe',
-                            300: '#eaab97',
-                            400: '#dc8369',
-                            500: '#c05c3c',
-                            600: '#a4462b',
-                            700: '#80341a',
-                            800: '#602410',
-                            900: '#45170a',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Outfit', 'Inter', 'sans-serif'],
-                        inter: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    @vite(['resources/css/app.css'])
     <style>
         .glass-nav {
             background-color: rgba(255, 255, 255, 0.9);
@@ -227,7 +164,7 @@
             </div>
             
             <div class="border-t border-slate-800 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
-                <p>Didukung oleh Seksi Pemberdayaan Masyarakat Kecamatan Cicalengka.</p>
+                <p>Didukung oleh Seksi Pemberdayaan Masyarakat Kecamatan Cicalengka. Created by <span class="font-semibold text-slate-400">Fitri Yani Permana (FYP)</span></p>
                 <div class="flex space-x-4 mt-4 sm:mt-0">
                     <a href="#" class="hover:underline">Kebijakan Privasi</a>
                     <a href="#" class="hover:underline">Syarat Layanan</a>

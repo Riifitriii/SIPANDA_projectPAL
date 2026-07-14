@@ -10,33 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#f4f9f4',
-                            100: '#e7f3e8',
-                            200: '#c3e2c6',
-                            300: '#94cb9b',
-                            400: '#5fab6b',
-                            500: '#3c9049',
-                            600: '#2d7237', // Pasundan Green matching admin layout
-                            700: '#265b2d',
-                            800: '#1f4825',
-                            900: '#17361c',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    @vite(['resources/css/app.css'])
     <style>
         @media print {
             body {
@@ -106,7 +80,10 @@
                             <h3 class="font-bold uppercase tracking-wider text-slate-900" style="font-size: 15px !important; line-height: 1.2;">Pemerintah Kabupaten Bandung</h3>
                             <h2 class="font-extrabold uppercase tracking-wide text-slate-900 mt-0.5" style="font-size: 15px !important; line-height: 1.2;">Kecamatan Cicalengka</h2>
                             <h1 class="font-black uppercase tracking-widest text-slate-900 mt-0.5" style="font-size: 19px !important; line-height: 1.2;">Seksi Pemberdayaan Masyarakat</h1>
-                            <p class="text-slate-500 mt-1.5 italic" style="font-size: 8.5px !important; line-height: 1.3;">Jl. Raya Cicalengka No. 320, Cicalengka, Kabupaten Bandung, Jawa Barat 40395 - Telp: (022) 7949015</p>
+                            <p class="text-slate-500 mt-1.5 italic" style="font-size: 8.5px !important; line-height: 1.3;">
+                                Jl. Raya Timur Cicalengka No. 344 Kabupaten Bandung Telp. 0227949205 Email :<br>
+                                kec.cicalengka@bandungkab.go.id Website : kecamatancicalengka.bandungkab.go.id
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -119,13 +96,9 @@
             </div>
 
             <!-- Document Title -->
-            <div class="flex items-center justify-center">
-                <!-- Invisible placeholder (spacer) to align the title text with the offset Kop Surat header text -->
-                <div class="w-20 mr-5 shrink-0 opacity-0"></div>
-                <div class="text-center space-y-1 flex-grow">
-                    <h4 class="text-sm font-bold uppercase tracking-wide text-slate-800 decoration-1 underline underline-offset-4">Laporan Data UMKM Terdaftar Resmi</h4>
-                    <p class="text-xs text-slate-600">Wilayah Desa: <strong>{{ $selectedDesa }}</strong> | Per Tanggal: <strong>{{ now()->locale('id')->translatedFormat('d F Y') }}</strong></p>
-                </div>
+            <div class="text-center space-y-1">
+                <h4 class="text-sm font-bold uppercase tracking-wide text-slate-800 decoration-1 underline underline-offset-4">Laporan Data UMKM Terdaftar Resmi</h4>
+                <p class="text-xs text-slate-600">Wilayah Desa: <strong>{{ $selectedDesa }}</strong> | Per Tanggal: <strong>{{ now()->locale('id')->translatedFormat('d F Y') }}</strong></p>
             </div>
 
             <!-- Data Table -->
@@ -173,25 +146,25 @@
 
         <!-- Signature/Approval Block -->
         <div class="mt-16 grid grid-cols-2 gap-8 text-xs font-semibold signature-block">
-            <!-- Left Side: Empty or PM officer -->
-            <div class="space-y-16">
-                <div class="space-y-1 text-center">
+            <!-- Left signature: Kepala Seksi -->
+            <div class="space-y-16 text-center">
+                <div class="space-y-1">
                     <p>Mengetahui,</p>
-                    <p class="font-bold">Kepala Seksi Pemberdayaan Masyarakat</p>
+                    <p class="font-bold text-slate-900">Kepala Seksi Pemberdayaan Masyarakat</p>
                 </div>
-                <div class="text-center font-bold">
+                <div class="font-bold">
                     <span class="underline block">....................................................</span>
                     <span class="text-[10px] text-slate-500 font-medium block">NIP. ....................................................</span>
                 </div>
             </div>
 
-            <!-- Right Side: Camat Cicalengka -->
-            <div class="space-y-16">
-                <div class="space-y-1 text-center">
+            <!-- Right signature: Camat -->
+            <div class="space-y-16 text-center">
+                <div class="space-y-1">
                     <p>Cicalengka, {{ now()->locale('id')->translatedFormat('d F Y') }}</p>
-                    <p class="font-bold">Camat Cicalengka</p>
+                    <p class="font-bold text-slate-900">Camat Cicalengka</p>
                 </div>
-                <div class="text-center font-bold">
+                <div class="font-bold">
                     <span class="underline block">....................................................</span>
                     <span class="text-[10px] text-slate-500 font-medium block">NIP. ....................................................</span>
                 </div>

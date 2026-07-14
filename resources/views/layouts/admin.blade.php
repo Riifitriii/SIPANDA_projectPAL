@@ -10,69 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#f4f9f4',
-                            100: '#e7f3e8',
-                            200: '#c3e2c6',
-                            300: '#94cb9b',
-                            400: '#5fab6b',
-                            500: '#3e8e4a', // Earthy Forest Green
-                            600: '#2d7237', // Sundanese Parahyangan Green
-                            700: '#245a2c', // Dark Forest Green
-                            800: '#1d4824',
-                            900: '#15331a',
-                        },
-                        secondary: {
-                            50: '#fcfdfa',
-                            100: '#f1f5ee',
-                            200: '#e2e8df',
-                            300: '#cbd5c1',
-                            400: '#94a388',
-                            500: '#64745b',
-                            600: '#47553f',
-                            700: '#33412a',
-                            800: '#1e291b',
-                            900: '#0f170d',
-                        },
-                        bambu: {
-                            50: '#fcf8f2',
-                            100: '#f7edd9',
-                            200: '#edd8b3',
-                            300: '#e0bd82',
-                            400: '#d2a15c',
-                            500: '#a76f30',
-                            600: '#8c5924',
-                            700: '#6f4215',
-                            800: '#54300e',
-                            900: '#3c2007',
-                        },
-                        terakota: {
-                            50: '#fdf5f2',
-                            100: '#fbe7df',
-                            200: '#f5ccbe',
-                            300: '#eaab97',
-                            400: '#dc8369',
-                            500: '#c05c3c',
-                            600: '#a4462b',
-                            700: '#80341a',
-                            800: '#602410',
-                            900: '#45170a',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Outfit', 'Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    @vite(['resources/css/app.css'])
     <style>
         .sunda-bilik {
             background-color: #ffffff !important;
@@ -281,7 +219,7 @@
                 <span>Lihat Website</span>
             </a>
 
-            <form action="{{ route('admin.logout') }}" method="POST" class="mt-auto">
+            <form action="{{ route('admin.logout') }}" method="POST" class="mt-1">
                 @csrf
                 <button type="submit" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-semibold text-red-400 hover:bg-red-950/20 hover:text-red-300 transition-all text-left">
                     <!-- Logout Icon -->
@@ -344,8 +282,19 @@
                 <div class="relative z-10">
                     @yield('admin_content')
                 </div>
-            </div>
         </main>
+
+        <!-- Footer -->
+        <footer class="py-4 bg-white border-t border-slate-200 text-center text-xs text-slate-500 shrink-0 z-10">
+            <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+                <div>
+                    &copy; {{ date('Y') }} <span class="font-bold text-primary-700">SIPANDA Cicalengka</span>. Seksi Pemberdayaan Masyarakat.
+                </div>
+                <div class="text-[10px] text-slate-400 font-medium">
+                    Created by <span class="font-bold text-slate-600">Fitri Yani Permana (FYP)</span>
+                </div>
+            </div>
+        </footer>
     </div>
 
     <!-- Mobile sidebar toggler script -->

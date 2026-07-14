@@ -6,15 +6,15 @@
 <section class="py-16 bg-slate-50">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <!-- Header Page -->
-        <div class="text-center space-y-3 mb-12">
-            <h1 class="text-3xl sm:text-4xl font-extrabold text-secondary-900 tracking-tight">Form Pengajuan Pendataan UMKM</h1>
+        @if(session('success_submission'))
+        <!-- Header Page (Success State) -->
+        <div class="text-center space-y-3 mb-12 animate-fadeIn">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-secondary-900 tracking-tight">Pengajuan Selesai</h1>
             <p class="text-sm text-secondary-500 max-w-lg mx-auto">
-                Lengkapi seluruh formulir di bawah ini dengan data asli dan dapat dipertanggungjawabkan untuk diverifikasi oleh Seksi Pemberdayaan Masyarakat Kecamatan Cicalengka.
+                Terima kasih telah melakukan pengajuan pendataan UMKM Kecamatan Cicalengka.
             </p>
         </div>
 
-        @if(session('success_submission'))
         <!-- Success Card -->
         <div class="bg-white rounded-3xl p-8 border border-primary-200 shadow-xl shadow-primary-50/50 mb-8 border-l-8 border-l-primary-600 animate-fadeIn space-y-6">
             <div class="flex items-center space-x-4">
@@ -52,13 +52,36 @@
                 </ul>
             </div>
 
-            <div class="flex justify-end pt-2">
-                <a href="{{ route('cek-status') }}" class="inline-flex items-center text-sm font-bold text-primary-600 hover:text-primary-700">
-                    Cek Status Sekarang &rarr;
+            <!-- Action Buttons -->
+            <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding-top: 16px; border-top: 1px solid #f1f5f9;">
+                <a href="{{ route('landing') }}" class="inline-flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold text-secondary-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-2 shrink-0">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                    </svg>
+                    Ke Beranda
+                </a>
+                <a href="{{ route('ajukan') }}" class="inline-flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold text-secondary-900 bg-white border border-slate-200 hover:bg-slate-50 transition-colors text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-2 shrink-0">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                    Ajukan Baru
+                </a>
+                <a href="{{ route('cek-status') }}" class="inline-flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold text-white bg-primary-600 hover:bg-primary-700 transition-colors shadow-md shadow-primary-100 text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-2 shrink-0">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.602Z" />
+                    </svg>
+                    Cek Status
                 </a>
             </div>
         </div>
-        @endif
+        @else
+        <!-- Header Page -->
+        <div class="text-center space-y-3 mb-12">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-secondary-900 tracking-tight">Form Pengajuan Pendataan UMKM</h1>
+            <p class="text-sm text-secondary-500 max-w-lg mx-auto">
+                Lengkapi seluruh formulir di bawah ini dengan data asli dan dapat dipertanggungjawabkan untuk diverifikasi oleh Seksi Pemberdayaan Masyarakat Kecamatan Cicalengka.
+            </p>
+        </div>
 
         <!-- Form Pengajuan -->
         <form action="{{ route('ajukan.submit') }}" method="POST" enctype="multipart/form-data" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-md space-y-10">
@@ -253,6 +276,7 @@
                 </button>
             </div>
         </form>
+        @endif
     </div>
 </section>
 
@@ -297,11 +321,109 @@
         btnRemove.classList.add('hidden');
     }
 
+    function showToast(message) {
+        const toast = document.createElement('div');
+        
+        // Inline styles to guarantee it works even if Tailwind classes are purged or not yet compiled
+        toast.style.position = 'fixed';
+        toast.style.bottom = '20px';
+        toast.style.right = '20px';
+        toast.style.backgroundColor = '#0f172a'; // slate-900
+        toast.style.color = '#ffffff';
+        toast.style.padding = '12px 20px';
+        toast.style.borderRadius = '16px';
+        toast.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+        toast.style.display = 'flex';
+        toast.style.alignItems = 'center';
+        toast.style.gap = '10px';
+        toast.style.zIndex = '9999';
+        toast.style.border = '1px solid #1e293b'; // slate-800
+        toast.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        toast.style.transform = 'translateY(20px)';
+        toast.style.opacity = '0';
+        
+        toast.innerHTML = `
+            <div style="width: 20px; height: 20px; border-radius: 50%; background-color: rgba(16, 185, 129, 0.2); display: flex; align-items: center; justify-content: center; color: #34d399; flex-shrink: 0;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" style="width: 12px; height: 12px;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                </svg>
+            </div>
+            <span style="font-family: 'Outfit', 'Inter', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.025em;">${message}</span>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        // Trigger show animation
+        setTimeout(() => {
+            toast.style.transform = 'translateY(0)';
+            toast.style.opacity = '1';
+        }, 50);
+        
+        // Hide and remove
+        setTimeout(() => {
+            toast.style.transform = 'translateY(20px)';
+            toast.style.opacity = '0';
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 300);
+        }, 3000);
+    }
+
     function copyToClipboard() {
-        const nomorCopy = document.getElementById('nomor-copy').innerText;
-        navigator.clipboard.writeText(nomorCopy).then(() => {
-            alert('Nomor pengajuan berhasil disalin!');
-        });
+        const nomorCopyElement = document.getElementById('nomor-copy');
+        if (!nomorCopyElement) return;
+        
+        const nomorCopy = nomorCopyElement.innerText.trim();
+        
+        // Check if Clipboard API is supported and in a secure context
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(nomorCopy)
+                .then(() => {
+                    showToast('Nomor pengajuan berhasil disalin!');
+                })
+                .catch(err => {
+                    console.error('Clipboard API failed, trying fallback...', err);
+                    fallbackCopyText(nomorCopy);
+                });
+        } else {
+            fallbackCopyText(nomorCopy);
+        }
+    }
+
+    function fallbackCopyText(text) {
+        try {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            
+            // Prevent scrolling and keep it hidden
+            textArea.style.position = "fixed";
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.width = "2em";
+            textArea.style.height = "2em";
+            textArea.style.padding = "0";
+            textArea.style.border = "none";
+            textArea.style.outline = "none";
+            textArea.style.boxShadow = "none";
+            textArea.style.background = "transparent";
+            
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            const successful = document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            if (successful) {
+                showToast('Nomor pengajuan berhasil disalin!');
+            } else {
+                alert('Gagal menyalin kode. Silakan salin secara manual.');
+            }
+        } catch (err) {
+            console.error('Fallback copying failed: ', err);
+            alert('Gagal menyalin kode. Silakan salin secara manual: ' + text);
+        }
     }
 </script>
 @endsection
