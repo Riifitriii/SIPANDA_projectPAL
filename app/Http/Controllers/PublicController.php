@@ -15,7 +15,137 @@ class PublicController extends Controller
      */
     public function landing()
     {
+        $this->ensureTransparentLogos();
         return view('landing');
+    }
+
+    /**
+     * Ensure transparent PNG logos are created from original JPGs.
+     */
+    private function ensureTransparentLogos()
+    {
+        $dir = public_path('images/gov-logos');
+        if (!file_exists($dir)) {
+            return;
+        }
+
+        $logos = [
+            'logo-berakhlak' => 'white',
+            'logo-banggamelayani' => 'white',
+            'logo-cicalengka' => 'black',
+            'logo-bandung-shield' => 'black',
+        ];
+
+        foreach ($logos as $name => $bg) {
+            $pngPath = $dir . DIRECTORY_SEPARATOR . $name . '.png';
+            $jpgPath = $dir . DIRECTORY_SEPARATOR . $name . '.jpg';
+
+            if (!file_exists($pngPath) && file_exists($jpgPath)) {
+                if ($bg === 'white') {
+                    $this->removeWhiteBg($jpgPath, $pngPath);
+                } else {
+                    $this->removeBlackBg($jpgPath, $pngPath);
+                }
+            }
+        }
+    }
+
+    /**
+     * Convert JPEG with white background to transparent PNG.
+     */
+    private function removeWhiteBg($inputPath, $outputPath)
+    {
+        if (!extension_loaded('gd')) {
+            return;
+        }
+        $img = @imagecreatefromjpeg($inputPath);
+        if (!$img) {
+            return;
+        }
+
+        $width = imagesx($img);
+        $height = imagesy($img);
+
+        $newImg = imagecreatetruecolor($width, $height);
+        imagealphablending($newImg, false);
+        imagesavealpha($newImg, true);
+
+        $transparent = imagecolorallocatealpha($newImg, 0, 0, 0, 127);
+        imagefill($newImg, 0, 0, $transparent);
+
+        for ($x = 0; $x < $width; $x++) {
+            for ($y = 0; $y < $height; $y++) {
+                $rgb = imagecolorat($img, $x, $y);
+                $r = ($rgb >> 16) & 0xFF;
+                $g = ($rgb >> 8) & 0xFF;
+                $b = $rgb & 0xFF;
+
+                if ($r > 230 && $g > 230 && $b > 230) {
+                    $maxVal = max($r, $g, $b);
+                    $alpha = (int)(($maxVal - 230) / 25 * 127);
+                    if ($alpha > 127) $alpha = 127;
+                    if ($alpha < 0) $alpha = 0;
+
+                    $color = imagecolorallocatealpha($newImg, $r, $g, $b, $alpha);
+                } else {
+                    $color = imagecolorallocatealpha($newImg, $r, $g, $b, 0);
+                }
+                imagesetpixel($newImg, $x, $y, $color);
+            }
+        }
+
+        imagepng($newImg, $outputPath);
+        imagedestroy($img);
+        imagedestroy($newImg);
+    }
+
+    /**
+     * Convert JPEG with black background to transparent PNG.
+     */
+    private function removeBlackBg($inputPath, $outputPath)
+    {
+        if (!extension_loaded('gd')) {
+            return;
+        }
+        $img = @imagecreatefromjpeg($inputPath);
+        if (!$img) {
+            return;
+        }
+
+        $width = imagesx($img);
+        $height = imagesy($img);
+
+        $newImg = imagecreatetruecolor($width, $height);
+        imagealphablending($newImg, false);
+        imagesavealpha($newImg, true);
+
+        $transparent = imagecolorallocatealpha($newImg, 0, 0, 0, 127);
+        imagefill($newImg, 0, 0, $transparent);
+
+        for ($x = 0; $x < $width; $x++) {
+            for ($y = 0; $y < $height; $y++) {
+                $rgb = imagecolorat($img, $x, $y);
+                $r = ($rgb >> 16) & 0xFF;
+                $g = ($rgb >> 8) & 0xFF;
+                $b = $rgb & 0xFF;
+
+                if ($r < 35 && $g < 35 && $b < 35) {
+                    $minVal = min($r, $g, $b);
+                    $alpha = (int)((35 - $minVal) / 35 * 127);
+                    if ($alpha > 127) $alpha = 127;
+                    if ($alpha < 0) $alpha = 0;
+
+                    $color = imagecolorallocatealpha($newImg, $r, $g, $b, $alpha);
+                } else {
+                    $color = imagecolorallocatealpha($newImg, $r, $g, $b, 0);
+                }
+                imagesetpixel($newImg, $x, $y, $color);
+            }
+        }
+
+        imagepng($newImg, $outputPath);
+        imagedestroy($img);
+        imagedestroy($newImg);
     }
 
     /**

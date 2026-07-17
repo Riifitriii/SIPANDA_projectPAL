@@ -42,6 +42,7 @@
                 <!-- Logo -->
                 <div class="flex items-center space-x-3">
                     <a href="{{ route('landing') }}" class="flex items-center space-x-3 group">
+                        <img src="{{ asset('images/gov-logos/logo-bandung-shield.png') }}" onerror="this.onerror=null; this.src='{{ asset('images/gov-logos/logo-bandung-shield.jpg') }}';" alt="Logo Kabupaten Bandung" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300">
                         <img src="{{ asset('logo-icon.png') }}?v=3" alt="SIPANDA Logo" class="w-12 h-12 object-contain rounded-full bg-white p-0.5 border border-slate-200 shadow-sm group-hover:scale-105 transition-transform duration-300">
                         <div>
                             <span class="text-2xl font-bold tracking-tight text-secondary-900 bg-gradient-to-r from-primary-700 to-emerald-500 bg-clip-text text-transparent">SIPANDA</span>
@@ -162,9 +163,16 @@
                     </ul>
                 </div>
             </div>
+
+            <!-- Logos -->
+            <div class="flex flex-wrap items-center justify-center gap-8 md:gap-12 mb-12">
+                <img src="{{ asset('images/gov-logos/logo-cicalengka.png') }}" onerror="this.onerror=null; this.src='{{ asset('images/gov-logos/logo-cicalengka.jpg') }}';" alt="Logo Kecamatan Cicalengka" class="h-20 w-auto object-contain">
+                <img src="{{ asset('images/gov-logos/logo-berakhlak.png') }}" onerror="this.onerror=null; this.src='{{ asset('images/gov-logos/logo-berakhlak.jpg') }}';" alt="Logo BerAKHLAK" class="h-12 w-auto object-contain">
+                <img src="{{ asset('images/gov-logos/logo-banggamelayani.png') }}" onerror="this.onerror=null; this.src='{{ asset('images/gov-logos/logo-banggamelayani.jpg') }}';" alt="Logo Bangga Melayani Bangsa" class="h-12 w-auto object-contain">
+            </div>
             
             <div class="border-t border-slate-800 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
-                <p>Didukung oleh Seksi Pemberdayaan Masyarakat Kecamatan Cicalengka. Created by <span class="font-semibold text-slate-400">Fitri Yani Permana (FYP)</span></p>
+                <p>Didukung oleh Seksi Pemberdayaan Masyarakat Kecamatan Cicalengka. Created by <span class="font-semibold text-slate-400">FYP</span></p>
                 <div class="flex space-x-4 mt-4 sm:mt-0">
                     <a href="#" class="hover:underline">Kebijakan Privasi</a>
                     <a href="#" class="hover:underline">Syarat Layanan</a>
