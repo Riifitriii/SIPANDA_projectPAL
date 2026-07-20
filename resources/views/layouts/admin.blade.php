@@ -282,6 +282,7 @@
                 <div class="relative z-10">
                     @yield('admin_content')
                 </div>
+            </div>
         </main>
 
         <!-- Footer -->

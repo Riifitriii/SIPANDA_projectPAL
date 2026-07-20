@@ -103,4 +103,11 @@ return [
 
     'password_timeout' => 10800,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Configuration
+    |--------------------------------------------------------------------------
+    */
+    'admin_default_password' => env('ADMIN_DEFAULT_PASSWORD', 'cicalengkajuara'),
+
 ];

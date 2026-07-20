@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             ['email' => 'admin@cicalengka.go.id'],
             [
                 'name' => 'Admin Cicalengka',
-                'password' => Hash::make(env('ADMIN_DEFAULT_PASSWORD') ?? \Illuminate\Support\Str::random(16)),
+                'password' => Hash::make(config('auth.admin_default_password') ?? \Illuminate\Support\Str::random(16)),
             ]
         );
     }
