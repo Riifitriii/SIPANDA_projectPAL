@@ -149,8 +149,8 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
-                        <label for="nib" class="block text-xs font-bold text-secondary-700 uppercase tracking-wider mb-2">Nomor Induk Berusaha (NIB) <span class="text-secondary-400 font-normal">(Opsional)</span></label>
-                        <input type="text" name="nib" id="nib" value="{{ old('nib') }}" placeholder="Contoh: 9120001234567" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all @error('nib') border-red-400 focus:ring-red-400 @enderror">
+                        <label for="nib" class="block text-xs font-bold text-secondary-700 uppercase tracking-wider mb-2">Nomor Induk Berusaha (NIB) <span class="text-red-500">*</span></label>
+                        <input type="text" name="nib" id="nib" value="{{ old('nib') }}" placeholder="Contoh: 9120001234567" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all @error('nib') border-red-400 focus:ring-red-400 @enderror">
                         @error('nib')
                             <p class="text-xs text-red-500 mt-1.5">{{ $message }}</p>
                         @enderror

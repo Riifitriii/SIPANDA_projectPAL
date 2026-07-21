@@ -57,6 +57,7 @@
                     <a href="{{ route('landing') }}#tentang" class="text-sm font-semibold text-secondary-600 hover:text-primary-600 transition-colors duration-200">Tentang</a>
                     <a href="{{ route('landing') }}#alur" class="text-sm font-semibold text-secondary-600 hover:text-primary-600 transition-colors duration-200">Alur</a>
                     <a href="{{ route('landing') }}#syarat" class="text-sm font-semibold text-secondary-600 hover:text-primary-600 transition-colors duration-200">Syarat</a>
+                    <a href="{{ route('landing') }}#nib-oss" class="text-sm font-semibold text-secondary-600 hover:text-primary-600 transition-colors duration-200">Info NIB</a>
                     <a href="{{ route('cek-status') }}" class="text-sm font-semibold text-secondary-600 hover:text-primary-600 transition-colors duration-200">Cek Status</a>
                     <a href="{{ route('ajukan') }}" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-emerald-500 hover:from-primary-700 hover:to-emerald-600 shadow-md shadow-primary-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
                         Ajukan Pendataan
@@ -85,6 +86,7 @@
                 <a href="{{ route('landing') }}#tentang" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-base font-semibold text-secondary-700 hover:bg-slate-50 hover:text-primary-600 transition-colors">Tentang</a>
                 <a href="{{ route('landing') }}#alur" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-base font-semibold text-secondary-700 hover:bg-slate-50 hover:text-primary-600 transition-colors">Alur</a>
                 <a href="{{ route('landing') }}#syarat" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-base font-semibold text-secondary-700 hover:bg-slate-50 hover:text-primary-600 transition-colors">Syarat</a>
+                <a href="{{ route('landing') }}#nib-oss" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-base font-semibold text-secondary-700 hover:bg-slate-50 hover:text-primary-600 transition-colors">Info NIB</a>
                 <a href="{{ route('cek-status') }}" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-base font-semibold text-secondary-700 hover:bg-slate-50 hover:text-primary-600 transition-colors">Cek Status</a>
                 <div class="pt-2">
                     <a href="{{ route('ajukan') }}" onclick="toggleMobileMenu()" class="block w-full text-center px-4 py-3 rounded-xl text-base font-semibold text-white bg-gradient-to-r from-primary-600 to-emerald-500 hover:from-primary-700 hover:to-emerald-600 shadow-md transition-all">

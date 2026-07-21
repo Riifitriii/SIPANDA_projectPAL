@@ -170,7 +170,7 @@ class PublicController extends Controller
             'desa' => 'required|string|max:100',
             'alamat_lengkap' => 'required|string',
             'foto_usaha' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
-            'nib' => 'nullable|string|max:100',
+            'nib' => 'required|string|max:100',
             'sertifikasi_halal' => 'nullable|string|max:100',
         ], [
             'nama_pemilik.required' => 'Nama pemilik wajib diisi.',
@@ -184,6 +184,7 @@ class PublicController extends Controller
             'foto_usaha.image' => 'File harus berupa gambar.',
             'foto_usaha.mimes' => 'Format gambar harus jpeg, png, jpg, atau webp.',
             'foto_usaha.max' => 'Ukuran gambar maksimal adalah 2MB.',
+            'nib.required' => 'Nomor Induk Berusaha (NIB) wajib diisi.',
         ]);
 
         $submission = DB::transaction(function () use ($request, $validated) {

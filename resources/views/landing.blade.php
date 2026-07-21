@@ -210,11 +210,16 @@
                     ],
                     [
                         'num' => 3,
+                        'title' => 'Memiliki NIB (Nomor Induk Berusaha)',
+                        'desc' => 'Pelaku UMKM wajib memiliki Nomor Induk Berusaha (NIB) yang aktif dan terdaftar resmi dari pemerintah.'
+                    ],
+                    [
+                        'num' => 4,
                         'title' => 'Dokumentasi Foto Usaha',
                         'desc' => 'Siapkan foto produk utama, proses produksi, atau tampak depan fisik toko. Format file gambar berupa JPG, JPEG, PNG, atau WEBP dengan ukuran file maksimal 2 MB.'
                     ],
                     [
-                        'num' => 4,
+                        'num' => 5,
                         'title' => 'Keterangan Usaha Jelas',
                         'desc' => 'Menjelaskan nama usaha, deskripsi barang/jasa yang dijual, alamat lengkap, dan jenis kategori usaha dengan jujur dan aktual.'
                     ]
@@ -232,6 +237,63 @@
                     </div>
                 </div>
                 @endforeach
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Informasi NIB & OSS Section -->
+<section id="nib-oss" class="py-24 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+            <h2 class="text-xs font-bold tracking-widest text-primary-600 uppercase">Informasi Legalitas Usaha</h2>
+            <p class="text-3xl sm:text-4xl font-bold tracking-tight text-secondary-900">Pendaftaran NIB Mandiri via OSS</p>
+            <div class="h-1 w-16 bg-primary-500 mx-auto rounded-full"></div>
+        </div>
+
+        <!-- Section Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            <!-- Left Info Card -->
+            <div class="lg:col-span-7 bg-white rounded-3xl p-8 sm:p-10 border border-slate-100 shadow-sm space-y-6 flex flex-col justify-between hover:shadow-md transition-shadow">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-2xl bg-primary-100 text-primary-700 flex items-center justify-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary-900">Belum Punya NIB? Daftar Gratis di OSS.go.id</h3>
+                    <p class="text-sm text-secondary-600 leading-relaxed">
+                        Bagi pelaku UMKM yang belum memiliki Nomor Induk Berusaha (NIB), Anda dapat melakukan pendaftaran NIB secara mandiri, mudah, dan <strong>100% gratis</strong> melalui sistem <strong>OSS (Online Single Submission)</strong> resmi milik Pemerintah Republik Indonesia.
+                    </p>
+                </div>
+
+                <div class="pt-4 border-t border-slate-100">
+                    <a href="https://oss.go.id" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center space-x-2 px-6 py-3.5 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-primary-600 to-emerald-500 hover:from-primary-700 hover:to-emerald-600 shadow-md shadow-primary-200 transition-all duration-300 hover:-translate-y-0.5">
+                        <span>Pendaftaran NIB via OSS.go.id</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Clarification / Note Card -->
+            <div class="lg:col-span-5 bg-white rounded-3xl p-8 sm:p-10 border border-slate-100 shadow-sm space-y-6 flex flex-col justify-between hover:shadow-md transition-shadow">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-secondary-900">Peran & Fungsi SIPANDA</h3>
+                    <p class="text-sm text-secondary-600 leading-relaxed">
+                        Sistem SIPANDA dipergunakan khusus untuk pendataan, pembinaan, dan verifikasi administratif pelaku UMKM di wilayah Kecamatan Cicalengka.
+                    </p>
+                    <div class="p-4 bg-amber-50 rounded-2xl border border-amber-100 text-xs text-amber-900 leading-relaxed font-medium">
+                        <strong>Catatan Penting:</strong> SIPANDA <u>TIDAK menerbitkan legalitas usaha</u>. Legalitas usaha resmi (NIB) diterbitkan secara sah oleh Pemerintah RI melalui layanan portal OSS.
+                    </div>
+                </div>
             </div>
         </div>
     </div>
