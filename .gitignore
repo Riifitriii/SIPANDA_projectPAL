@@ -38,4 +38,5 @@ Thumbs.db
 /database/database.sqlite
 /bootstrap/cache/packages.php
 /bootstrap/cache/services.php
+/ca.pem
 
