@@ -36,4 +36,6 @@ Thumbs.db
 # Ignore composer.lock temporarily for Vercel deployment
 /composer.lock
 /database/database.sqlite
+/bootstrap/cache/packages.php
+/bootstrap/cache/services.php
 
