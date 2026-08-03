@@ -45,3 +45,14 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/laporan', [AdminController::class, 'printLaporan'])->name('laporan');
 });
 
+// Temporary Route to Migrate Database on Vercel
+Route::get('/migrate-db', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+        return "Database migration and seeding completed successfully!";
+    } catch (\Exception $e) {
+        return "Error migrating database: " . $e->getMessage();
+    }
+});
+

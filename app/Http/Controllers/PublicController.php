@@ -205,12 +205,12 @@ class PublicController extends Controller
             }
             $nomorPengajuan = $datePrefix . str_pad($sequence, 4, '0', STR_PAD_LEFT);
 
-            // Store the file using Storage facade (public disk)
+            // Store the file using Storage facade (uses default disk configured in FILESYSTEM_DISK)
             if ($request->hasFile('foto_usaha')) {
                 $file = $request->file('foto_usaha');
                 $fileName = $nomorPengajuan . '_' . time() . '.' . $file->extension();
-                $path = $file->storeAs('submissions', $fileName, 'public');
-                $fotoPath = 'storage/' . $path;
+                $path = $file->storeAs('submissions', $fileName);
+                $fotoPath = Storage::url($path);
             } else {
                 $fotoPath = '';
             }
