@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+
 // Pastikan folder storage yang diperlukan ada di /tmp (karena Vercel bersifat read-only)
 if (getenv('VERCEL')) {
     $storagePaths = [
@@ -16,5 +18,13 @@ if (getenv('VERCEL')) {
     }
 }
 
-// Forward request ke entrypoint Laravel asli
-require __DIR__ . '/../public/index.php';
+define('LARAVEL_START', microtime(true));
+
+// Load Composer Autoloader
+require __DIR__ . '/../vendor/autoload.php';
+
+// Load bootstrap Laravel app
+$app = require_once __DIR__ . '/../bootstrap/app.php';
+
+// Handle request
+$app->handleRequest(Request::capture());
