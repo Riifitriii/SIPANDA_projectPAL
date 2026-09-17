@@ -206,8 +206,8 @@ class PublicController extends Controller
             if ($request->hasFile('foto_usaha')) {
                 $file = $request->file('foto_usaha');
                 $fileName = $nomorPengajuan . '_' . time() . '.' . $file->extension();
-                $path = $file->storeAs('submissions', $fileName, 'public');
-                $fotoPath = 'storage/' . $path;
+                $path = $file->storeAs('submissions', $fileName);
+                $fotoPath = Storage::url($path);
             } else {
                 $fotoPath = '';
             }
