@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('umkm_terdaftar', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pengajuan_id')->constrained('submissions')->onDelete('cascade');
+            $table->foreignId('pengajuan_id')->constrained('pengajuan')->onDelete('cascade');
             $table->timestamps();
         });
     }

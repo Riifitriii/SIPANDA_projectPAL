@@ -4,15 +4,13 @@
 
 @section('admin_content')
 <div class="space-y-6 animate-fadeIn">
-    
-    <!-- Top breadcrumb and back button -->
+
     <div class="flex items-center space-x-3">
         <a href="{{ route('admin.pengajuan') }}" class="inline-flex items-center text-xs font-bold text-slate-500 hover:text-primary-600">
             &larr; Kembali ke Daftar Pengajuan
         </a>
     </div>
 
-    <!-- Alert Success -->
     @if(session('success'))
         <div class="p-4 rounded-xl bg-green-50 border border-green-100 text-green-700 text-xs font-semibold flex items-center space-x-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
@@ -22,17 +20,15 @@
         </div>
     @endif
 
-    <!-- Main Content Layout -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        <!-- Left Side: Profile Details -->
+
         <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 sm:p-8 space-y-6">
             <div class="border-b border-slate-100 pb-4 flex justify-between items-center">
                 <div>
                     <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">No. Pengajuan</span>
                     <h2 class="text-xl font-bold text-secondary-900 font-mono tracking-wide">{{ $submission->nomor_pengajuan }}</h2>
                 </div>
-                <!-- Status Badge -->
+
                 <div>
                     @if($submission->status === 'Menunggu Verifikasi')
                         <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200">
@@ -54,7 +50,6 @@
                 </div>
             </div>
 
-            <!-- Profile Fields -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
                 <div>
                     <span class="text-xs text-slate-400 font-semibold block">Nama Pemilik:</span>
@@ -102,7 +97,6 @@
                 </div>
             </div>
 
-            <!-- Uploaded Image -->
             <div class="space-y-2">
                 <span class="text-xs text-slate-400 font-semibold block">Foto Tempat Usaha / Produk:</span>
                 <div class="relative rounded-2xl overflow-hidden border border-slate-200 max-h-[350px]">
@@ -111,37 +105,30 @@
             </div>
         </div>
 
-        <!-- Right Side: Verification Form -->
         <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 sm:p-8 space-y-6">
             <h3 class="text-lg font-bold text-secondary-900 border-b border-slate-100 pb-3">Tindakan Verifikasi</h3>
 
             <form action="{{ route('admin.pengajuan.verifikasi', $submission->id) }}" method="POST" class="space-y-6">
                 @csrf
 
-                <!-- Status Radio Toggles -->
                 <div>
                     <span class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Tentukan Status Baru:</span>
-                    
                     <div class="space-y-3">
-                        <!-- Menunggu Verifikasi -->
                         <label class="flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition-colors">
                             <input type="radio" name="status" value="Menunggu Verifikasi" class="h-4.5 w-4.5 text-primary-600 focus:ring-primary-500" {{ $submission->status === 'Menunggu Verifikasi' ? 'checked' : '' }} onchange="toggleNoteField(false)">
                             <span class="ml-3 text-sm font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-100">Menunggu Verifikasi</span>
                         </label>
-
-                        <!-- Perlu Perbaikan -->
+                        
                         <label class="flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition-colors">
                             <input type="radio" name="status" value="Perlu Perbaikan" class="h-4.5 w-4.5 text-primary-600 focus:ring-primary-500" {{ $submission->status === 'Perlu Perbaikan' ? 'checked' : '' }} onchange="toggleNoteField(true)">
                             <span class="ml-3 text-sm font-semibold text-orange-700 bg-orange-50 px-2 py-0.5 rounded border border-orange-100">Perlu Perbaikan</span>
                         </label>
 
-                        <!-- Disetujui -->
                         <label class="flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition-colors">
                             <input type="radio" name="status" value="Disetujui" class="h-4.5 w-4.5 text-primary-600 focus:ring-primary-500" {{ $submission->status === 'Disetujui' ? 'checked' : '' }} onchange="toggleNoteField(false)">
                             <span class="ml-3 text-sm font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded border border-green-100">Disetujui (Terdata)</span>
                         </label>
 
-                        <!-- Ditolak -->
                         <label class="flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition-colors">
                             <input type="radio" name="status" value="Ditolak" class="h-4.5 w-4.5 text-primary-600 focus:ring-primary-500" {{ $submission->status === 'Ditolak' ? 'checked' : '' }} onchange="toggleNoteField(true)">
                             <span class="ml-3 text-sm font-semibold text-red-700 bg-red-50 px-2 py-0.5 rounded border border-red-100">Ditolak</span>
@@ -152,7 +139,6 @@
                     @enderror
                 </div>
 
-                <!-- Admin Note / Feedback -->
                 <div id="note-field-wrapper">
                     <label for="catatan_admin" class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center justify-between">
                         <span>Catatan Admin / Umpan Balik:</span>
@@ -174,7 +160,6 @@
     </div>
 </div>
 
-<!-- Dynamic note validation badge script -->
 <script>
     function toggleNoteField(isRequired) {
         const badge = document.getElementById('note-required-badge');
@@ -187,8 +172,7 @@
             textarea.placeholder = "Tuliskan keterangan detail di sini (opsional untuk status disetujui)...";
         }
     }
-    
-    // Trigger onload to check current selected state
+ 
     window.addEventListener('load', function() {
         const checkedRadio = document.querySelector('input[name="status"]:checked');
         if (checkedRadio) {

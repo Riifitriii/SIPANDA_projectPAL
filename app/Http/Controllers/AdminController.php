@@ -22,7 +22,6 @@ class AdminController extends Controller
             'total_umkm' => UmkmTerdaftar::count(),
         ];
 
-        // Fetch recent submissions (last 5)
         $recentSubmissions = Pengajuan::orderBy('created_at', 'desc')->take(5)->get();
 
         return view('admin.dashboard', compact('stats', 'recentSubmissions'));
@@ -35,7 +34,6 @@ class AdminController extends Controller
     {
         $query = Pengajuan::query();
 
-        // Search filter
         if ($request->filled('search')) {
             $search = $request->input('search');
             $query->where(function ($q) use ($search) {
@@ -46,7 +44,6 @@ class AdminController extends Controller
             });
         }
 
-        // Status filter
         if ($request->filled('status')) {
             $query->where('status', $request->input('status'));
         }
@@ -114,10 +111,9 @@ class AdminController extends Controller
             });
         }
 
-        // Join with submissions table for ordering by nama_usaha
-        $umkms = $query->join('submissions', 'umkm_terdaftar.pengajuan_id', '=', 'submissions.id')
+        $umkms = $query->join('pengajuan', 'umkm_terdaftar.pengajuan_id', '=', 'pengajuan.id')
             ->select('umkm_terdaftar.*')
-            ->orderBy('submissions.nama_usaha', 'asc')
+            ->orderBy('pengajuan.nama_usaha', 'asc')
             ->paginate(10)
             ->withQueryString();
 
@@ -137,10 +133,9 @@ class AdminController extends Controller
             });
         }
 
-        // Join with submissions table for ordering by nama_usaha
-        $umkms = $query->join('submissions', 'umkm_terdaftar.pengajuan_id', '=', 'submissions.id')
+        $umkms = $query->join('pengajuan', 'umkm_terdaftar.pengajuan_id', '=', 'pengajuan.id')
             ->select('umkm_terdaftar.*')
-            ->orderBy('submissions.nama_usaha', 'asc')
+            ->orderBy('pengajuan.nama_usaha', 'asc')
             ->get();
 
         $selectedDesa = $request->input('desa', 'Semua Desa');

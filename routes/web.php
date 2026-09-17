@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Public Guest Routes
+// halaman publik
 Route::get('/', [PublicController::class, 'landing'])->name('landing');
 Route::get('/ajukan', [PublicController::class, 'showForm'])->name('ajukan');
 Route::post('/ajukan', [PublicController::class, 'submitForm'])->name('ajukan.submit');
@@ -27,21 +27,18 @@ Route::post('/cek-status', [PublicController::class, 'checkStatus'])->name('cek-
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
 
-// Admin Protected Routes (Require admin authentication)
+// autentikasi admin
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
     
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     
-    // Submissions / Pengajuan Management
     Route::get('/pengajuan', [AdminController::class, 'listPengajuan'])->name('pengajuan');
     Route::get('/pengajuan/{id}', [AdminController::class, 'detailPengajuan'])->name('pengajuan.detail');
     Route::post('/pengajuan/{id}/verifikasi', [AdminController::class, 'verifyPengajuan'])->name('pengajuan.verifikasi');
     
-    // Registered UMKM
     Route::get('/umkm', [AdminController::class, 'listUmkm'])->name('umkm');
     
-    // Printing / Reporting
     Route::get('/laporan', [AdminController::class, 'printLaporan'])->name('laporan');
 });
 

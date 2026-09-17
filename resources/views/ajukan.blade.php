@@ -7,7 +7,6 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         @if(session('success_submission'))
-        <!-- Header Page (Success State) -->
         <div class="text-center space-y-3 mb-12 animate-fadeIn">
             <h1 class="text-3xl sm:text-4xl font-extrabold text-secondary-900 tracking-tight">Pengajuan Selesai</h1>
             <p class="text-sm text-secondary-500 max-w-lg mx-auto">
@@ -15,11 +14,9 @@
             </p>
         </div>
 
-        <!-- Success Card -->
         <div class="bg-white rounded-3xl p-8 border border-primary-200 shadow-xl shadow-primary-50/50 mb-8 border-l-8 border-l-primary-600 animate-fadeIn space-y-6">
             <div class="flex items-center space-x-4">
                 <div class="w-14 h-14 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 shrink-0">
-                    <!-- Double Check icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-7 h-7">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                     </svg>
@@ -52,7 +49,6 @@
                 </ul>
             </div>
 
-            <!-- Action Buttons -->
             <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding-top: 16px; border-top: 1px solid #f1f5f9;">
                 <a href="{{ route('landing') }}" class="inline-flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold text-secondary-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-2 shrink-0">
@@ -75,7 +71,6 @@
             </div>
         </div>
         @else
-        <!-- Header Page -->
         <div class="text-center space-y-3 mb-12">
             <h1 class="text-3xl sm:text-4xl font-extrabold text-secondary-900 tracking-tight">Form Pengajuan Pendataan UMKM</h1>
             <p class="text-sm text-secondary-500 max-w-lg mx-auto">
@@ -83,11 +78,9 @@
             </p>
         </div>
 
-        <!-- Form Pengajuan -->
         <form action="{{ route('ajukan.submit') }}" method="POST" enctype="multipart/form-data" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-md space-y-10">
             @csrf
 
-            <!-- 1. DATA PEMILIK -->
             <div class="space-y-6">
                 <div class="border-b border-slate-100 pb-4 flex items-center space-x-3">
                     <span class="w-8 h-8 rounded-lg bg-primary-100 text-primary-700 flex items-center justify-center font-bold text-sm">1</span>
@@ -113,7 +106,6 @@
                 </div>
             </div>
 
-            <!-- 2. INFORMASI USAHA -->
             <div class="space-y-6">
                 <div class="border-b border-slate-100 pb-4 flex items-center space-x-3">
                     <span class="w-8 h-8 rounded-lg bg-primary-100 text-primary-700 flex items-center justify-center font-bold text-sm">2</span>
@@ -174,7 +166,6 @@
                 </div>
             </div>
 
-            <!-- 3. LOKASI USAHA -->
             <div class="space-y-6">
                 <div class="border-b border-slate-100 pb-4 flex items-center space-x-3">
                     <span class="w-8 h-8 rounded-lg bg-primary-100 text-primary-700 flex items-center justify-center font-bold text-sm">3</span>
@@ -210,7 +201,6 @@
                 </div>
             </div>
 
-            <!-- 4. DOKUMENTASI -->
             <div class="space-y-6">
                 <div class="border-b border-slate-100 pb-4 flex items-center space-x-3">
                     <span class="w-8 h-8 rounded-lg bg-primary-100 text-primary-700 flex items-center justify-center font-bold text-sm">4</span>
@@ -223,10 +213,8 @@
                     <div id="upload-box" class="mt-2 relative rounded-2xl border-2 border-dashed border-slate-200 hover:border-primary-400 transition-all overflow-hidden bg-slate-50/50">
                         <label for="foto_usaha" class="cursor-pointer block w-full h-full min-h-[220px] flex items-center justify-center p-6 text-center">
                             <input id="foto_usaha" name="foto_usaha" type="file" class="sr-only" onchange="previewImage(this)">
-                            
-                            <!-- Initial State UI -->
+
                             <div id="upload-initial" class="space-y-2">
-                                <!-- Upload Icon -->
                                 <svg class="mx-auto h-12 w-12 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                                     <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
@@ -236,12 +224,9 @@
                                 </div>
                                 <p class="text-xs text-secondary-400">PNG, JPG, JPEG, WEBP maksimal 2MB</p>
                             </div>
-
-                            <!-- Preview State UI -->
                             <div id="upload-preview" class="absolute inset-0 hidden w-full h-full group">
                                 <img id="image-preview" src="#" alt="Pratinjau foto usaha" class="w-full h-full object-cover">
-                                
-                                <!-- Hover Overlay -->
+
                                 <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                                     <span class="text-xs font-bold text-white bg-slate-900/80 px-4 py-2 rounded-xl backdrop-blur-sm border border-white/10 shadow-lg">
                                         Klik gambar untuk mengganti foto
@@ -250,14 +235,12 @@
                             </div>
                         </label>
 
-                        <!-- Delete Button -->
                         <button type="button" id="btn-remove" onclick="removePreview(event)" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-red-650/90 hover:bg-red-700 text-white flex items-center justify-center shadow-lg transition-colors hidden">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
                         
-
                     </div>
 
                     @error('foto_usaha')
@@ -266,7 +249,6 @@
                 </div>
             </div>
 
-            <!-- Submit Buttons -->
             <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-end gap-3">
                 <a href="{{ route('landing') }}" class="w-full sm:w-auto text-center px-6 py-3 rounded-xl text-sm font-semibold text-secondary-600 hover:bg-slate-100 transition-colors">
                     Batal
@@ -280,7 +262,6 @@
     </div>
 </section>
 
-<!-- Script for Image Preview & Clipboard -->
 <script>
     function previewImage(input) {
         const uploadInitial = document.getElementById('upload-initial');
@@ -323,8 +304,7 @@
 
     function showToast(message) {
         const toast = document.createElement('div');
-        
-        // Inline styles to guarantee it works even if Tailwind classes are purged or not yet compiled
+    
         toast.style.position = 'fixed';
         toast.style.bottom = '20px';
         toast.style.right = '20px';
@@ -353,13 +333,11 @@
         
         document.body.appendChild(toast);
         
-        // Trigger show animation
         setTimeout(() => {
             toast.style.transform = 'translateY(0)';
             toast.style.opacity = '1';
         }, 50);
         
-        // Hide and remove
         setTimeout(() => {
             toast.style.transform = 'translateY(20px)';
             toast.style.opacity = '0';
@@ -375,8 +353,7 @@
         if (!nomorCopyElement) return;
         
         const nomorCopy = nomorCopyElement.innerText.trim();
-        
-        // Check if Clipboard API is supported and in a secure context
+
         if (navigator.clipboard && window.isSecureContext) {
             navigator.clipboard.writeText(nomorCopy)
                 .then(() => {
@@ -395,8 +372,7 @@
         try {
             const textArea = document.createElement("textarea");
             textArea.value = text;
-            
-            // Prevent scrolling and keep it hidden
+
             textArea.style.position = "fixed";
             textArea.style.top = "0";
             textArea.style.left = "0";

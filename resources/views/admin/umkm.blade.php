@@ -4,8 +4,7 @@
 
 @section('admin_content')
 <div class="space-y-6 animate-fadeIn">
-    
-    <!-- Header Section -->
+
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h1 class="text-2xl sm:text-3xl font-black text-secondary-900 tracking-tight">Data UMKM Terdaftar Resmi</h1>
@@ -23,7 +22,6 @@
         </div>
     </div>
 
-    <!-- Filter & Search Bar -->
     <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
         <form action="{{ route('admin.umkm') }}" method="GET" class="grid grid-cols-1 sm:grid-cols-12 gap-4">
             <!-- Search field -->
@@ -39,7 +37,6 @@
                 </div>
             </div>
 
-            <!-- Desa filter -->
             <div class="sm:col-span-4">
                 <label for="desa" class="block text-[10px] font-bold text-secondary-400 uppercase tracking-widest mb-1.5">Filter Desa Wilayah</label>
                 <select name="desa" id="desa" onchange="this.form.submit()" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm transition-all">
@@ -57,7 +54,6 @@
                 </select>
             </div>
 
-            <!-- Action buttons -->
             <div class="sm:col-span-2 flex items-end">
                 <button type="submit" class="w-full py-2.5 rounded-xl text-sm font-bold text-white bg-primary-600 hover:bg-primary-700 transition-colors shadow-md shadow-primary-50">
                     Terapkan
@@ -66,7 +62,6 @@
         </form>
     </div>
 
-    <!-- Table Card -->
     <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
@@ -118,8 +113,7 @@
                 </tbody>
             </table>
         </div>
-        
-        <!-- Pagination Links -->
+
         @if($umkms->hasPages())
             <div class="px-6 py-4 border-t border-slate-100">
                 {{ $umkms->links() }}

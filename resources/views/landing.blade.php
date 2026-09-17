@@ -3,14 +3,11 @@
 @section('title', 'SIPANDA - Sistem Informasi Pengajuan & Pendataan UMKM Cicalengka')
 
 @section('content')
-<!-- Hero Section -->
+
 <section id="hero" class="relative overflow-hidden bg-gradient-to-b from-primary-50 via-white to-slate-50 py-24 sm:py-32">
-    <!-- Background Decoration Grid -->
     <div class="absolute inset-y-0 right-1/2 -z-10 -mr-96 w-[200%] origin-top-right skew-x-[-30deg] bg-white shadow-xl shadow-primary-600/5 ring-1 ring-primary-50 sm:-mr-80 lg:-mr-96" aria-hidden="true"></div>
-    
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <!-- Hero Text -->
             <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
                 <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary-100 text-primary-800 text-xs font-semibold tracking-wide">
                     <span>Seksi Pemberdayaan Masyarakat Cicalengka</span>
@@ -38,11 +35,9 @@
                     </a>
                 </div>
             </div>
-            
-            <!-- Hero Decorative Image/Card -->
+
             <div class="lg:col-span-5 flex justify-center">
                 <div class="relative w-full max-w-sm sm:max-w-md">
-                    <!-- Deco Gradient Glow -->
                     <div class="absolute -inset-1 rounded-3xl bg-gradient-to-tr from-primary-600 to-emerald-400 opacity-30 blur-2xl -z-10"></div>
                     
                     <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-xl space-y-6">
@@ -79,7 +74,6 @@
     </div>
 </section>
 
-<!-- Tentang Section -->
 <section id="tentang" class="py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
@@ -126,7 +120,6 @@
     </div>
 </section>
 
-<!-- Alur Section -->
 <section id="alur" class="py-24 bg-slate-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
@@ -136,7 +129,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-            <!-- Background line connecting steps on desktop -->
             <div class="hidden md:block absolute top-1/3 left-1/6 right-1/6 h-0.5 bg-slate-200 -z-10"></div>
 
             @php
@@ -180,7 +172,6 @@
     </div>
 </section>
 
-<!-- Syarat & Ketentuan Section -->
 <section id="syarat" class="py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -194,7 +185,6 @@
                 </p>
             </div>
 
-            <!-- Right Requirements Card -->
             <div class="lg:col-span-7 bg-slate-50 rounded-3xl p-8 border border-slate-100 shadow-sm space-y-6">
                 @php
                 $requirements = [
@@ -242,19 +232,15 @@
     </div>
 </section>
 
-<!-- Informasi NIB & OSS Section -->
 <section id="nib-oss" class="py-24 bg-slate-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Section Header -->
         <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
             <h2 class="text-xs font-bold tracking-widest text-primary-600 uppercase">Informasi Legalitas Usaha</h2>
             <p class="text-3xl sm:text-4xl font-bold tracking-tight text-secondary-900">Pendaftaran NIB Mandiri via OSS</p>
             <div class="h-1 w-16 bg-primary-500 mx-auto rounded-full"></div>
         </div>
 
-        <!-- Section Content Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            <!-- Left Info Card -->
             <div class="lg:col-span-7 bg-white rounded-3xl p-8 sm:p-10 border border-slate-100 shadow-sm space-y-6 flex flex-col justify-between hover:shadow-md transition-shadow">
                 <div class="space-y-4">
                     <div class="w-12 h-12 rounded-2xl bg-primary-100 text-primary-700 flex items-center justify-center">
@@ -278,7 +264,6 @@
                 </div>
             </div>
 
-            <!-- Right Clarification / Note Card -->
             <div class="lg:col-span-5 bg-white rounded-3xl p-8 sm:p-10 border border-slate-100 shadow-sm space-y-6 flex flex-col justify-between hover:shadow-md transition-shadow">
                 <div class="space-y-4">
                     <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center">
@@ -299,9 +284,7 @@
     </div>
 </section>
 
-<!-- Call to Action -->
 <section class="bg-secondary-900 bg-gradient-to-tr from-secondary-900 to-primary-900 text-white py-20 relative overflow-hidden">
-    <!-- Grid elements -->
     <div class="absolute inset-0 bg-[linear-gradient(to_right,#1f2937_1px,transparent_1px),linear-gradient(to_bottom,#1f2937_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20"></div>
     
     <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">

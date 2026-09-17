@@ -13,17 +13,11 @@ class UmkmTerdaftar extends Model
         'pengajuan_id',
     ];
 
-    /**
-     * Get the submission that owns the registered UMKM.
-     */
     public function pengajuan(): BelongsTo
     {
         return $this->belongsTo(Pengajuan::class, 'pengajuan_id');
     }
 
-    /**
-     * Dynamic proxy to Pengajuan model properties to avoid duplicating data.
-     */
     public function __get($key)
     {
         if (array_key_exists($key, $this->attributes) || $this->hasGetMutator($key) || method_exists($this, $key)) {
@@ -37,9 +31,6 @@ class UmkmTerdaftar extends Model
         return parent::__get($key);
     }
 
-    /**
-     * Dynamic isset check proxy.
-     */
     public function __isset($key)
     {
         if (parent::__isset($key)) {

@@ -188,10 +188,8 @@ class PublicController extends Controller
         ]);
 
         $submission = DB::transaction(function () use ($request, $validated) {
-            // Generate unique sequential nomor_pengajuan: SPD-YYYYMMDD-XXXX
             $datePrefix = 'SPD-' . date('Ymd') . '-';
             
-            // Use pessimistic lock (lockForUpdate) to prevent duplicate generation during race condition
             $latest = Pengajuan::where('nomor_pengajuan', 'like', $datePrefix . '%')
                 ->orderBy('nomor_pengajuan', 'desc')
                 ->lockForUpdate()
@@ -205,7 +203,6 @@ class PublicController extends Controller
             }
             $nomorPengajuan = $datePrefix . str_pad($sequence, 4, '0', STR_PAD_LEFT);
 
-            // Store the file using Storage facade (public disk)
             if ($request->hasFile('foto_usaha')) {
                 $file = $request->file('foto_usaha');
                 $fileName = $nomorPengajuan . '_' . time() . '.' . $file->extension();
@@ -215,7 +212,6 @@ class PublicController extends Controller
                 $fotoPath = '';
             }
 
-            // Create submission
             return Pengajuan::create([
                 'nomor_pengajuan' => $nomorPengajuan,
                 'nama_pemilik' => $validated['nama_pemilik'],

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Pengajuan extends Model
 {
-    protected $table = 'submissions';
+    protected $table = 'pengajuan';
 
     protected $fillable = [
         'nomor_pengajuan',
@@ -25,17 +25,11 @@ class Pengajuan extends Model
         'catatan_admin',
     ];
 
-    /**
-     * Get the registered UMKM associated with the submission.
-     */
     public function umkmTerdaftar(): HasOne
     {
         return $this->hasOne(UmkmTerdaftar::class, 'pengajuan_id');
     }
 
-    /**
-     * The "booted" method of the model.
-     */
     protected static function booted(): void
     {
         static::saved(function (Pengajuan $pengajuan) {

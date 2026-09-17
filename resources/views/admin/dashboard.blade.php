@@ -4,16 +4,12 @@
 
 @section('admin_content')
 <div class="space-y-8 animate-fadeIn">
-    
-    <!-- Header Section -->
     <div>
         <h1 class="text-2xl sm:text-3xl font-black text-secondary-900 tracking-tight">Ringkasan Statistik SIPANDA</h1>
         <p class="text-xs text-secondary-500 font-semibold mt-1">Data terkini pendataan UMKM Seksi Pemberdayaan Masyarakat Kecamatan Cicalengka.</p>
     </div>
 
-    <!-- Cards Grid -->
     <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-5">
-        <!-- 1. Total Pengajuan -->
         <a href="{{ route('admin.pengajuan') }}" class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:border-slate-350 hover:shadow-md transition-all duration-200 flex flex-col justify-between group">
             <span class="text-xs text-secondary-500 font-bold uppercase tracking-wider block group-hover:text-primary-600 transition-colors">Total Pengajuan</span>
             <div class="flex items-baseline justify-between mt-4">
@@ -26,7 +22,6 @@
             </div>
         </a>
 
-        <!-- 2. Menunggu Verifikasi -->
         <a href="{{ route('admin.pengajuan', ['status' => 'Menunggu Verifikasi']) }}" class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:border-slate-350 hover:shadow-md transition-all duration-200 flex flex-col justify-between group">
             <span class="text-xs text-secondary-500 font-bold uppercase tracking-wider block group-hover:text-amber-600 transition-colors">Menunggu</span>
             <div class="flex items-baseline justify-between mt-4">
@@ -39,7 +34,6 @@
             </div>
         </a>
 
-        <!-- 3. Perlu Perbaikan -->
         <a href="{{ route('admin.pengajuan', ['status' => 'Perlu Perbaikan']) }}" class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:border-slate-350 hover:shadow-md transition-all duration-200 flex flex-col justify-between group">
             <span class="text-xs text-secondary-500 font-bold uppercase tracking-wider block group-hover:text-orange-600 transition-colors">Perbaikan</span>
             <div class="flex items-baseline justify-between mt-4">
@@ -52,7 +46,6 @@
             </div>
         </a>
 
-        <!-- 4. Disetujui -->
         <a href="{{ route('admin.pengajuan', ['status' => 'Disetujui']) }}" class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:border-slate-350 hover:shadow-md transition-all duration-200 flex flex-col justify-between group">
             <span class="text-xs text-secondary-500 font-bold uppercase tracking-wider block group-hover:text-green-600 transition-colors">Disetujui</span>
             <div class="flex items-baseline justify-between mt-4">
@@ -65,7 +58,6 @@
             </div>
         </a>
 
-        <!-- 5. Ditolak -->
         <a href="{{ route('admin.pengajuan', ['status' => 'Ditolak']) }}" class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:border-slate-350 hover:shadow-md transition-all duration-200 flex flex-col justify-between group">
             <span class="text-xs text-secondary-500 font-bold uppercase tracking-wider block group-hover:text-red-600 transition-colors">Ditolak</span>
             <div class="flex items-baseline justify-between mt-4">
@@ -78,7 +70,6 @@
             </div>
         </a>
 
-        <!-- 6. Terdaftar Resmi -->
         <a href="{{ route('admin.umkm') }}" class="bg-gradient-to-tr from-primary-600 to-emerald-500 text-white p-5 rounded-2xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-200 flex flex-col justify-between group">
             <span class="text-xs text-primary-100 font-bold uppercase tracking-wider block">UMKM Terdaftar</span>
             <div class="flex items-baseline justify-between mt-4">
@@ -92,7 +83,6 @@
         </a>
     </div>
 
-    <!-- Recent Submissions Table -->
     <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
         <div class="p-6 border-b border-slate-100 flex items-center justify-between">
             <h3 class="font-bold text-lg text-secondary-900">Pengajuan Terbaru</h3>
