@@ -3,7 +3,17 @@
 @section('title', 'Detail Verifikasi Pengajuan - ' . $submission->nomor_pengajuan)
 
 @section('admin_content')
-<div class="space-y-6 animate-fadeIn">
+<div class="space-y-6 animate-fadeIn relative">
+
+    <!-- Toast Notification untuk Salin NIB & Buka Link Resmi -->
+    <div id="nib-toast" class="fixed top-6 right-6 z-50 transform -translate-y-12 opacity-0 pointer-events-none transition-all duration-300 ease-out flex items-center space-x-3 px-4 py-3 rounded-2xl bg-secondary-900/95 backdrop-blur text-white shadow-xl border border-slate-700 text-xs font-semibold max-w-md">
+        <div id="nib-toast-icon" class="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+            </svg>
+        </div>
+        <span id="nib-toast-message" class="leading-snug"></span>
+    </div>
 
     <div class="flex items-center space-x-3">
         <a href="{{ route('admin.pengajuan') }}" class="inline-flex items-center text-xs font-bold text-slate-500 hover:text-primary-600">
@@ -77,7 +87,19 @@
                 </div>
                 <div>
                     <span class="text-xs text-slate-400 font-semibold block">Nomor Induk Berusaha (NIB):</span>
-                    <p class="text-secondary-800 font-mono font-bold mt-1">{{ $submission->nib ?? '-' }}</p>
+                    <div class="flex items-center space-x-2 mt-1">
+                        <p class="text-secondary-800 font-mono font-bold">{{ $submission->nib ?: '-' }}</p>
+                        @if($submission->nib)
+                            <button type="button" onclick="copyNibToClipboard()" 
+                                class="inline-flex items-center space-x-1 px-2 py-0.5 rounded text-[11px] font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 hover:text-secondary-900 transition-colors cursor-pointer"
+                                title="Salin Nomor NIB">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3 h-3 text-slate-500">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+                                </svg>
+                                <span class="copy-feedback-text">Salin</span>
+                            </button>
+                        @endif
+                    </div>
                 </div>
                 <div>
                     <span class="text-xs text-slate-400 font-semibold block">Sertifikat Halal:</span>
@@ -107,6 +129,84 @@
 
         <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 sm:p-8 space-y-6">
             <h3 class="text-lg font-bold text-secondary-900 border-b border-slate-100 pb-3">Tindakan Verifikasi</h3>
+
+            <!-- Bantuan Cek NIB Manual via OSS -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-secondary-900 flex items-center gap-1.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-primary-600">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+                        </svg>
+                        Verifikasi Keabsahan NIB
+                    </span>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        oss.go.id
+                    </span>
+                </div>
+
+                @if($submission->nib)
+                    <div class="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200 text-xs">
+                        <span class="text-slate-400 font-semibold">NIB:</span>
+                        <div class="flex items-center space-x-2">
+                            <span class="font-mono font-bold text-secondary-900">{{ $submission->nib }}</span>
+                            <button type="button" onclick="copyNibToClipboard()" 
+                                class="text-[11px] font-bold text-primary-600 hover:text-primary-800 underline cursor-pointer copy-feedback-text">
+                                Salin
+                            </button>
+                        </div>
+                    </div>
+
+                    <a href="https://oss.go.id" target="_blank" rel="noopener noreferrer"
+                        onclick="handleOssClick()"
+                        class="w-full inline-flex items-center justify-center space-x-2 py-2.5 px-4 rounded-xl text-xs font-bold text-white bg-primary-600 hover:bg-primary-700 transition-colors shadow-sm cursor-pointer active:scale-98">
+                        <span>Cek di Portal Resmi OSS</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                        </svg>
+                    </a>
+
+                    <p class="text-[10px] text-slate-400 text-center">
+                        Terbuka di tab baru sebagai bantuan cek manual sebelum menyetujui data.
+                    </p>
+                @else
+                    <p class="text-xs text-slate-500">
+                        Pemohon belum mencantumkan NIB. Anda dapat mengecek legalitas usaha di portal OSS.
+                    </p>
+                    <a href="https://oss.go.id" target="_blank" rel="noopener noreferrer"
+                        class="w-full inline-flex items-center justify-center space-x-2 py-2 px-3 rounded-lg text-xs font-bold text-primary-700 bg-primary-50 hover:bg-primary-100 border border-primary-200 transition-colors">
+                        <span>Buka Portal OSS (oss.go.id)</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                        </svg>
+                    </a>
+                @endif
+            </div>
+
+            @if($submission->status === 'Perlu Perbaikan')
+                <!-- Tautan Perbaikan Khusus untuk Dikirim ke Pemohon -->
+                <div class="p-4 rounded-xl bg-orange-50/80 border border-orange-200/90 space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-orange-950 flex items-center gap-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-orange-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+                            </svg>
+                            Tautan Perbaikan untuk Pemohon
+                        </span>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200">
+                            Formulir Khusus
+                        </span>
+                    </div>
+                    <p class="text-[11px] text-orange-800 leading-relaxed">
+                        Kirim tautan ini ke pemilik UMKM via WhatsApp agar pemohon dapat memperbarui berkas lamanya secara mandiri:
+                    </p>
+                    <div class="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-orange-200 text-xs">
+                        <span class="font-mono text-slate-700 text-[11px] truncate mr-2">{{ route('pengajuan.perbaikan', $submission->nomor_pengajuan) }}</span>
+                        <button type="button" onclick="copyPerbaikanLink()" class="font-bold text-orange-700 hover:text-orange-900 underline shrink-0 cursor-pointer">
+                            Salin Link
+                        </button>
+                    </div>
+                </div>
+            @endif
 
             <form action="{{ route('admin.pengajuan.verifikasi', $submission->id) }}" method="POST" class="space-y-6">
                 @csrf
@@ -151,7 +251,7 @@
                 </div>
 
                 <div class="pt-2 border-t border-slate-100 flex items-center justify-end">
-                    <button type="submit" class="w-full py-3.5 rounded-xl text-sm font-bold text-white bg-primary-600 hover:bg-primary-700 transition-colors shadow-md shadow-primary-50">
+                    <button type="submit" class="w-full py-3.5 rounded-xl text-sm font-bold text-white bg-primary-600 hover:bg-primary-700 transition-colors shadow-md shadow-primary-50 cursor-pointer">
                         Simpan Keputusan Verifikasi
                     </button>
                 </div>
@@ -161,6 +261,84 @@
 </div>
 
 <script>
+    const NIB_VALUE = "{{ $submission->nib ?? '' }}";
+
+    function showToast(message) {
+        const toast = document.getElementById('nib-toast');
+        const toastMsg = document.getElementById('nib-toast-message');
+        if (!toast || !toastMsg) return;
+
+        toastMsg.innerHTML = message;
+        toast.classList.remove('-translate-y-12', 'opacity-0', 'pointer-events-none');
+        toast.classList.add('translate-y-0', 'opacity-100');
+
+        clearTimeout(window.__nibToastTimeout);
+        window.__nibToastTimeout = setTimeout(() => {
+            toast.classList.remove('translate-y-0', 'opacity-100');
+            toast.classList.add('-translate-y-12', 'opacity-0', 'pointer-events-none');
+        }, 3000);
+    }
+
+    function copyNibToClipboard(silent = false) {
+        if (!NIB_VALUE) return;
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(NIB_VALUE).then(() => {
+                showCopyFeedback();
+                if (!silent) showToast(`Nomor NIB <strong>${NIB_VALUE}</strong> berhasil disalin!`);
+            }).catch(() => {
+                fallbackCopyText(NIB_VALUE, silent);
+            });
+        } else {
+            fallbackCopyText(NIB_VALUE, silent);
+        }
+    }
+
+    function fallbackCopyText(text, silent) {
+        const temp = document.createElement('input');
+        temp.value = text;
+        document.body.appendChild(temp);
+        temp.select();
+        try {
+            document.execCommand('copy');
+            showCopyFeedback();
+            if (!silent) showToast(`Nomor NIB <strong>${text}</strong> berhasil disalin!`);
+        } catch (err) {
+            if (!silent) alert('Nomor NIB: ' + text);
+        }
+        document.body.removeChild(temp);
+    }
+
+    function showCopyFeedback() {
+        document.querySelectorAll('.copy-feedback-text').forEach(el => {
+            const original = el.innerText;
+            el.innerText = 'Tersalin!';
+            setTimeout(() => {
+                el.innerText = original;
+            }, 2000);
+        });
+    }
+
+    function handleOssClick() {
+        if (NIB_VALUE) {
+            copyNibToClipboard(true);
+            showToast(`NIB <strong>${NIB_VALUE}</strong> disalin! Membuka portal resmi OSS...`);
+        }
+    }
+
+    function copyPerbaikanLink() {
+        const link = "{{ route('pengajuan.perbaikan', $submission->nomor_pengajuan) }}";
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(link).then(() => {
+                showToast('Tautan formulir perbaikan berhasil disalin ke clipboard!');
+            }).catch(() => {
+                fallbackCopyText(link, false);
+            });
+        } else {
+            fallbackCopyText(link, false);
+        }
+    }
+
     function toggleNoteField(isRequired) {
         const badge = document.getElementById('note-required-badge');
         const textarea = document.getElementById('catatan_admin');
@@ -172,12 +350,11 @@
             textarea.placeholder = "Tuliskan keterangan detail di sini (opsional untuk status disetujui)...";
         }
     }
- 
+
     window.addEventListener('load', function() {
         const checkedRadio = document.querySelector('input[name="status"]:checked');
         if (checkedRadio) {
-            const val = checkedRadio.value;
-            toggleNoteField(val === 'Perlu Perbaikan' || val === 'Ditolak');
+            toggleNoteField(checkedRadio.value === 'Perlu Perbaikan' || checkedRadio.value === 'Ditolak');
         }
     });
 </script>

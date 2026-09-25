@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('umkm_terdaftar', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('pengajuan_id')->constrained('pengajuan')->onDelete('cascade');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('umkm_terdaftar')) {
+            Schema::create('umkm_terdaftar', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('pengajuan_id')->constrained('pengajuan')->onDelete('cascade');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

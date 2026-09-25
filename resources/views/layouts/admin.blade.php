@@ -107,10 +107,31 @@
         }
 
         /* Ornate details for input borders */
-        input[type="text"], select {
+        input[type="text"], input[type="email"], input[type="password"], select, textarea {
             border: 1.5px solid rgba(181, 142, 88, 0.2) !important;
             border-radius: 0.75rem !important;
             background-color: rgba(255, 255, 255, 0.9) !important;
+        }
+
+        /* Pastikan SVG di menu sidebar tidak pernah meluap */
+        aside svg {
+            max-width: 100%;
+        }
+        #sidebar-menu svg {
+            width: 1.25rem !important;
+            height: 1.25rem !important;
+            min-width: 1.25rem !important;
+            max-width: 1.25rem !important;
+            flex-shrink: 0 !important;
+            display: inline-block !important;
+        }
+        .super-admin-badge-icon {
+            width: 14px !important;
+            height: 14px !important;
+            min-width: 14px !important;
+            max-width: 14px !important;
+            display: inline-block !important;
+            vertical-align: middle !important;
         }
 
         /* Terapkan button styling (Pasundan Green gradient) */
@@ -206,6 +227,32 @@
                 </svg>
                 <span>Cetak Laporan</span>
             </a>
+
+            @if(Auth::check() && Auth::user()->isSuperAdmin())
+                <!-- Khusus Super Admin -->
+                <div class="pt-3 pb-1 px-4">
+                    <p class="text-[10px] font-bold text-amber-400 uppercase tracking-widest flex items-center space-x-1.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="super-admin-badge-icon text-amber-400" width="13" height="13" style="width: 13px; height: 13px; min-width: 13px; max-width: 13px; display: inline-block;">
+                            <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Super Admin</span>
+                    </p>
+                </div>
+
+                <a href="{{ route('admin.kelola-admin') }}" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 {{ Route::is('admin.kelola-admin*') ? 'bg-primary-600 text-white shadow-md shadow-primary-900/30' : 'hover:bg-secondary-800 hover:text-white' }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+                    </svg>
+                    <span>Kelola Admin</span>
+                </a>
+
+                <a href="{{ route('admin.log-aktivitas') }}" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 {{ Route::is('admin.log-aktivitas*') ? 'bg-primary-600 text-white shadow-md shadow-primary-900/30' : 'hover:bg-secondary-800 hover:text-white' }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    <span>Log Aktivitas</span>
+                </a>
+            @endif
 
             <!-- Divider -->
             <div class="border-t border-secondary-800 my-4"></div>
