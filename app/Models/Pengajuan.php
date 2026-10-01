@@ -61,6 +61,51 @@ class Pengajuan extends Model
         return \Carbon\Carbon::parse($value, 'UTC')->timezone('Asia/Jakarta');
     }
 
+    /**
+     * Aksesor foto_usaha agar selalu menghasilkan path yang valid untuk asset($submission->foto_usaha).
+     */
+    public function getFotoUsahaAttribute($value): string
+    {
+        if (empty($value)) {
+            return 'images/default-store.svg';
+        }
+
+        // Ambil nama file murni
+        $rawPath = parse_url($value, PHP_URL_PATH) ?? $value;
+        $fileName = basename(str_replace('\\', '/', $rawPath));
+
+        // 1. Cek langsung di direktori publik uploads/submissions (portabel 100% tanpa symlink)
+        if (!empty($fileName) && file_exists(public_path('uploads/submissions/' . $fileName))) {
+            return 'uploads/submissions/' . $fileName;
+        }
+
+        // 2. Cek di direktori publik storage/submissions
+        if (!empty($fileName) && file_exists(public_path('storage/submissions/' . $fileName))) {
+            return 'storage/submissions/' . $fileName;
+        }
+
+        // 3. Cek di storage internal via route fallback / storage path
+        if (!empty($fileName) && (file_exists(storage_path('app/public/submissions/' . $fileName)) || file_exists(storage_path('app/submissions/' . $fileName)))) {
+            return 'storage/submissions/' . $fileName;
+        }
+
+        $cleanPath = ltrim(str_replace('\\', '/', $value), '/');
+        if (file_exists(public_path($cleanPath))) {
+            return $cleanPath;
+        }
+
+        // Jika berkas fisiknya tidak ditemukan di server/terhapus, kembalikan gambar placeholder bawaan
+        return 'images/default-store.svg';
+    }
+
+    /**
+     * Aksesor foto_usaha_url untuk akses URL lengkap.
+     */
+    public function getFotoUsahaUrlAttribute(): string
+    {
+        return asset($this->foto_usaha);
+    }
+
     protected static function booted(): void
     {
         static::saved(function (Pengajuan $pengajuan) {

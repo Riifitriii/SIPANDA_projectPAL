@@ -114,7 +114,7 @@
                             <td class="py-4.5 px-6 font-mono font-bold text-secondary-900">{{ $sub->nomor_pengajuan }}</td>
                             <td class="py-4.5 px-6">
                                 <div class="w-12 h-12 rounded-xl overflow-hidden border border-slate-100 shadow-sm bg-slate-50 shrink-0">
-                                    <img src="{{ asset($sub->foto_usaha) }}" class="w-full h-full object-cover" alt="Foto Usaha">
+                                    <img src="{{ asset($sub->foto_usaha) }}" onerror="this.onerror=null; this.src='{{ asset('images/default-store.svg') }}';" class="w-full h-full object-cover" alt="Foto Usaha">
                                 </div>
                             </td>
                             <td class="py-4.5 px-6 font-semibold text-secondary-800">{{ $sub->nama_usaha }}</td>

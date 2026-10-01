@@ -121,8 +121,8 @@
 
             <div class="space-y-2">
                 <span class="text-xs text-slate-400 font-semibold block">Foto Tempat Usaha / Produk:</span>
-                <div class="relative rounded-2xl overflow-hidden border border-slate-200 max-h-[350px]">
-                    <img src="{{ asset($submission->foto_usaha) }}" alt="Foto Usaha" class="w-full h-full object-cover">
+                <div class="relative rounded-2xl overflow-hidden border border-slate-200 max-h-[350px] bg-slate-50">
+                    <img src="{{ asset($submission->foto_usaha) }}" onerror="this.onerror=null; this.src='{{ asset('images/default-store.svg') }}';" alt="Foto Usaha" class="w-full h-full object-cover">
                 </div>
             </div>
         </div>

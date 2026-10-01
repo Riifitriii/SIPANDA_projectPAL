@@ -30,6 +30,23 @@
             background-color: #161a16 !important; /* Deep forest charcoal */
             border-right: 3px solid #b58e58 !important; /* Bamboo Gold border */
         }
+        aside::-webkit-scrollbar {
+            width: 4px;
+        }
+        aside::-webkit-scrollbar-thumb {
+            background-color: rgba(181, 142, 88, 0.3);
+            border-radius: 9999px;
+        }
+        #sidebar-menu a {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #sidebar-menu a:hover:not(.bg-primary-600) {
+            transform: translateX(4px);
+            background-color: rgba(255, 255, 255, 0.07) !important;
+            color: #ffffff !important;
+            border-left: 3px solid #b58e58;
+            padding-left: calc(1rem - 3px);
+        }
         aside .border-secondary-800 {
             border-color: rgba(181, 142, 88, 0.15) !important;
         }
@@ -177,7 +194,7 @@
     <!-- Sidebar -->
     <aside class="w-full md:w-64 bg-secondary-900 text-slate-300 flex flex-col shrink-0 border-r border-secondary-800 relative overflow-hidden">
         <!-- Logo & Branding -->
-        <div class="h-20 flex items-center px-6 border-b border-secondary-800 justify-between">
+        <div class="h-20 flex items-center px-6 border-b border-secondary-800 justify-between shrink-0">
             <div class="flex items-center space-x-3">
                 <img src="{{ asset('logo-icon.png') }}?v=3" alt="SIPANDA Logo" class="w-9 h-9 object-contain rounded-full bg-white p-0.5 border border-slate-700">
                 <div>
