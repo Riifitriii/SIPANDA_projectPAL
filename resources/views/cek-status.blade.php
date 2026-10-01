@@ -153,49 +153,24 @@
                     </div>
                 @endif
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
-                    <div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-100 text-sm">
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100/80">
                         <span class="text-xs text-secondary-400 font-semibold block">Nomor Pengajuan:</span>
-                        <p class="font-mono text-secondary-800 font-semibold mt-0.5">{{ $sub->nomor_pengajuan }}</p>
+                        <p class="font-mono text-secondary-800 font-bold mt-0.5">{{ $sub->nomor_pengajuan }}</p>
                     </div>
-                    <div>
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100/80">
                         <span class="text-xs text-secondary-400 font-semibold block">Tanggal Pengajuan:</span>
                         <p class="text-secondary-800 font-semibold mt-0.5">{{ $sub->created_at->timezone('Asia/Jakarta')->locale('id')->translatedFormat('d F Y, H:i') }} WIB</p>
                     </div>
-                    <div>
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100/80">
                         <span class="text-xs text-secondary-400 font-semibold block">Nama Pemilik:</span>
-                        <p class="text-secondary-800 font-semibold mt-0.5">{{ $sub->nama_pemilik }}</p>
+                        <p class="text-secondary-800 font-bold mt-0.5">{{ $sub->nama_pemilik }}</p>
                     </div>
-                    <div>
-                        <span class="text-xs text-secondary-400 font-semibold block">Nomor Telepon/WA:</span>
-                        <p class="text-secondary-800 font-semibold mt-0.5">{{ $sub->nomor_telepon }}</p>
-                    </div>
-                    <div>
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100/80">
                         <span class="text-xs text-secondary-400 font-semibold block">Kategori Usaha:</span>
                         <p class="text-secondary-800 font-semibold mt-0.5">{{ $sub->jenis_usaha }}</p>
                     </div>
-                    <div>
-                        <span class="text-xs text-secondary-400 font-semibold block">Desa & Alamat:</span>
-                        <p class="text-secondary-800 font-semibold mt-0.5">{{ $sub->desa }}, {{ $sub->alamat_lengkap }}</p>
-                    </div>
-                    <div>
-                        <span class="text-xs text-secondary-400 font-semibold block">Nomor Induk Berusaha (NIB):</span>
-                        <p class="font-mono text-secondary-800 font-semibold mt-0.5">{{ $sub->nib ?? '-' }}</p>
-                    </div>
-                    <div>
-                        <span class="text-xs text-secondary-400 font-semibold block">Nomor Sertifikat Halal:</span>
-                        <p class="font-mono text-secondary-800 font-semibold mt-0.5">{{ $sub->sertifikasi_halal ?? '-' }}</p>
-                    </div>
                 </div>
-
-                @if($sub->foto_usaha)
-                <div>
-                    <span class="text-xs text-secondary-400 font-semibold block mb-2">Dokumentasi Terunggah:</span>
-                    <div class="w-48 h-32 rounded-2xl overflow-hidden border border-slate-100">
-                        <img src="{{ asset($sub->foto_usaha) }}" alt="Foto usaha terdata" class="w-full h-full object-cover">
-                    </div>
-                </div>
-                @endif
             </div>
         @endif
     </div>

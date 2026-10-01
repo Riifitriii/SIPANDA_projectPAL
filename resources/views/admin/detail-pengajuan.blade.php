@@ -182,31 +182,6 @@
                 @endif
             </div>
 
-            @if($submission->status === 'Perlu Perbaikan')
-                <!-- Tautan Perbaikan Khusus untuk Dikirim ke Pemohon -->
-                <div class="p-4 rounded-xl bg-orange-50/80 border border-orange-200/90 space-y-2.5">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-orange-950 flex items-center gap-1.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-orange-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
-                            </svg>
-                            Tautan Perbaikan untuk Pemohon
-                        </span>
-                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200">
-                            Formulir Khusus
-                        </span>
-                    </div>
-                    <p class="text-[11px] text-orange-800 leading-relaxed">
-                        Kirim tautan ini ke pemilik UMKM via WhatsApp agar pemohon dapat memperbarui berkas lamanya secara mandiri:
-                    </p>
-                    <div class="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-orange-200 text-xs">
-                        <span class="font-mono text-slate-700 text-[11px] truncate mr-2">{{ route('pengajuan.perbaikan', $submission->nomor_pengajuan) }}</span>
-                        <button type="button" onclick="copyPerbaikanLink()" class="font-bold text-orange-700 hover:text-orange-900 underline shrink-0 cursor-pointer">
-                            Salin Link
-                        </button>
-                    </div>
-                </div>
-            @endif
 
             <form action="{{ route('admin.pengajuan.verifikasi', $submission->id) }}" method="POST" class="space-y-6">
                 @csrf
@@ -326,18 +301,6 @@
         }
     }
 
-    function copyPerbaikanLink() {
-        const link = "{{ route('pengajuan.perbaikan', $submission->nomor_pengajuan) }}";
-        if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(link).then(() => {
-                showToast('Tautan formulir perbaikan berhasil disalin ke clipboard!');
-            }).catch(() => {
-                fallbackCopyText(link, false);
-            });
-        } else {
-            fallbackCopyText(link, false);
-        }
-    }
 
     function toggleNoteField(isRequired) {
         const badge = document.getElementById('note-required-badge');
