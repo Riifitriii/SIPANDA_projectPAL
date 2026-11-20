@@ -141,14 +141,14 @@
                 ],
                 [
                     'num' => 2,
-                    'title' => 'Verifikasi Admin',
-                    'desc' => 'Admin Seksi Pemberdayaan Masyarakat akan memeriksa dan memvalidasi berkas administrasi serta foto lokasi secara berkala.',
+                    'title' => 'Pemeriksaan Admin',
+                    'desc' => 'Admin memeriksa kelengkapan dan kesesuaian data yang telah diajukan. Apabila ditemukan kesalahan atau kekurangan data, pemohon akan diberikan catatan untuk melakukan perbaikan sebelum pengajuan disetujui.',
                     'icon_path' => 'M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 01 1.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12Z'
                 ],
                 [
                     'num' => 3,
-                    'title' => 'Terdata Resmi',
-                    'desc' => 'Setelah disetujui, data UMKM akan otomatis terdaftar secara resmi di Kecamatan dan dapat diunduh/dicetak sebagai laporan berkala.',
+                    'title' => 'Verifikasi & Pendataan',
+                    'desc' => 'Admin memeriksa kembali data yang telah diperbaiki (jika diperlukan). Jika data telah sesuai, pengajuan disetujui dan usaha tercatat sebagai UMKM terdaftar di Kecamatan Cicalengka.',
                     'icon_path' => 'M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.109A2.25 2.25 0 0112.75 21.5h-1.5a2.25 2.25 0 01-2.25-2.25v-.109m0-2.178a9.38 9.38 0 00-2.625.372 9.337 9.337 0 00-4.121.952 4.125 4.125 0 007.533 2.493M9 19.128v-.003c0-1.113.285-2.16.786-3.07M15 12.25A3.375 3.375 0 0011.625 9H8.25m6.75 3.25a3.375 3.375 0 11-6.75 0M9 3.75h.008v.008H9V3.75Zm.75 0a.75.75 0 11-1.5 0 .75.75 0 0 1 1.5 0ZM9 7.5h.008v.008H9V7.5Zm.75 0a.75.75 0 11-1.5 0 .75.75 0 0 1 1.5 0Z'
                 ]
             ];
